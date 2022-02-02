@@ -1,9 +1,8 @@
 import html from './index.html';
 import './style.css';
 
-export function renderTextbook(): HTMLDivElement {
+export function renderWord(): HTMLDivElement {
   const template = document.createElement('div');
   template.innerHTML = html;
-
   return template;
 }
