@@ -1,5 +1,5 @@
 import html from './index.html';
-import './style.css';
+import './style.scss';
 import { renderWord } from './word';
 import { renderWordCard } from './word-card';
 

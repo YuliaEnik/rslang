@@ -6,4 +6,9 @@ function goToTextBook(): void {
   document.body.appendChild(renderTextbook());
 }
 
-goToTextBook();
+const textbookPageBtn = document.querySelector('.go-to-textbook');
+textbookPageBtn?.addEventListener('click', () => {
+  goToTextBook();
+});
+
+// goToTextBook();

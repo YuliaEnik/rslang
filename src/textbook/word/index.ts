@@ -1,5 +1,5 @@
 import html from './index.html';
-import './style.css';
+import './style.scss';
 
 export function renderWord(params: { word: string, onclick?: () => void }): HTMLDivElement {
   const template = document.createElement('div');
