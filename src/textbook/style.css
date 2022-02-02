@@ -1,5 +1,13 @@
 body {
-  background-color: rgb(228, 187, 187);
+  background-color: rgb(122 77 77);
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+h2 {
+  text-transform: capitalize;
 }
 
 .level {
@@ -11,8 +19,28 @@ body {
   align-items: center;
   padding: 0 30px;
   margin: 0 30px;
+  text-transform: capitalize;
+  font-size: 2rem;
+}
+
+.level:hover {
+  font-size: large;
+  color: rgb(179, 122, 122);
+  cursor: pointer;
 }
 
 .flex {
   display: flex;
+}
+
+.title {
+  text-align: center;
+}
+
+.word {
+  text-transform: lowercase;
+  font-size: 1.5rem;
+  border: solid 1px white;
+  display: inline-block;
+  padding: 20px;
 }
