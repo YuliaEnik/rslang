@@ -10,12 +10,13 @@ export function renderTextbook(): HTMLDivElement {
   const words = template.querySelector('.words') as HTMLElement;
   const wordCard = template.querySelector('.word-card') as HTMLElement;
   function renderCard() {
+    wordCard.innerHTML = '';
     wordCard.appendChild(renderWordCard());
     wordCard.classList.add('active');
   }
   function renderWords() {
     for (let i = 0; i < 20; i++) {
-      words?.appendChild(renderWord({ word: 'flower', onclick: () => { renderCard() } }));
+      words?.appendChild(renderWord({ word: 'flower', onclick: () => { renderCard(); } }));
     }
   }
   // enderWords();
