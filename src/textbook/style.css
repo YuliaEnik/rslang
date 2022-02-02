@@ -10,21 +10,26 @@ h2 {
   text-transform: capitalize;
 }
 
+button {
+  background-color: none;
+  border: none;
+  color: white;
+  width: 100%;
+}
+
 .level {
   border: 1px solid white;
-  width: 100px;
-  height: 100px;
+  background-color: rgb(122 77 77);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 30px;
   margin: 0 30px;
   text-transform: capitalize;
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 .level:hover {
-  font-size: large;
   color: rgb(179, 122, 122);
   cursor: pointer;
 }
@@ -43,4 +48,13 @@ h2 {
   border: solid 1px white;
   display: inline-block;
   padding: 20px;
+}
+
+.words {
+  display: inline-grid;
+  grid-template-rows: 5;
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 20px;
+  grid-row-gap: 20px
 }
