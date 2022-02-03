@@ -11,3 +11,19 @@ const renderElement = (elem: Node, parent: Node): Node | undefined => parent.app
 const getElement = (selector: string): HTMLElement | null => document.querySelector(selector);
 
 const getElements = (selector: string): NodeListOf<Element> => document.querySelectorAll(selector);
+
+/* const createHTMLelement = ( type: string, attrs: { [key: string]: string }, parent:Node, textContentEl?: string): void => {
+  const elem = createElement(type, attrs);
+  renderElement(elem, parent);
+  if (elem) {
+  elem.textContent = textContentEl;
+  }
+} */
+
+export {
+  createElement,
+  renderElement,
+  getElement,
+  getElements,
+  //createHTMLelement,
+}
