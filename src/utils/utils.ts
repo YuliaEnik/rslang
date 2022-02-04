@@ -1,29 +1,37 @@
-const createElement = (type: string, attrs?: { [key: string]: string }): HTMLElement => {
+const createElement = (type: string, attrs: { [key: string]: string }, textContentEl?: string ): Node => {
   const elem = document.createElement(type);
-  if (attrs) {
-    Object.keys(attrs).forEach((attr) => elem.setAttribute(attr, attrs[attr]));
+  Object.keys(attrs).forEach((attr) => elem.setAttribute(attr, attrs[attr]));
+  if (textContentEl) {
+  elem.textContent = textContentEl;
   }
   return elem;
 };
 
-const renderElement = (elem: Node, parent: Node): Node | undefined => parent.appendChild(elem);
-
-const getElement = (selector: string): HTMLElement | null => document.querySelector(selector);
+const renderElement = (elem: Node, parent: Node):void => {
+  if (parent){
+  parent.appendChild(elem);
+  }
+}
+const getElement = (selector: string): Node | null => document.querySelector(selector);
 
 const getElements = (selector: string): NodeListOf<Element> => document.querySelectorAll(selector);
 
-/* const createHTMLelement = ( type: string, attrs: { [key: string]: string }, parent:Node, textContentEl?: string): void => {
-  const elem = createElement(type, attrs);
+const render = (elements: (string | Node)[], target: ParentNode): void => {
+  target.append(...elements);
+};
+
+const createHTMLelement = ( type: string, attrs: { [key: string]: string }, parent: Node | null, textContentEl?: string): Node => {
+  const elem = createElement(type, attrs, textContentEl);
+  if (parent){
   renderElement(elem, parent);
-  if (elem) {
-  elem.textContent = textContentEl;
   }
-} */
+  return elem;
+}
 
 export {
   createElement,
   renderElement,
   getElement,
   getElements,
-  //createHTMLelement,
+  createHTMLelement,
 }
