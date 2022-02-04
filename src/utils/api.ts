@@ -1,4 +1,4 @@
-import { Word } from './interfaces';
+import { Word } from './types';
 
 const API_ENDPOINT = 'http://localhost:3000';
 
