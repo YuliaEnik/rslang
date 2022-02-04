@@ -40,5 +40,8 @@
   "bugs": {
     "url": "https://github.com/YuliaEnik/rslang/issues"
   },
-  "homepage": "https://github.com/YuliaEnik/rslang#readme"
+  "homepage": "https://github.com/YuliaEnik/rslang#readme",
+  "dependencies": {
+    "navigo": "^8.11.1"
+  }
 }

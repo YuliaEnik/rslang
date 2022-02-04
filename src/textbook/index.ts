@@ -3,7 +3,7 @@ import './style.scss';
 import { renderWord } from './word';
 import { renderWordCard } from './word-card';
 
-export function renderTextbook(): HTMLDivElement {
+export function buildTextbook(): HTMLDivElement {
   const template = document.createElement('div');
   template.innerHTML = html;
   const levelBtn = template.querySelectorAll('.level');
