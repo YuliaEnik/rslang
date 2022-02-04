@@ -1,5 +1,6 @@
 body {
-  min-height: 100vh;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,9 +10,9 @@ body {
   text-transform: uppercase;
 }
 
-.go-to-textbook {
-  width: 100px;
-  background: none;
-  border: 1px solid white;
-  cursor: pointer;
+.main-container {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  width: 100%;
+  min-height: 100vh;
 }
