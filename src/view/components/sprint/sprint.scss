@@ -1,61 +1,14 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  font-size: 10px;
-  box-sizing: border-box;
-}
-
-*,
-::after,
-::before {
-  box-sizing: inherit;
-}
-
-
-.game-section {
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.game-wrapper {
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(7, 83, 83);
-}
-
-.game-wrapper-content {
-  min-height: 100vh;
-  width: 80%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgb(181, 199, 199);
-  @media  (max-width: 600px){
-    width: 100%;
-  }
-}
-
-// sprint
 
 .sprint-wrapper {
-  height: 60vh;
-  width: 60%;
+  height: 80vh;
+  width: 70%;
   padding: 5%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(72, 136, 114, .5);
-  backdrop-filter: blur(5px);
-  border-radius: 30px;
+  background-color: white;
+  box-shadow: 1px 17px 44px rgba(3, 2, 41, 0.07);
+  border-radius: 10px;
   @media  (max-width: 920px){
     width: 90%;
   }
@@ -68,12 +21,12 @@ html {
 }
 
 .sprint-content {
+  height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 5rem;
+  justify-content:space-between;
 }
 
 .timer {
@@ -87,7 +40,7 @@ html {
   font-size: 4rem;
 }
 
-.btn-container {
+.horizontal-wrap {
   width: 100%;
   display: flex;
   align-items: center;
@@ -104,7 +57,7 @@ html {
   justify-content:space-around;
   font-size: 2rem;
   cursor: pointer;
-  transition: 1s;
+  transition: .7s;
   &:hover {
     opacity: 0.5;
   }
@@ -118,3 +71,45 @@ html {
   background-color: rgb(170, 86, 53);
 }
 
+.answ-pic-wrap {
+  width: 24rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.answerPic {
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.sound {
+  height: 3rem;
+  width: 3rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+  transition: all .7s;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.sound-on {
+  background-image: url(./../../../assets/svg/sound.svg);
+}
+
+.sound-off {
+  background-image: url(./../../../assets/svg/sound_off.svg);
+}
+
+.score {
+  height: 3rem;
+  width: 3rem;
+  font-size: 3rem;
+}

@@ -28,10 +28,25 @@ const createHTMLelement = ( type: string, attrs: { [key: string]: string }, pare
   return elem;
 }
 
+const stateTextContentEn:IstateTextContentEn  = {
+  btnTrue: 'true',
+  btnFalse: 'false',
+  exit: 'exit'
+}
+
+interface IstateTextContentEn {
+  btnTrue: string,
+  btnFalse: string,
+  exit: string
+}
+
+
 export {
   createElement,
   renderElement,
   getElement,
   getElements,
   createHTMLelement,
+  stateTextContentEn,
+  IstateTextContentEn
 }

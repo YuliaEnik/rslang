@@ -1,4 +1,5 @@
 import './style.scss';
-import { viewGame } from './view/components/game/game';
+import { viewGame } from './view/components/games/game';
+import { stateTextContentEn } from './utils/utils';
 
-viewGame();
+viewGame(stateTextContentEn);
