@@ -1,7 +1,7 @@
 import { createElement } from '../../utils/utils';
 
-export const buildMainPage = (): HTMLElement => {
+export const buildStatisticsPage = (): HTMLElement => {
   const result = createElement('h1');
-  result.textContent = 'Main';
+  result.textContent = 'Statistics';
   return result;
 };
