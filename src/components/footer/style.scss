@@ -1,0 +1,10 @@
+.footer {
+  margin: 0 auto;
+  margin-top: auto;
+  height: 80px;
+  grid-column: 2 / 3;
+}
+
+.footer__text {
+  text-transform: capitalize;
+}
