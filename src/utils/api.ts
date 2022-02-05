@@ -1,6 +1,6 @@
 import { Word } from './types';
 
-const API_ENDPOINT = 'http://localhost:3000';
+export const API_ENDPOINT = 'http://localhost:3000';
 
 function buildGetParams(params?: { [key: string]: string | number }) {
   if (!params) {
