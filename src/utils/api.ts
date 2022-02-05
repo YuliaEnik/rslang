@@ -10,7 +10,7 @@ function buildGetParams(params?: { [key: string]: string | number }) {
   return `?${queryString}`;
 }
 
-export async function getWords(req?: { group: number, page: number }): Promise<Word[]> {
+export async function getWords(req?: { group: number, page?: number }): Promise<Word[]> {
   const result = await fetch(`${API_ENDPOINT}/words/${buildGetParams(req)}`);
   const data = await result.json();
   return data;
