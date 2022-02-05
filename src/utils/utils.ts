@@ -13,9 +13,41 @@ export const createElement = (type: string, attrs: { [key: string]: string }, te
 
 export const renderElement = (elem: Node, parent: Node): Node | undefined => parent.appendChild(elem);
 
-const getElement = (selector: string): HTMLElement | null => document.querySelector(selector);
+export const getElement = (selector: string): Node | null => document.querySelector(selector);
 
-const getElements = (selector: string): NodeListOf<Element> => document.querySelectorAll(selector);
+export const getElements = (selector: string): NodeListOf<Element> => document.querySelectorAll(selector);
+
+export const render = (elements: (string | Node)[], target: ParentNode): void => {
+  target.append(...elements);
+};
+
+export const createHTMLelement = (
+  type: string,
+  attrs: { [key: string]: string },
+  parent: Node | null,
+  textContentEl?: string,
+): HTMLElement => {
+  const elem = createElement(type, attrs);
+  if (textContentEl) {
+    elem.textContent = textContentEl;
+  }
+  if (parent) {
+    renderElement(elem, parent);
+  }
+  return elem;
+};
+
+export const stateTextContentEn:IstateTextContentEn = {
+  btnTrue: 'true',
+  btnFalse: 'false',
+  exit: 'exit',
+};
+
+export interface IstateTextContentEn {
+  btnTrue: string,
+  btnFalse: string,
+  exit: string
+}
 
 export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideFooter = false): HTMLElement => {
   const result = createElement('div', { class: 'main-container' });
