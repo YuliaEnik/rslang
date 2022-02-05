@@ -5,3 +5,7 @@ declare module '*.gif';
 declare module '*.svg';
 declare module '*.webp';
 declare module '*.ico';
+declare module '*.html' {
+  const content: string;
+  export default content;
+}

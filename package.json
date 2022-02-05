@@ -19,6 +19,7 @@
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-plugin-import": "^2.25.4",
     "eslint-webpack-plugin": "^2.6.0",
+    "html-loader": "^3.0.1",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^1.6.2",
     "sass": "^1.49.4",
@@ -39,5 +40,8 @@
   "bugs": {
     "url": "https://github.com/YuliaEnik/rslang/issues"
   },
-  "homepage": "https://github.com/YuliaEnik/rslang#readme"
+  "homepage": "https://github.com/YuliaEnik/rslang#readme",
+  "dependencies": {
+    "navigo": "^8.11.1"
+  }
 }
