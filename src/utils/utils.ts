@@ -1,34 +1,56 @@
+import { Match } from 'navigo';
 import { buildFooter } from '../components/footer';
-import { buildNavigation } from '../components/nav';
+import { buildSideBar } from '../components/nav';
 
-export const createElement = (type: string, attrs?: { [key: string]: string }): HTMLElement => {
+export const createElement = (type: string, attrs: { [key: string]: string }, textContentEl?: string): HTMLElement => {
   const elem = document.createElement(type);
-  if (attrs) {
-    Object.keys(attrs).forEach((attr) => elem.setAttribute(attr, attrs[attr]));
+  Object.keys(attrs).forEach((attr) => elem.setAttribute(attr, attrs[attr]));
+  if (textContentEl) {
+    elem.textContent = textContentEl;
   }
   return elem;
 };
 
 export const renderElement = (elem: Node, parent: Node): Node | undefined => parent.appendChild(elem);
 
-const getElement = (selector: string): HTMLElement | null => document.querySelector(selector);
+export const getElement = (selector: string): Node | null => document.querySelector(selector);
 
-const getElements = (selector: string): NodeListOf<Element> => document.querySelectorAll(selector);
+export const getElements = (selector: string): NodeListOf<Element> => document.querySelectorAll(selector);
 
-export const buildLayout = (pageElement: HTMLElement, hideFooter = false): HTMLElement => {
-  const result = document.createElement('div');
-  result.className = 'main-container';
-  renderElement(buildNavigation(), result);
-  renderElement(pageElement, result);
+export const render = (elements: (string | Node)[], target: ParentNode): void => {
+  target.append(...elements);
+};
+
+export const createHTMLelement = (
+  type: string,
+  attrs: { [key: string]: string },
+  parent: Node | null,
+  textContentEl?: string,
+): HTMLElement => {
+  const elem = createElement(type, attrs);
+  if (textContentEl) {
+    elem.textContent = textContentEl;
+  }
+  if (parent) {
+    renderElement(elem, parent);
+  }
+  return elem;
+};
+
+export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideFooter = false): HTMLElement => {
+  const result = createElement('div', { class: 'main-container' });
+  renderElement(buildSideBar(context), result);
+  const main = createElement('main', { class: 'main' });
+  renderElement(pageElement, main);
+  renderElement(main, result);
   if (!hideFooter) {
     renderElement(buildFooter(), result);
   }
-
   return result;
 };
 
-export const renderPage = (pageElement: HTMLElement): void => {
-  const layout = buildLayout(pageElement);
+export const renderPage = (pageElement: HTMLElement, context: Match | undefined): void => {
+  const layout = buildLayout(pageElement, context);
   document.body.innerHTML = '';
   document.body.appendChild(layout);
 };

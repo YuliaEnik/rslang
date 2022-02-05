@@ -1,0 +1,23 @@
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 35px;
+  background-color: $color-light;
+  border-radius: 10px;
+  &--sign {
+    transition: background 0.3s;
+    &:hover {
+      background-color: $color-secondary;
+    }
+  }
+  &--sign::before {
+    display: block;
+    width: 15px;
+    height: 15px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("assets/svg/plus.svg");
+    content: "";
+  }
+}

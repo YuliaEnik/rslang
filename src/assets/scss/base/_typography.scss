@@ -1,0 +1,51 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  @extend %font;
+  color: $color-grey;
+  @include font($size: 1.4rem, $height: 2rem);
+}
+
+.nav__link {
+  @extend %font;
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 2rem, $weight: $weight-semibold);
+}
+
+.logo__text {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 2.4rem, $height: 3.2rem, $weight: $weight-extrabold);
+}
+
+.btn {
+  @extend %font;
+  color: $color-primary;
+  @include font($size: 1.6rem, $height: 2.4em, $weight: $weight-extrabold);
+}
+
+.section__title {
+  @extend %font;
+  color: $color-light;
+  @include font($size: 5.6rem, $height: 7.6rem, $weight: $weight-extrabold);
+}
+
+.copyrights {
+  @extend %font;
+  color: $color-grey;
+  @include font($size: 1.2rem, $height: 1.6rem, $weight: $weight-extrabold);
+}
+
+.developers__title {
+  @extend %font;
+  color: $color-grey;
+  @include font($size: 1.4rem, $height: 1.8rem, $weight: $weight-bold);
+}
+
+.developers__link {
+  @extend %font;
+  color: $color-grey;
+  @include font($size: 1.4rem, $height: 1.8rem, $weight: $weight-semibold);
+}
