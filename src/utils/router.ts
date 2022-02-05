@@ -1,26 +1,31 @@
 import Navigo from 'navigo';
 import { buildDevelopersPage } from '../pages/developers';
 import { buildMainPage } from '../pages/main';
-import { buildSprintPage } from '../pages/sprint';
 import { buildStatisticsPage } from '../pages/statistics';
 import { buildTextbook } from '../pages/textbook';
 import { renderPage } from './utils';
+import { viewGame } from '../pages/games/game';
+import { buildSettingsPage } from '../pages/settings';
+import { stateTextContentEn } from './constants';
 
 export const router: Navigo = new Navigo('/');
 
 router
-  .on('/', () => {
-    renderPage(buildMainPage());
+  .on('/', (context) => {
+    renderPage(buildMainPage(), context);
   })
-  .on('/dictionary', () => {
-    renderPage(buildTextbook());
+  .on('/dictionary', (context) => {
+    renderPage(buildTextbook(), context);
   })
-  .on('/sprint', () => {
-    renderPage(buildSprintPage());
+  .on('/games', (context) => {
+    renderPage(viewGame(stateTextContentEn), context);
   })
-  .on('/statistics', () => {
-    renderPage(buildStatisticsPage());
+  .on('/statistics', (context) => {
+    renderPage(buildStatisticsPage(), context);
   })
-  .on('/developers', () => {
-    renderPage(buildDevelopersPage());
+  .on('/developers', (context) => {
+    renderPage(buildDevelopersPage(), context);
+  })
+  .on('/settings', (context) => {
+    renderPage(buildSettingsPage(), context);
   });

@@ -1,0 +1,17 @@
+.logo {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 30px;
+}
+
+.logo__nav {
+  margin-bottom: 30px;
+}
+
+.logo__img {
+  margin-right: 15px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: $color-primary;
+}
