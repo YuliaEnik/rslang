@@ -24,5 +24,18 @@ export function renderWord(params: { word: Word, onclick?: () => void }): HTMLDi
   const imgEl = document.createElement('img') as HTMLImageElement;
   imgEl.src = img;
   wordElement.appendChild(imgEl);
+  const audioEl = document.createElement('audio') as HTMLAudioElement;
+  const audioButton = document.createElement('button') as HTMLButtonElement;
+  audioButton.classList.add('audio-btn');
+  audioButton.textContent = '🎵';
+  const audio = `${API_ENDPOINT}/${word.audioMeaning}`;
+  wordElement.appendChild(audioButton);
+  audioButton.appendChild(audioEl);
+  audioEl.src = audio;
+  template.querySelectorAll('.audio-btn').forEach((el) => {
+    el.addEventListener('click', () => {
+      audioEl.play();
+    });
+  });
   return template.children[0] as HTMLDivElement;
 }
