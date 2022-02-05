@@ -1,10 +1,10 @@
 import Navigo from 'navigo';
 import { buildDevelopersPage } from '../pages/developers';
 import { buildMainPage } from '../pages/main';
-import { buildSprintPage } from '../pages/sprint';
 import { buildStatisticsPage } from '../pages/statistics';
 import { buildTextbook } from '../pages/textbook';
-import { renderPage } from './utils';
+import { renderPage, stateTextContentEn } from './utils';
+import { viewGame } from '../pages/games/game';
 
 export const router: Navigo = new Navigo('/');
 
@@ -16,7 +16,7 @@ router
     renderPage(buildTextbook());
   })
   .on('/sprint', () => {
-    renderPage(buildSprintPage());
+    renderPage(viewGame(stateTextContentEn));
   })
   .on('/statistics', () => {
     renderPage(buildStatisticsPage());
