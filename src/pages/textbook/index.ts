@@ -2,7 +2,6 @@ import { getWords } from '../../utils/api';
 import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
-import { renderWordCard } from './word-card';
 
 export function buildTextbook(): HTMLDivElement {
   const template = document.createElement('div');
@@ -12,24 +11,25 @@ export function buildTextbook(): HTMLDivElement {
   const wordCard = template.querySelector('.word-card') as HTMLElement;
   function renderCard() {
     wordCard.innerHTML = '';
-    wordCard.appendChild(renderWordCard());
     wordCard.classList.add('active');
   }
-  function renderWords() {
-    for (let i = 0; i < 20; i++) {
-      words?.appendChild(renderWord({ word: 'flower', onclick: () => { renderCard(); } }));
-    }
+
+  function renderWordsList(id: number, page?: number) {
+    getWords({ group: id }).then((wordsData) => {
+      console.log(wordsData);
+      wordsData.forEach((wordEl) => {
+        words?.appendChild(renderWord({ word: wordEl, onclick: () => { renderCard(); } }));
+      });
+    });
   }
-  // renderWords();
+
   levelBtn.forEach((el) => {
+    const levelBtnEl = el as HTMLElement;
     el.addEventListener('click', () => {
       words.innerText = '';
-      renderWords();
+      const id = Number(levelBtnEl.dataset.level);
+      renderWordsList(id);
     });
-  });
-
-  getWords().then((wordsData) => {
-    console.log(wordsData);
   });
 
   return template;
