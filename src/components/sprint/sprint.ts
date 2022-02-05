@@ -1,8 +1,9 @@
 import './sprint.scss';
-import { createHTMLelement, IstateTextContentEn } from '../../utils/utils';
+import { createHTMLelement } from '../../utils/utils';
 import { createAnswerPicture } from './answerPic';
+import { IData, StateTextContentEn } from '../../utils/types';
 
-export const sprint = (parent:Node, data: IData[], stateTextContentEn:IstateTextContentEn) => {
+export const sprint = (parent:Node, data: IData[], stateTextContentEn: StateTextContentEn) => {
   const sprintWrapper = createHTMLelement('div', { class: 'sprint-wrapper' }, parent);
   const sprintContent = createHTMLelement('div', { class: 'sprint-content' }, sprintWrapper);
   const timerSoundWrap = createHTMLelement('div', { class: 'horizontal-wrap' }, sprintContent);
@@ -86,20 +87,3 @@ export const data:IData[] = [
     textExampleTranslate: 'string',
   },
 ];
-
-interface IData {
-  id: string;
-  group: number;
-  page: number;
-  word: string;
-  image: string;
-  audio: string;
-  audioMeaning: string;
-  audioExample: string;
-  textMeaning: string;
-  textExample: string;
-  transcription: string;
-  wordTranslate: string;
-  textMeaningTranslate: string;
-  textExampleTranslate: string;
-}

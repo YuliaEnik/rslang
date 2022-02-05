@@ -1,10 +1,12 @@
+import { Match } from 'navigo';
 import { buildFooter } from '../components/footer';
-import { buildNavigation } from '../components/nav';
+import { buildSideBar } from '../components/nav';
 
-export const createElement = (type: string, attrs?: { [key: string]: string }): HTMLElement => {
+export const createElement = (type: string, attrs: { [key: string]: string }, textContentEl?: string): HTMLElement => {
   const elem = document.createElement(type);
-  if (attrs) {
-    Object.keys(attrs).forEach((attr) => elem.setAttribute(attr, attrs[attr]));
+  Object.keys(attrs).forEach((attr) => elem.setAttribute(attr, attrs[attr]));
+  if (textContentEl) {
+    elem.textContent = textContentEl;
   }
   return elem;
 };
@@ -35,32 +37,20 @@ export const createHTMLelement = (
   return elem;
 };
 
-export const stateTextContentEn:IstateTextContentEn = {
-  btnTrue: 'true',
-  btnFalse: 'false',
-  exit: 'exit',
-};
-
-export interface IstateTextContentEn {
-  btnTrue: string,
-  btnFalse: string,
-  exit: string
-}
-
-export const buildLayout = (pageElement: HTMLElement, hideFooter = false): HTMLElement => {
-  const result = document.createElement('div');
-  result.className = 'main-container';
-  renderElement(buildNavigation(), result);
-  renderElement(pageElement, result);
+export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideFooter = false): HTMLElement => {
+  const result = createElement('div', { class: 'main-container' });
+  renderElement(buildSideBar(context), result);
+  const main = createElement('main', { class: 'main' });
+  renderElement(pageElement, main);
+  renderElement(main, result);
   if (!hideFooter) {
     renderElement(buildFooter(), result);
   }
-
   return result;
 };
 
-export const renderPage = (pageElement: HTMLElement): void => {
-  const layout = buildLayout(pageElement);
+export const renderPage = (pageElement: HTMLElement, context: Match | undefined): void => {
+  const layout = buildLayout(pageElement, context);
   document.body.innerHTML = '';
   document.body.appendChild(layout);
 };
