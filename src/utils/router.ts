@@ -17,7 +17,7 @@ router
   .on('/dictionary', (context) => {
     renderPage(buildTextbook(), context);
   })
-  .on('/sprint', (context) => {
+  .on('/games', (context) => {
     renderPage(viewGame(stateTextContentEn), context);
   })
   .on('/statistics', (context) => {

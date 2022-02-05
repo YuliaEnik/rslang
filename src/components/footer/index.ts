@@ -23,7 +23,10 @@ export const buildFooter = (): HTMLElement => {
   renderElement(footerLogo, result);
   const developersContainer = createElement('div', { class: 'developers' });
   const heart = createElement('span', { class: 'heart' });
-  const developersTitle = createElement('h5', { class: 'developers__title' }, `Created with ${heart} by:`);
+  const developersTitle = createElement('h5', { class: 'developers__title' });
+  developersTitle.append('Created with ');
+  developersTitle.append(heart);
+  developersTitle.append(' by:');
   renderElement(developersTitle, developersContainer);
   const developersList = createElement('ul', { class: 'developers__list' });
   developers.forEach((developer : { github: string; url: string }) => {
