@@ -37,18 +37,6 @@ export const createHTMLelement = (
   return elem;
 };
 
-export const stateTextContentEn:IstateTextContentEn = {
-  btnTrue: 'true',
-  btnFalse: 'false',
-  exit: 'exit',
-};
-
-export interface IstateTextContentEn {
-  btnTrue: string,
-  btnFalse: string,
-  exit: string
-}
-
 export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideFooter = false): HTMLElement => {
   const result = createElement('div', { class: 'main-container' });
   renderElement(buildSideBar(context), result);
