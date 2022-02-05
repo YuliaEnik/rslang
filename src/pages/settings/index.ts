@@ -1,7 +1,7 @@
 import { createElement } from '../../utils/utils';
 
-export const buildSprintPage = (): HTMLElement => {
+export const buildSettingsPage = (): HTMLElement => {
   const result = createElement('h1', { class: '' });
-  result.textContent = 'Game Sprint';
+  result.textContent = 'Main';
   return result;
 };

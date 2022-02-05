@@ -1,0 +1,49 @@
+.nav__link {
+  display: block;
+  position: relative;
+  padding: 14px;
+  padding-left: 66px;
+  &:hover {
+    background-image: linear-gradient(to right, #d3d1fc, $color-light);
+    color: $color-primary;
+  }
+  &.active {
+    background-image: linear-gradient(to right, #d3d1fc, $color-light);
+    color: $color-primary;
+  }
+  &::before {
+    position: absolute;
+    display: block;
+    margin-left: -30px;
+    width: 20px;
+    height: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+  }
+    &--main::before {
+      background-image: url("assets/svg/main.svg");
+    }
+    &--dictionary::before {
+      background-image: url("assets/svg/dictionary.svg");
+    }
+    &--games::before {
+      background-image: url("assets/svg/games.svg");
+    }
+    &--statistics::before {
+      background-image: url("assets/svg/statistics.svg");
+    }
+    &--developers::before {
+      background-image: url("assets/svg/heart.svg");
+    }
+    &--settings::before {
+      background-image: url("assets/svg/settings.svg");
+    }
+    &:hover::before {
+        filter: brightness(0) saturate(100%) invert(30%) sepia(85%) saturate(2012%) hue-rotate(231deg) brightness(101%) contrast(102%);
+    }
+    &.active::before {
+      filter: brightness(0) saturate(100%) invert(30%) sepia(85%) saturate(2012%) hue-rotate(231deg) brightness(101%) contrast(102%);
+    }
+}
