@@ -16,7 +16,7 @@ export function buildTextbook(): HTMLDivElement {
     wordCard.classList.add('active');
   }
 
-  function renderWordsPage(id: number, page?: number) {
+  function renderWordsList(id: number, page?: number) {
     getWords({ group: id }).then((wordsData) => {
       console.log(wordsData);
       wordsData.forEach((wordEl) => {
@@ -30,7 +30,7 @@ export function buildTextbook(): HTMLDivElement {
     el.addEventListener('click', () => {
       words.innerText = '';
       const id = Number(levelBtnEl.dataset.level);
-      renderWordsPage(id);
+      renderWordsList(id);
     });
   });
 
