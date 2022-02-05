@@ -1,3 +1,4 @@
+import { getWords } from '../../utils/api';
 import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
@@ -19,12 +20,17 @@ export function buildTextbook(): HTMLDivElement {
       words?.appendChild(renderWord({ word: 'flower', onclick: () => { renderCard(); } }));
     }
   }
-  // enderWords();
+  // renderWords();
   levelBtn.forEach((el) => {
     el.addEventListener('click', () => {
       words.innerText = '';
       renderWords();
     });
   });
+
+  getWords().then((wordsData) => {
+    console.log(wordsData);
+  });
+
   return template;
 }
