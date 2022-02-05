@@ -10,7 +10,7 @@ const pages = [
   },
   {
     title: 'Dictionary',
-    link: '/dictionary',
+    link: '/dictionary/1',
     type: 'dictionary',
   },
   {

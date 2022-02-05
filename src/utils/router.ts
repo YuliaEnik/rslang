@@ -14,7 +14,7 @@ router
   .on('/', (context) => {
     renderPage(buildMainPage(), context);
   })
-  .on('/dictionary', (context) => {
+  .on(/dictionary\/(.*)/, (context) => {
     renderPage(buildTextbook(), context);
   })
   .on('/games', (context) => {
