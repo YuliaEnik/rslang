@@ -1,6 +1,6 @@
 .level {
   border: 1px solid white;
-  background-color: rgb(84 90 92);
+  background-color: #fff281;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,10 +42,4 @@
 .words-container {
   display: flex;
   justify-content: space-around;
-}
-
-.word-card.active {
-  border: 1px solid white;
-  height: 100%;
-  padding: 0 20px;
 }
