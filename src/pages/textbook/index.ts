@@ -1,3 +1,4 @@
+import { ids } from 'webpack';
 import { getWords } from '../../utils/api';
 import html from './index.html';
 import './style.scss';
@@ -15,21 +16,20 @@ export function buildTextbook(): HTMLDivElement {
     wordCard.appendChild(renderWordCard());
     wordCard.classList.add('active');
   }
-  function renderWords() {
-    for (let i = 0; i < 20; i++) {
-      words?.appendChild(renderWord({ word: 'flower', onclick: () => { renderCard(); } }));
-    }
-  }
   // renderWords();
   levelBtn.forEach((el) => {
     el.addEventListener('click', () => {
       words.innerText = '';
-      renderWords();
+      const id = Number(el.id);
+      getWords({ group: id });
     });
   });
 
   getWords().then((wordsData) => {
     console.log(wordsData);
+    wordsData.forEach((wordEl) => {
+      words?.appendChild(renderWord({ word: wordEl, onclick: () => { renderCard(); } }));
+    });
   });
 
   return template;
