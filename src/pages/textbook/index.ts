@@ -4,6 +4,7 @@ import './style.scss';
 import { renderWord } from './word';
 
 export function buildTextbook(): HTMLDivElement {
+  const currentPage = 0;
   const template = document.createElement('div');
   template.innerHTML = html;
   const levelBtn = template.querySelectorAll('.level');
@@ -14,9 +15,9 @@ export function buildTextbook(): HTMLDivElement {
     wordCard.classList.add('active');
   }
 
-  function renderWordsList(id: number, page?: number) {
-    getWords({ group: id }).then((wordsData) => {
-      console.log(wordsData);
+  function renderWordsList(id: number, page: number) {
+    getWords({ group: id, page }).then((wordsData) => {
+      // console.log(wordsData);
       wordsData.forEach((wordEl) => {
         words?.appendChild(renderWord({ word: wordEl, onclick: () => { renderCard(); } }));
       });
@@ -28,7 +29,7 @@ export function buildTextbook(): HTMLDivElement {
     el.addEventListener('click', () => {
       words.innerText = '';
       const id = Number(levelBtnEl.dataset.level);
-      renderWordsList(id);
+      renderWordsList(id, currentPage);
     });
   });
 
