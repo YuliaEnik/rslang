@@ -1,15 +1,11 @@
 .word {
   background: none;
-  cursor: pointer;
-}
-
-.word:hover {
-  background-color: white;
+  color: white;
 }
 
 .audio-btn {
   width: 30px;
   height: 30px;
-  font-size: 1rem;
+  font-size: 2rem;
   cursor: pointer;
 }
