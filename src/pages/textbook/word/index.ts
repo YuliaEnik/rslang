@@ -1,4 +1,4 @@
-import { API_ENDPOINT } from '../../../utils/api';
+import { API_ENDPOINT } from '../../../utils/constants';
 import { Word } from '../../../utils/types';
 import html from './index.html';
 import './style.scss';
@@ -19,7 +19,7 @@ export function renderWord(params: { word: Word, onclick?: () => void }): HTMLDi
   const example = `Example: ${word.textExample}`;
   const exampleTranslate = `Example (rus): ${word.textExampleTranslate}`;
   const img = `${API_ENDPOINT}/${word.image}`;
-  wordElement.innerHTML = `${engWord} <br> ${transcription} <br> ${translate} <br> ${meaning} <br> ${example} 
+  wordElement.innerHTML = `${engWord} <br> ${transcription} <br> ${translate} <br> ${meaning} <br> ${example}
   <br> ${exampleTranslate}`;
   const imgEl = document.createElement('img') as HTMLImageElement;
   imgEl.src = img;
