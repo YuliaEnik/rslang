@@ -4,10 +4,10 @@ import { createElement, renderElement } from '../../utils/utils';
 import './style.scss';
 
 const buildActiveClass = (pageLink: string, context: Match | undefined): string => {
-  if (!context || !context.route) {
+  if (!context || !context.url) {
     return '';
   }
-  const currentUrl = `/${context.route.name}`;
+  const currentUrl = `/${context.url}`;
   return currentUrl === pageLink ? ' active' : '';
 };
 
