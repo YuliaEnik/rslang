@@ -12,7 +12,14 @@ const buildActiveClass = (pageLink: string, context: Match | undefined): string 
 };
 
 const buildLogo = (): HTMLElement => {
-  const result = createElement('div', { class: 'logo logo__nav' });
+  const result = createElement(
+    'a',
+    {
+      class: 'logo logo__nav',
+      'data-navigo': '',
+      href: pages[0].link,
+    },
+  );
   const logoImg = createElement('div', { class: 'logo__img' });
   renderElement(logoImg, result);
   const logoText = createElement('p', { class: 'logo__text' }, 'RS Lang');
