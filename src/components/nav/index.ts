@@ -1,39 +1,7 @@
 import { Match } from 'navigo';
+import { pages } from '../../utils/constants';
 import { createElement, renderElement } from '../../utils/utils';
 import './style.scss';
-
-const pages = [
-  {
-    title: 'Main',
-    link: '/',
-    type: 'main',
-  },
-  {
-    title: 'Dictionary',
-    link: '/dictionary/1',
-    type: 'dictionary',
-  },
-  {
-    title: 'Sprint',
-    link: '/games',
-    type: 'games',
-  },
-  {
-    title: 'Statistics',
-    link: '/statistics',
-    type: 'statistics',
-  },
-  {
-    title: 'Developers',
-    link: '/developers',
-    type: 'developers',
-  },
-  {
-    title: 'Settings',
-    link: '/settings',
-    type: 'settings',
-  },
-];
 
 const buildActiveClass = (pageLink: string, context: Match | undefined): string => {
   if (!context || !context.route) {
