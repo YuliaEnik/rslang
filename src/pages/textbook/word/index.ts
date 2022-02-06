@@ -1,4 +1,4 @@
-import { API_ENDPOINT } from '../../../utils/api';
+import { API_ENDPOINT } from '../../../utils/constants';
 import { Word } from '../../../utils/types';
 import html from './index.html';
 import './style.scss';
@@ -27,7 +27,7 @@ export function renderWord(params: { word: Word, onclick?: () => void }): HTMLDi
   const audioEl = document.createElement('audio') as HTMLAudioElement;
   const audioButton = document.createElement('button') as HTMLButtonElement;
   audioButton.classList.add('audio-btn');
-  audioButton.textContent = '🎵';
+  audioButton.textContent = '🔊';
   const audio = `${API_ENDPOINT}/${word.audioMeaning}`;
   wordElement.appendChild(audioButton);
   audioButton.appendChild(audioEl);
