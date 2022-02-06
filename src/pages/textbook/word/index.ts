@@ -12,7 +12,7 @@ export function renderWord(params: { word: Word, onclick?: () => void }): HTMLDi
   wordElement?.addEventListener('click', () => {
     params.onclick?.();
   });
-  const engWord = `Eng. word: ${word.word}`;
+  const engWord = `Word: ${word.word}`;
   const transcription = `Transcription: ${word.transcription}`;
   const translate = `Translate: ${word.wordTranslate}`;
   const meaning = `Meaning: ${word.textMeaning}`;
