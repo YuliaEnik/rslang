@@ -20,4 +20,17 @@
     background-image: url("assets/svg/plus.svg");
     content: "";
   }
+  &--signup {
+    display: block;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    background-color: $color-primary;
+  }
+  &--signup:hover {
+    background-color: $color-secondary;
+  }
+  &--signup:focus {
+    background-color: $color-secondary;
+  }
 }
