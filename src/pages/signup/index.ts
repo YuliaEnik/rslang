@@ -31,7 +31,6 @@ export const buildSignUpPage = (): HTMLElement => {
   const header = createElement('header', { class: 'signup__header' });
   renderElement(buildLogo(), header);
   renderElement(header, containerLeft);
-
   const formContainer = createElement('div', { class: 'form-container' });
   const title = createElement('h1', { class: 'signup__title' }, 'Sign Up');
   renderElement(title, formContainer);
@@ -41,7 +40,7 @@ export const buildSignUpPage = (): HTMLElement => {
     const label = createElement('label', { class: `label-form label-form--${input.id}`, for: input.id }, input.id);
     const inputEl = createElement(
       'input',
-      { class: `input-form input-form--${input.id}`, id: input.id, type: input.type }
+      { class: `input-form input-form--${input.id}`, id: input.id, type: input.type },
     );
     renderElement(label, inputContainer);
     renderElement(inputEl, inputContainer);
