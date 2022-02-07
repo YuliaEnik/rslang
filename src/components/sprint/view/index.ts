@@ -12,8 +12,6 @@ const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement, parentPic:
   if (data[stateSprint.curIndex].correctAnswer === 1) {
     stateSprint.countCorrectAnsw++;
     if (stateSprint.countCorrectAnsw === 3) {
-      /* setTimeout(function() { removePic(parentPic) }, 500);
-      setTimeout(function() { createOnePic(parentPic) }, 1000); */
       createScore(scoreWrap);
       stateSprint.countCorrectAnsw = 0;
     }
@@ -31,7 +29,6 @@ const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, par
   }
   checkCountCorrectAnswers(data, scoreWrap, parentPicts);
   stateSprint.questionsArray.push(data[stateSprint.curIndex]);
-  console.log(stateSprint.questionsArray);
 };
 
 const updateCurIndex = () => {

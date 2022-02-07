@@ -12,7 +12,7 @@ const removePic = (parent: HTMLElement) => {
 
 const createPics = (stateSprint: StateSprint, data:Word[], parentPic:HTMLElement) => {
   console.log(stateSprint.countCorrectAnsw);
-  /* if (stateSprint.countCorrectAnsw === 2) {
+  /* if (stateSprint.countCorrectAnsw === 3) {
     removePic(parentPic);
   } */
   if (data[stateSprint.curIndex].correctAnswer === 1) {
