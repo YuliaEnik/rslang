@@ -1,22 +1,16 @@
+main {
+  overflow-y: auto;
+}
+
 h1,
-h2 {
-  text-align: center;
-}
-
-h2 {
-  text-transform: capitalize;
-}
-
-button {
-  background-color: none;
-  border: none;
+h2,
+h3 {
   color: white;
-  width: 100%;
 }
 
 .level {
   border: 1px solid white;
-  background-color: rgb(84 90 92);
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,7 +34,7 @@ button {
 
 .word {
   text-transform: lowercase;
-  font-size: 1.5rem;
+  font-size: 1rem;
   border: solid 1px white;
   display: inline-block;
   padding: 20px;
@@ -60,8 +54,14 @@ button {
   justify-content: space-around;
 }
 
-.word-card.active {
-  border: 1px solid white;
-  height: 100%;
-  padding: 0 20px;
+.pagination {
+  display: flex;
+  padding: 30px 0;
+}
+
+.page-btn {
+  margin: 0 20px;
+  padding: 0 10px;
+  color: white;
+  border: solid 1px white;
 }

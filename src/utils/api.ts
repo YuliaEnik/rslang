@@ -1,6 +1,5 @@
+import { API_ENDPOINT } from './constants';
 import { Word } from './types';
-
-const API_ENDPOINT = 'http://localhost:3000';
 
 function buildGetParams(params?: { [key: string]: string | number }) {
   if (!params) {
@@ -10,7 +9,7 @@ function buildGetParams(params?: { [key: string]: string | number }) {
   return `?${queryString}`;
 }
 
-export async function getWords(req?: { group: number, page: number }): Promise<Word[]> {
+export async function getWords(req?: { group: number, page?: number }): Promise<Word[]> {
   const result = await fetch(`${API_ENDPOINT}/words/${buildGetParams(req)}`);
   const data = await result.json();
   return data;

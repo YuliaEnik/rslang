@@ -1,12 +1,12 @@
 import './sprint.scss';
-import { createHTMLelement, IstateTextContentEn } from '../../utils/utils';
-import { Word } from '../../utils/types';
+import { createHTMLelement } from '../../utils/utils';
+import { Word, StateTextContentEn } from '../../utils/types';
 import { checkAnswer, updateCurIndex, setWords } from './view';
 import { stateSprint } from './view/state';
 import { createPics } from './view/pictures/pictures';
 import { checkEnd } from './view/result/result';
 
-export const sprint = (parent:Node, data: Word[], stateTextContentEn:IstateTextContentEn) => {
+export const sprint = (parent:Node, data: Word[], stateTextContentEn:StateTextContentEn) => {
   const arrayBtnEl:HTMLElement[] = [];
   const sprintWrapper = createHTMLelement('div', { class: 'sprint-wrapper' }, parent);
   const sprintContent = createHTMLelement('div', { class: 'sprint-content' }, sprintWrapper);
