@@ -1,6 +1,5 @@
 import { Match } from 'navigo';
 import { buildFooter } from '../components/footer';
-import { buildNavigation } from '../components/nav';
 import { data } from '../components/sprint/sprintApp';
 import { Word, StateSprint } from './types';
 import { buildSideBar } from '../components/nav';
