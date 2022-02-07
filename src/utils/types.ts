@@ -13,4 +13,15 @@ export interface Word {
   textExampleTranslate: string;
   textMeaningTranslate: string;
   wordTranslate: string;
+  correctAnswer: number | undefined | null;
+}
+
+export interface StateSprint {
+  curIndex:number;
+  score:number;
+  countCorrectAnsw:number;
+  questionsArray: Word[];
+  falseAnsw:number;
+  trueAnsw:number;
+  randomTrueFalse:number | null;
 }

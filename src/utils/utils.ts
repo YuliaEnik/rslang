@@ -1,5 +1,7 @@
 import { buildFooter } from '../components/footer';
 import { buildNavigation } from '../components/nav';
+import { data } from '../components/sprint/sprintApp';
+import { Word, StateSprint } from './types';
 
 export const createElement = (type: string, attrs?: { [key: string]: string }): HTMLElement => {
   const elem = document.createElement(type);
