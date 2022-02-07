@@ -23,7 +23,11 @@ body {
 .btn {
   @extend %font;
   color: $color-primary;
-  @include font($size: 1.6rem, $height: 2.4em, $weight: $weight-extrabold);
+  @include font($size: 1.6rem, $height: 4rem, $weight: $weight-extrabold);
+  &--signup {
+    color: $color-light;
+    @include font($size: 1.6rem, $height: 5rem, $weight: $weight-extrabold);
+  }
 }
 
 .section__title {
@@ -48,4 +52,23 @@ body {
   @extend %font;
   color: $color-grey;
   @include font($size: 1.4rem, $height: 1.8rem, $weight: $weight-semibold);
+}
+
+.label-form {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-semibold);
+  text-transform: capitalize;
+}
+
+.input-form {
+  @extend %font;
+  color: $color-grey;
+  @include font($size: 1.4rem, $height: 5rem);
+}
+
+.speech-bubble {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-semibold);
 }

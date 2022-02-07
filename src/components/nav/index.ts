@@ -43,7 +43,7 @@ const buildActiveClass = (pageLink: string, context: Match | undefined): string 
   return currentUrl === pageLink ? ' active' : '';
 };
 
-const buildLogo = (): HTMLElement => {
+export const buildLogo = (): HTMLElement => {
   const result = createElement('div', { class: 'logo logo__nav' });
   const logoImg = createElement('div', { class: 'logo__img' });
   renderElement(logoImg, result);
