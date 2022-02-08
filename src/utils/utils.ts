@@ -1,5 +1,7 @@
 import { Match } from 'navigo';
 import { buildFooter } from '../components/footer';
+import { data } from '../components/sprint/sprintApp';
+import { Word, StateSprint } from './types';
 import { buildSideBar } from '../components/nav';
 
 export const createElement = (type: string, attrs: { [key: string]: string }, textContentEl?: string): HTMLElement => {
@@ -37,9 +39,11 @@ export const createHTMLelement = (
   return elem;
 };
 
-export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideFooter = false): HTMLElement => {
+export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideMenu = false, hideFooter = false): HTMLElement => {
   const result = createElement('div', { class: 'main-container' });
-  renderElement(buildSideBar(context), result);
+  if (!hideMenu) {
+    renderElement(buildSideBar(context), result);
+  }
   const main = createElement('main', { class: 'main' });
   renderElement(pageElement, main);
   renderElement(main, result);

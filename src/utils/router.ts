@@ -7,6 +7,7 @@ import { renderPage } from './utils';
 import { viewGame } from '../pages/games/game';
 import { buildSettingsPage } from '../pages/settings';
 import { stateTextContentEn } from './constants';
+import { buildSignUpPage } from '../pages/signup';
 
 export const router: Navigo = new Navigo('/');
 
@@ -28,4 +29,7 @@ router
   })
   .on('/settings', (context) => {
     renderPage(buildSettingsPage(), context);
+  })
+  .on('/signup', (context) => {
+    renderPage(buildSignUpPage(), context);
   });

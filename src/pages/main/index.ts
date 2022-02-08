@@ -5,7 +5,7 @@ export const buildMainPage = (): HTMLElement => {
   const mainTitle = createElement('h1', { class: 'visually-hidden' }, 'Learn English with RS Lang application');
   renderElement(mainTitle, result);
   const header = createElement('header', { class: 'main__header' });
-  const btnSingIn = createElement('button', { class: 'btn btn--sign' });
+  const btnSingIn = createElement('a', { class: 'btn btn--sign', 'data-navigo': '', href: '/signup' });
   const btnSingInText = createElement('span', { class: 'btn__text' }, 'Sign in');
   renderElement(btnSingInText, btnSingIn);
   renderElement(btnSingIn, header);
