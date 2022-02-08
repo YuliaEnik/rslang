@@ -56,6 +56,12 @@ export interface User {
   email: string;
 }
 
+export interface Input {
+  type: string;
+  id: string;
+  class: string;
+}
+
 export interface Auth {
   message: string;
   token: string;
