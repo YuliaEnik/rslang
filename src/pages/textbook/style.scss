@@ -1,5 +1,8 @@
-main {
-  overflow-y: auto;
+.main {
+  & > div {
+    max-height: calc(100vh - 100px);
+    overflow-y: scroll;
+  }
 }
 
 h1,
