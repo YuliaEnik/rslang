@@ -2,12 +2,6 @@ import { API_ENDPOINT } from '../../utils/constants';
 import { router } from '../../utils/router';
 import { NewUser, ResponseStatus, User } from '../../utils/types';
 
-export const userDummy: NewUser = {
-  name: 'DummyUser',
-  email: 'dummuy1@email.com',
-  password: 'dummPas$',
-};
-
 export async function createUser(newUser: NewUser): Promise<void> {
   const response = await fetch(`${API_ENDPOINT}/users`, {
     method: 'POST',
