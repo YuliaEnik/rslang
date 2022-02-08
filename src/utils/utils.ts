@@ -1,5 +1,7 @@
 import { Match } from 'navigo';
 import { buildFooter } from '../components/footer';
+import { data } from '../components/sprint/sprintApp';
+import { Word, StateSprint } from './types';
 import { buildSideBar } from '../components/nav';
 
 export const createElement = (type: string, attrs: { [key: string]: string }, textContentEl?: string): HTMLElement => {
