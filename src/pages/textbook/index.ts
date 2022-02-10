@@ -1,9 +1,10 @@
 import { getWords } from '../../utils/api';
+import { AppState } from '../../utils/types';
 import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
 
-export function buildTextbook(): HTMLDivElement {
+export function buildTextbook(state: AppState): HTMLDivElement {
   let currentPage = 0;
   let group = 0;
   const template = document.createElement('div');

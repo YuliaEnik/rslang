@@ -1,7 +1,7 @@
 import { buildLogo } from '../../components/nav';
 import { Input } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
-import { createUser } from '../registration';
+import { createUser } from '../../components/auth/registration';
 
 const inputs: Input[] = [
   {
