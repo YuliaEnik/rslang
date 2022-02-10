@@ -1,5 +1,4 @@
-import { createHTMLelement } from '../../../utils/utils';
-import { Word, StateSprint } from '../../../utils/types';
+import { Word } from '../../../utils/types';
 import { stateSprint } from './state';
 
 const createScore = (scoreWrap:HTMLElement) => {
@@ -8,7 +7,7 @@ const createScore = (scoreWrap:HTMLElement) => {
   scoreWrap.textContent = `${stateSprint.score}`;
 };
 
-const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement, parentPic:HTMLElement) => {
+const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement) => {
   if (data[stateSprint.curIndex].correctAnswer === 1) {
     stateSprint.countCorrectAnsw++;
     if (stateSprint.countCorrectAnsw === 3) {
@@ -20,14 +19,14 @@ const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement, parentPic:
   }
 };
 
-const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, parentPicts: HTMLElement) => {
+const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement) => {
   const k = Number(btn.dataset.answ);
   if (k === stateSprint.randomTrueFalse) {
     data[stateSprint.curIndex].correctAnswer = 1;
   } else {
     data[stateSprint.curIndex].correctAnswer = 0;
   }
-  checkCountCorrectAnswers(data, scoreWrap, parentPicts);
+  checkCountCorrectAnswers(data, scoreWrap);
   stateSprint.questionsArray.push(data[stateSprint.curIndex]);
 };
 
