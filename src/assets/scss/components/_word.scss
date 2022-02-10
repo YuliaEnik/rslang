@@ -1,0 +1,30 @@
+.word {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  max-width: 100%;
+  height: 52px;
+  background-color: $color-light;
+  border-radius: 10px;
+  border-left: 10px solid $color-light;
+  &:hover {
+    border-left: 10px solid $color-a1;
+  }
+}
+
+.word__text {
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  &:hover {
+    background-color: $color-transparent;
+    border-radius: 10px;
+  }
+}
+
+.btn--studied {
+  margin-left: auto;
+}

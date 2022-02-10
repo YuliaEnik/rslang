@@ -1,0 +1,35 @@
+.words {
+  position: relative;
+  padding: 20px 30px;
+  max-width: calc(100% - 200px);
+  background-color: $color-transparent;
+  border-radius: 0 0 10px 0;
+}
+
+.words__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.pagination {
+  display: flex;
+  gap: 10px 50px
+}
+
+.words__list {
+  display: grid;
+  gap: 16px 32px;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.games {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  padding: 20px;
+  padding-top: 50px;
+  width: 200px;
+  background-color: $color-transparent;
+  border-radius: 0 10px 10px 0;
+}

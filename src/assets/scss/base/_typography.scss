@@ -9,13 +9,11 @@ body {
 }
 
 .nav__link {
-  @extend %font;
   color: $color-grey;
   @include font($size: 1.6rem, $height: 2rem, $weight: $weight-semibold);
 }
 
 .logo__text {
-  @extend %font;
   color: $color-dark;
   @include font($size: 2.4rem, $height: 3.2rem, $weight: $weight-extrabold);
 }
@@ -28,28 +26,42 @@ body {
     color: $color-light;
     @include font($size: 1.6rem, $height: 5rem, $weight: $weight-extrabold);
   }
+  &--prev,
+  &--next {
+    @include font($size: 1.6rem, $height: 3rem, $weight: $weight-extrabold);
+  }
+}
+
+.title {
+  color: $color-dark;
+  @include font($size: 2.4rem, $height: 3.3rem, $weight: $weight-extrabold);
 }
 
 .section__title {
-  @extend %font;
-  color: $color-light;
-  @include font($size: 5.6rem, $height: 7.6rem, $weight: $weight-extrabold);
+  color: $color-dark;
+  @include font($size: 2.4rem, $height: 3.3rem, $weight: $weight-extrabold);
+  &--main {
+    color: $color-light;
+    @include font($size: 5.6rem, $height: 7.6rem, $weight: $weight-extrabold);
+  }
+}
+
+.subtitle {
+  color: $color-grey;
+  @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-bold);
 }
 
 .copyrights {
-  @extend %font;
   color: $color-grey;
   @include font($size: 1.2rem, $height: 1.6rem, $weight: $weight-extrabold);
 }
 
 .developers__title {
-  @extend %font;
   color: $color-grey;
   @include font($size: 1.4rem, $height: 1.8rem, $weight: $weight-bold);
 }
 
 .developers__link {
-  @extend %font;
   color: $color-grey;
   @include font($size: 1.4rem, $height: 1.8rem, $weight: $weight-semibold);
 }
@@ -68,7 +80,22 @@ body {
 }
 
 .speech-bubble {
-  @extend %font;
   color: $color-dark;
   @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-semibold);
 }
+
+.level__link {
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 4.4rem, $weight: $weight-semibold);
+}
+
+.word__eng {
+  color: $color-dark;
+  @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-bold);
+}
+
+.word__translation {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 2.2rem);
+}
+
