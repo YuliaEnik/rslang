@@ -4,29 +4,23 @@ import { router } from '../../../utils/router';
 import { AuthInfo, ResponseStatus, UserLogIn, UserState } from '../../../utils/types';
 
 function updateAppStateUser(userState: UserState): void {
-  appState.user.token = userState.token;
-  appState.user.refreshToken = userState.refreshToken;
-  appState.user.userId = userState.userId;
-  appState.user.name = userState.name;
-  appState.user.email = userState.email;
+  appState.user = userState;
 }
 
-function saveToStoreUser(userState: UserState) {
-  if (userState.token) {
-    localStorage.setItem('token', userState.token);
+export function saveUserToLocalStorage(userState: UserState): void {
+  if (userState) {
+    localStorage.setItem('userState', JSON.stringify(userState));
   }
-  if (userState.refreshToken) {
-    localStorage.setItem('refreshToken', userState.refreshToken);
+}
+
+export function loadUserFromLocalStorage(): UserState | null {
+  const userStateJson = localStorage.getItem('userState');
+  if (userStateJson) {
+    const result = JSON.parse(userStateJson) as UserState;
+    return result;
   }
-  if (userState.userId) {
-    localStorage.setItem('userId', userState.userId);
-  }
-  if (userState.name) {
-    localStorage.setItem('userName', userState.name);
-  }
-  if (userState.email) {
-    localStorage.setItem('email', userState.email);
-  }
+
+  return null;
 }
 
 export async function logInUser(user: UserLogIn): Promise<void> {
@@ -41,20 +35,15 @@ export async function logInUser(user: UserLogIn): Promise<void> {
 
   if (response.status === ResponseStatus.SUCCESS) {
     const content: AuthInfo = await response.json();
-    updateAppStateUser({
+    const userState = {
       token: content.token,
       refreshToken: content.refreshToken,
       userId: content.userId,
       name: content.name,
       email: user.email,
-    });
-    saveToStoreUser({
-      token: content.token,
-      refreshToken: content.refreshToken,
-      userId: content.userId,
-      name: content.name,
-      email: user.email,
-    });
+    };
+    updateAppStateUser(userState);
+    saveUserToLocalStorage(userState);
     alert(`${user.email}, you logged in`);
     // show pop up about success
     setTimeout(() => router.navigate('/'), 1000);

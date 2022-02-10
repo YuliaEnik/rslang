@@ -59,7 +59,7 @@ export enum ResponseStatus {
   SUCCESS = 200,
   IS_DELETED = 204,
   BAD_REQUEST = 400,
-  UNAUTH = 401,
+  UNAUTHORIZED = 401,
   INVALID_TOKEN = 403,
   NOT_FOUND = 404,
   CREDENTIALS = 422,
@@ -95,7 +95,7 @@ export interface UserState {
 }
 
 export interface AppState {
-  user: UserState;
+  user: UserState | null;
   groupState: GroupState;
 }
 
