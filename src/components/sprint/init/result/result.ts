@@ -3,7 +3,7 @@ import { Word, StateSprint } from '../../../../utils/types';
 import { createHTMLelement, getElement } from '../../../../utils/utils';
 import { stateSprint } from '../state';
 
-const createResult = (stateSprint:StateSprint) => {
+const createResult = (state:StateSprint) => {
   const parent = getElement('.game-wrapper-content');
   const sprintWrapper = getElement('.sprint-wrapper') as HTMLElement;
   sprintWrapper?.remove();
@@ -11,7 +11,7 @@ const createResult = (stateSprint:StateSprint) => {
   const sprintContent = createHTMLelement('div', { class: 'sprint-content' }, resultWrapper);
   createHTMLelement('div', { class: 'sprintWord' }, sprintContent, 'Our congratulations');
   createHTMLelement('div', { class: 'sprintWord' }, sprintContent, `your score ${stateSprint.score}`);
-  stateSprint.questionsArray.forEach((el) => {
+  state.questionsArray.forEach((el) => {
     const wrap = createHTMLelement('div', { class: 'horizontal-wrap' }, sprintContent);
     createHTMLelement('div', { class: 'sprintWord' }, wrap, `${el.word}`);
     createHTMLelement('div', { class: 'sprintWord' }, wrap, `${el.wordTranslate}`);
@@ -19,8 +19,8 @@ const createResult = (stateSprint:StateSprint) => {
   });
 };
 
-const checkEnd = (data:Word[], stateSprint:StateSprint) => {
-  if (stateSprint.curIndex === data.length - 1) {
+const checkEnd = (data:Word[], state:StateSprint) => {
+  if (state.curIndex === data.length - 1) {
     createResult(stateSprint);
   }
 };

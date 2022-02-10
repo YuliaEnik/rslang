@@ -1,12 +1,12 @@
 import './sprint.scss';
 import { createHTMLelement } from '../../utils/utils';
 import { Word, StateTextContentEn } from '../../utils/types';
-import { checkAnswer, updateCurIndex, setWords } from './view';
-import { stateSprint } from './view/state';
-import { createPics } from './view/pictures/pictures';
-import { checkEnd } from './view/result/result';
+import { checkAnswer, updateCurIndex, setWords } from './init/init';
+import { stateSprint } from './init/state';
+import { createPics } from './init/pictures/pictures';
+import { checkEnd } from './init/result/result';
 
-export const sprint = (parent:Node, data: Word[], stateTextContentEn:StateTextContentEn) => {
+export const sprint = (parent:Node, data: Word[], stateTextContentEn:StateTextContentEn): HTMLElement => {
   const arrayBtnEl:HTMLElement[] = [];
   const sprintWrapper = createHTMLelement('div', { class: 'sprint-wrapper' }, parent);
   const sprintContent = createHTMLelement('div', { class: 'sprint-content' }, sprintWrapper);
@@ -18,13 +18,17 @@ export const sprint = (parent:Node, data: Word[], stateTextContentEn:StateTextCo
   const wordWrapEn = createHTMLelement('div', { class: 'sprintWord' }, sprintContent);
   const wordWrapRu = createHTMLelement('div', { class: 'sprintWord' }, sprintContent);
   const btnContainer = createHTMLelement('div', { class: 'horizontal-wrap' }, sprintContent);
-  const btnTrue = createHTMLelement('button', { class: 'button true', 'data-answ': String(stateSprint.trueAnsw) }, btnContainer, stateTextContentEn.btnTrue);
+  const btnTrue = createHTMLelement('button',
+    { class: 'button true', 'data-answ': String(stateSprint.trueAnsw) },
+    btnContainer, stateTextContentEn.btnTrue);
   arrayBtnEl.push(btnTrue);
-  const btnFalse = createHTMLelement('button', { class: 'button false', 'data-answ': String(stateSprint.falseAnsw) }, btnContainer, stateTextContentEn.btnFalse);
+  const btnFalse = createHTMLelement('button',
+    { class: 'button false', 'data-answ': String(stateSprint.falseAnsw) },
+    btnContainer, stateTextContentEn.btnFalse);
   arrayBtnEl.push(btnFalse);
   arrayBtnEl.forEach((el) => {
     el.addEventListener(('click'), () => {
-      checkAnswer(data, el, scoreWrap, answerPicturesWrap);
+      checkAnswer(data, el, scoreWrap);
       createPics(stateSprint, data, answerPicturesWrap);
       updateCurIndex();
       setWords(data, wordWrapEn, wordWrapRu);
@@ -32,6 +36,7 @@ export const sprint = (parent:Node, data: Word[], stateTextContentEn:StateTextCo
     });
   });
   setWords(data, wordWrapEn, wordWrapRu);
+  return sprintWrapper;
 };
 
 export const data:Word[] = [

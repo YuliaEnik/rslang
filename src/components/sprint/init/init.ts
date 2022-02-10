@@ -1,5 +1,4 @@
-import { createHTMLelement } from '../../../utils/utils';
-import { Word, StateSprint } from '../../../utils/types';
+import { Word } from '../../../utils/types';
 import { stateSprint } from './state';
 
 const createScore = (scoreWrap:HTMLElement) => {
@@ -8,12 +7,10 @@ const createScore = (scoreWrap:HTMLElement) => {
   scoreWrap.textContent = `${stateSprint.score}`;
 };
 
-const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement, parentPic:HTMLElement) => {
+const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement) => {
   if (data[stateSprint.curIndex].correctAnswer === 1) {
     stateSprint.countCorrectAnsw++;
     if (stateSprint.countCorrectAnsw === 3) {
-      /* setTimeout(function() { removePic(parentPic) }, 500);
-      setTimeout(function() { createOnePic(parentPic) }, 1000);  */
       createScore(scoreWrap);
       stateSprint.countCorrectAnsw = 0;
     }
@@ -22,11 +19,14 @@ const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement, parentPic:
   }
 };
 
-const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, parentPicts: HTMLElement) => {
+const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement) => {
   const k = Number(btn.dataset.answ);
- (k === stateSprint.randomTrueFalse) ?
-  data[stateSprint.curIndex].correctAnswer = 1 : data[stateSprint.curIndex].correctAnswer = 0;
-  checkCountCorrectAnswers(data, scoreWrap, parentPicts);
+  if (k === stateSprint.randomTrueFalse) {
+    data[stateSprint.curIndex].correctAnswer = 1;
+  } else {
+    data[stateSprint.curIndex].correctAnswer = 0;
+  }
+  checkCountCorrectAnswers(data, scoreWrap);
   stateSprint.questionsArray.push(data[stateSprint.curIndex]);
 };
 
@@ -47,10 +47,11 @@ const createRandomAnswerFalse = (data: Word[], currentIndex: number): number => 
 
 const setWordRu = (data: Word[], wordRu: HTMLElement, currentIndex:number) => {
   stateSprint.randomTrueFalse = getTrueFalseRandom();
-  (stateSprint.randomTrueFalse === stateSprint.falseAnsw) ?
-   wordRu.textContent = data[createRandomAnswerFalse(data, stateSprint.curIndex)].wordTranslate :
-   wordRu.textContent = data[currentIndex].wordTranslate;
-
+  if (stateSprint.randomTrueFalse === stateSprint.falseAnsw) {
+    wordRu.textContent = data[createRandomAnswerFalse(data, stateSprint.curIndex)].wordTranslate;
+  } else {
+    wordRu.textContent = data[currentIndex].wordTranslate;
+  }
 };
 
 const setWordEn = (data: Word[], wordEn: HTMLElement) => {
