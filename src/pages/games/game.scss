@@ -15,7 +15,7 @@ html {
 }
 
 .game-section {
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
@@ -23,21 +23,23 @@ html {
 }
 
 .game-wrapper {
-  min-height: 100vh;
+  height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #B3B3BF;
+ // background-color: #B3B3BF;
+  background-color: #5B93FF;;
+
 }
 
 .game-wrapper-content {
-  min-height: 100vh;
+  height: 100%;
   width: 80%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #B3B3BF;
+  //background-color: #B3B3BF;
   @media  (max-width: 600px){
     width: 100%;
   }

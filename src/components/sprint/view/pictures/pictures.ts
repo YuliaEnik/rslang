@@ -11,10 +11,9 @@ const removePic = (parent: HTMLElement) => {
 };
 
 const createPics = (stateSprint: StateSprint, data:Word[], parentPic:HTMLElement) => {
-  console.log(stateSprint.countCorrectAnsw);
-  /* if (stateSprint.countCorrectAnsw === 3) {
+   if (stateSprint.countCorrectAnsw === 3) {
     removePic(parentPic);
-  } */
+  }
   if (data[stateSprint.curIndex].correctAnswer === 1) {
     createOnePic(parentPic);
   } if (data[stateSprint.curIndex].correctAnswer === 0) {

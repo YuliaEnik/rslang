@@ -18,9 +18,9 @@ export const sprint = (parent:Node, data: Word[], stateTextContentEn:StateTextCo
   const wordWrapEn = createHTMLelement('div', { class: 'sprintWord' }, sprintContent);
   const wordWrapRu = createHTMLelement('div', { class: 'sprintWord' }, sprintContent);
   const btnContainer = createHTMLelement('div', { class: 'horizontal-wrap' }, sprintContent);
-  const btnTrue = createHTMLelement('div', { class: 'button true', 'data-answ': String(stateSprint.trueAnsw) }, btnContainer, stateTextContentEn.btnTrue);
+  const btnTrue = createHTMLelement('button', { class: 'button true', 'data-answ': String(stateSprint.trueAnsw) }, btnContainer, stateTextContentEn.btnTrue);
   arrayBtnEl.push(btnTrue);
-  const btnFalse = createHTMLelement('div', { class: 'button false', 'data-answ': String(stateSprint.falseAnsw) }, btnContainer, stateTextContentEn.btnFalse);
+  const btnFalse = createHTMLelement('button', { class: 'button false', 'data-answ': String(stateSprint.falseAnsw) }, btnContainer, stateTextContentEn.btnFalse);
   arrayBtnEl.push(btnFalse);
   arrayBtnEl.forEach((el) => {
     el.addEventListener(('click'), () => {

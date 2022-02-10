@@ -1,19 +1,18 @@
-
 .sprint-wrapper {
-  height: 80vh;
+  height: 80%;
   width: 70%;
   padding: 5%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
-  box-shadow: 1px 17px 44px rgba(3, 2, 41, 0.07);
-  border-radius: 10px;
+  //background-color: white;
+  //box-shadow: 1px 17px 44px rgba(3, 2, 41, 0.07);
+  //border-radius: 10px;
   @media  (max-width: 920px){
     width: 90%;
   }
   @media  (max-width: 600px){
-    height: 100vh;
+    height: 100%;
     width: 100%;
     padding: 0;
     border-radius: 0;
@@ -51,11 +50,11 @@
 .button {
   height: 4rem;
   width: 16rem;
-  border: solid 1px;
   display: flex;
   align-items: center;
   justify-content:space-around;
   font-size: 2rem;
+  border: none;
   cursor: pointer;
   transition: .7s;
   &:hover {
@@ -64,11 +63,11 @@
 }
 
 .true {
-  background-color: rgb(60, 112, 56);
+  background-color: #3BAD69;
 }
 
 .false {
-  background-color: rgb(170, 86, 53);
+  background-color: #E53939;
 }
 
 .answ-pic-wrap {

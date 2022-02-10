@@ -12,6 +12,8 @@ const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement, parentPic:
   if (data[stateSprint.curIndex].correctAnswer === 1) {
     stateSprint.countCorrectAnsw++;
     if (stateSprint.countCorrectAnsw === 3) {
+      /* setTimeout(function() { removePic(parentPic) }, 500);
+      setTimeout(function() { createOnePic(parentPic) }, 1000);  */
       createScore(scoreWrap);
       stateSprint.countCorrectAnsw = 0;
     }
@@ -22,11 +24,8 @@ const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement, parentPic:
 
 const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, parentPicts: HTMLElement) => {
   const k = Number(btn.dataset.answ);
-  if (k === stateSprint.randomTrueFalse) {
-    data[stateSprint.curIndex].correctAnswer = 1;
-  } else {
-    data[stateSprint.curIndex].correctAnswer = 0;
-  }
+ (k === stateSprint.randomTrueFalse) ?
+  data[stateSprint.curIndex].correctAnswer = 1 : data[stateSprint.curIndex].correctAnswer = 0;
   checkCountCorrectAnswers(data, scoreWrap, parentPicts);
   stateSprint.questionsArray.push(data[stateSprint.curIndex]);
 };
@@ -48,11 +47,10 @@ const createRandomAnswerFalse = (data: Word[], currentIndex: number): number => 
 
 const setWordRu = (data: Word[], wordRu: HTMLElement, currentIndex:number) => {
   stateSprint.randomTrueFalse = getTrueFalseRandom();
-  if (stateSprint.randomTrueFalse === stateSprint.falseAnsw) {
-    wordRu.textContent = data[createRandomAnswerFalse(data, stateSprint.curIndex)].wordTranslate;
-  } else {
-    wordRu.textContent = data[currentIndex].wordTranslate;
-  }
+  (stateSprint.randomTrueFalse === stateSprint.falseAnsw) ?
+   wordRu.textContent = data[createRandomAnswerFalse(data, stateSprint.curIndex)].wordTranslate :
+   wordRu.textContent = data[currentIndex].wordTranslate;
+
 };
 
 const setWordEn = (data: Word[], wordEn: HTMLElement) => {
