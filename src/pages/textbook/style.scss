@@ -23,6 +23,10 @@ h3 {
   font-size: 1.5rem;
 }
 
+.level__item--hidden {
+  display: none;
+}
+
 .level:hover {
   cursor: pointer;
 }
