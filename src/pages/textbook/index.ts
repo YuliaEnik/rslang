@@ -1,14 +1,21 @@
 import { getWords } from '../../utils/api';
+import { AppState, UserState } from '../../utils/types';
 import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
 
-export function buildTextbook(): HTMLDivElement {
+function applyAuthentication(levelButton: HTMLElement, userState: UserState | null) {
+  if (userState?.userId) {
+    levelButton.classList.remove('level__item--hidden');
+  }
+}
+
+export function buildTextbook(appState: AppState): HTMLDivElement {
   let currentPage = 0;
   let group = 0;
   const template = document.createElement('div');
   template.innerHTML = html;
-  const levelBtn = template.querySelectorAll('.level');
+  const levelButtons = template.querySelectorAll('.level');
   const words = template.querySelector('.words') as HTMLElement;
   const wordCard = template.querySelector('.word-card') as HTMLElement;
 
@@ -31,14 +38,15 @@ export function buildTextbook(): HTMLDivElement {
     getWords({ group: id, page }).then((wordsData) => {
       // console.log(wordsData);
       wordsData.forEach((wordEl) => {
-        words?.appendChild(renderWord({ word: wordEl, onclick: () => { renderCard(); } }));
+        words?.appendChild(renderWord({ word: wordEl, onclick: renderCard }, appState.user));
       });
     });
   }
   renderWordsList(group, currentPage);
 
-  levelBtn.forEach((el) => {
+  levelButtons.forEach((el) => {
     const levelBtnEl = el as HTMLElement;
+    applyAuthentication(levelBtnEl, appState.user);
     el.addEventListener('click', () => {
       words.innerText = '';
       group = Number(levelBtnEl.dataset.level);
