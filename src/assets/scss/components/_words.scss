@@ -1,8 +1,8 @@
 .words {
   position: relative;
   padding: 20px 30px;
-  max-width: calc(100% - 200px);
-  background-color: $color-transparent;
+  max-width: calc(100% - 260px);
+  background-color: $color-bg;
   border-radius: 0 0 10px 0;
 }
 
@@ -27,9 +27,38 @@
   position: absolute;
   top: 0;
   left: 100%;
-  padding: 20px;
-  padding-top: 50px;
+  padding: 20px 20px 20px 0;
+  padding-top: 90px;
+  row-gap: 20px;
   width: 200px;
-  background-color: $color-transparent;
+  background-color: $color-bg;
   border-radius: 0 10px 10px 0;
+  &__list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 30px;
+  }
+  &__item {
+    position: relative;
+
+  }
+  &__description {
+    display: block;
+    position: absolute;
+    right: 20px;
+    padding: 5px 10px;
+    max-width: 80%;
+    background-color: $color-secondary;
+    border-radius: 10px;
+  }
+  &__item--audio &__description {
+    top: 20px;
+  }
+  &__item--sprint &__description {
+      bottom: 60px;
+  }
+  & > .level__title {
+    padding: 0;
+    margin-bottom: 20px;
+  }
 }

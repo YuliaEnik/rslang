@@ -19,7 +19,7 @@ const developers = [
 export const buildFooter = (): HTMLElement => {
   const result = createElement('footer', { class: 'footer' });
   const footerLogo = createElement('img',
-    { class: 'logo-rss', src: 'svg/heart.svg', alt: 'Rolling Scopes School' });
+    { class: 'logo-rss', src: 'svg/rs-school.svg', alt: 'Rolling Scopes School' });
   renderElement(footerLogo, result);
   const developersContainer = createElement('div', { class: 'developers' });
   const heart = createElement('span', { class: 'heart' });

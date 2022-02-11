@@ -99,3 +99,22 @@ body {
   @include font($size: 1.6rem, $height: 2.2rem);
 }
 
+.games__description {
+  color: $color-dark;
+  @include font($size: 1.2rem, $height: 1.4rem, $weight: $weight-bold);
+}
+
+.select__input {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 3em, $weight: $weight-bold);
+  &::placeholder {
+    color: $color-dark;
+  }
+}
+
+.select__item {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 3em, $weight: $weight-bold);
+}
+

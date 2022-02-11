@@ -1,5 +1,6 @@
 .level__list {
   display: flex;
+  margin-top: 10px;
   margin-bottom: 20px;
   padding-left: 30px;
 }
@@ -10,7 +11,7 @@
 
 .level__item {
   height: 44px;
-  background-color: $color-transparent;
+  background-color: $color-bg;
   &:first-child {
     border-radius: 10px 0 0 10px;
   }
