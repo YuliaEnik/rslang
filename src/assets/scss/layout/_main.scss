@@ -2,4 +2,11 @@
   height: calc(100vh - 50px);
   grid-row: 1 / 2;
   grid-column: 2 / 3;
+  overflow-y: auto;
+}
+
+.main-page {
+  padding: 30px;
+  height: calc(100vh - 50px);
+  background-color: $color-primary;
 }
