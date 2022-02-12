@@ -84,6 +84,11 @@ body {
   @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-semibold);
 }
 
+.form__link {
+  @extend %font;
+  color: $color-primary;
+}
+
 .level__link {
   color: $color-grey;
   @include font($size: 1.6rem, $height: 4.4rem, $weight: $weight-semibold);
@@ -103,7 +108,6 @@ body {
     color: $color-dark;
     @include font($size: 1.8rem, $height: 2.4rem, $weight: $weight-bold);
   }
-
 }
 
 .word__translation {
@@ -154,4 +158,3 @@ body {
   color: $color-dark;
   @include font($size: 1.6rem, $height: 3em, $weight: $weight-bold);
 }
-

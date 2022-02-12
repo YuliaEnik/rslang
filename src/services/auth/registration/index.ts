@@ -1,6 +1,5 @@
 import { API_ENDPOINT } from '../../../utils/constants';
-import { router } from '../../../utils/router';
-import { NewUser, ResponseStatus, User } from '../../../utils/types';
+import { NewUser, ResponseStatus } from '../../../utils/types';
 import { logInUser } from '../login';
 
 export async function createUser(newUser: NewUser): Promise<void> {
@@ -14,7 +13,7 @@ export async function createUser(newUser: NewUser): Promise<void> {
   });
 
   if (response.status === ResponseStatus.EXISTED) {
-    console.log('User already exits. Please go to sign in');
+    alert('User already exits. Please go to sign in');
     // show pop up and
     // navigate to log in page
     // router.navigate('/login');
