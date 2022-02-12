@@ -1,48 +1,16 @@
 import { Match } from 'navigo';
 import { appState } from '../../app';
+import { pages } from '../../utils/constants';
 import { router } from '../../utils/router';
 import { UserState } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
 import './style.scss';
 
-export const pages = [
-  {
-    title: 'Main',
-    link: '/',
-    type: 'main',
-  },
-  {
-    title: 'Dictionary',
-    link: '/dictionary',
-    type: 'dictionary',
-  },
-  {
-    title: 'Sprint',
-    link: '/games',
-    type: 'games',
-  },
-  {
-    title: 'Statistics',
-    link: '/statistics',
-    type: 'statistics',
-  },
-  {
-    title: 'Developers',
-    link: '/developers',
-    type: 'developers',
-  },
-  {
-    title: '',
-    link: '/logout',
-    type: 'logout',
-  },
-];
-
 const buildActiveClass = (pageLink: string, context: Match | undefined): string => {
-  if (!context || !context.route) {
+  if (!context || !context.url) {
     return '';
   }
-  const currentUrl = `/${context.route.name}`;
+  const currentUrl = `/${context.url}`;
   return currentUrl === pageLink ? ' active' : '';
 };
 
@@ -71,7 +39,7 @@ function buildLogOut(page: { title: string; link: string; type: string }, userSt
 }
 
 export const buildLogo = (): HTMLElement => {
-  const result = createElement('div', { class: 'logo logo__nav' });
+  const result = createElement('a', { class: 'logo logo__nav', href: '/', 'data-navigo': '' });
   const logoImg = createElement('div', { class: 'logo__img' });
   renderElement(logoImg, result);
   const logoText = createElement('p', { class: 'logo__text' }, 'RS Lang');
