@@ -18,7 +18,8 @@ router
     renderPage(buildMainPage(), context);
   })
   .on('/dictionary', (context) => {
-    renderPage(buildTextbook(appState), context);
+    // add number of group from context to render dictionary page
+    renderPage(buildTextbook(appState, Number(context?.params?.level)), context);
   })
   .on('/games', (context) => {
     renderPage(viewGame(stateTextContentEn), context);
