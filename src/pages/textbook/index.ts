@@ -12,13 +12,14 @@ function applyAuthentication(levelButton: HTMLElement, userState: UserState | nu
 
 export function buildTextbook(appState: AppState, group: number): HTMLDivElement {
   let currentPage = 0;
+  if (!group) {
+    group = 0;
+  }
   const template = document.createElement('div');
   template.innerHTML = html;
   const levelButtons = template.querySelectorAll('.level__item');
   const words = template.querySelector('.words__list') as HTMLElement;
   const wordCard = template.querySelector('.word__popup') as HTMLElement;
-
-  renderWordsList(0, 0);
 
   // // add options to select
   // const pageSelector = template.querySelector('.select__list') as HTMLInputElement;
