@@ -16,7 +16,7 @@ export const pages: Page[] = [
   },
   {
     title: 'Dictionary',
-    link: '/dictionary/1',
+    link: '/dictionary/1?page=1',
     type: 'dictionary',
   },
   {

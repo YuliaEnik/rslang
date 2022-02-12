@@ -1,5 +1,6 @@
 import { appState } from '../../app';
 import { getWords } from '../../utils/api';
+import { router } from '../../utils/router';
 import { UserState } from '../../utils/types';
 import html from './index.html';
 import './style.scss';
@@ -12,8 +13,8 @@ function applyAuthentication(levelButton: HTMLElement, userState: UserState | nu
 }
 
 export function buildDictionaryPage(): HTMLDivElement {
-  let currentPage = 0;
-  let group = 0;
+  let currentPage = appState.groupState.pageNumber;
+  let { group } = appState.groupState;
   const template = document.createElement('div');
   template.innerHTML = html;
   const levelButtons = template.querySelectorAll('.level');
@@ -58,6 +59,7 @@ export function buildDictionaryPage(): HTMLDivElement {
   pageSelector.addEventListener('change', () => {
     currentPage = Number(pageSelector.value) - 1;
     renderWordsList(group, currentPage);
+    router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
   });
 
   const prevBtn = template.querySelector('.previous-btn') as HTMLButtonElement;
@@ -67,6 +69,7 @@ export function buildDictionaryPage(): HTMLDivElement {
       currentPage -= 1;
       pageSelector.value = String(currentPage + 1);
       renderWordsList(group, currentPage);
+      router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
     }
   });
 
@@ -75,6 +78,7 @@ export function buildDictionaryPage(): HTMLDivElement {
       currentPage += 1;
       pageSelector.value = String(currentPage + 1);
       renderWordsList(group, currentPage);
+      router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
     }
   });
 
