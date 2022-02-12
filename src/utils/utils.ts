@@ -41,15 +41,23 @@ export const createHTMLelement = (
 
 export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideMenu = false, hideFooter = false): HTMLElement => {
   const result = createElement('div', { class: 'main-container' });
+
   if (!hideMenu) {
     renderElement(buildSideBar(context), result);
   }
+
   const main = createElement('main', { class: 'main' });
+
+  const mainTitle = createElement('h1', { class: 'visually-hidden' }, 'Learn English with RS Lang application');
+  renderElement(mainTitle, main);
+
   renderElement(pageElement, main);
   renderElement(main, result);
+
   if (!hideFooter) {
     renderElement(buildFooter(), result);
   }
+
   return result;
 };
 
