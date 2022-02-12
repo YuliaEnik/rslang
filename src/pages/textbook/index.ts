@@ -10,9 +10,8 @@ function applyAuthentication(levelButton: HTMLElement, userState: UserState | nu
   }
 }
 
-export function buildTextbook(appState: AppState): HTMLDivElement {
+export function buildTextbook(appState: AppState, group: number): HTMLDivElement {
   let currentPage = 0;
-  let group = 0;
   const template = document.createElement('div');
   template.innerHTML = html;
   const levelButtons = template.querySelectorAll('.level__item');
