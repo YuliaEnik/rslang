@@ -1,8 +1,11 @@
 import { Match } from 'navigo';
+import { appState } from '../../app';
+import { router } from '../../utils/router';
+import { UserState } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
 import './style.scss';
 
-const pages = [
+export const pages = [
   {
     title: 'Main',
     link: '/',
@@ -29,9 +32,9 @@ const pages = [
     type: 'developers',
   },
   {
-    title: 'Settings',
-    link: '/settings',
-    type: 'settings',
+    title: '',
+    link: '/logout',
+    type: 'logout',
   },
 ];
 
@@ -42,6 +45,30 @@ const buildActiveClass = (pageLink: string, context: Match | undefined): string 
   const currentUrl = `/${context.route.name}`;
   return currentUrl === pageLink ? ' active' : '';
 };
+
+function logOut() {
+  appState.user = null;
+  localStorage.removeItem('userState');
+  router.navigate('/');
+}
+
+function buildLogOut(page: { title: string; link: string; type: string }, userState: UserState) {
+  if (userState === null) return createElement('div', { });
+
+  const result = createElement('li', { class: `nav__item nav__item--${page.type}` });
+  const userWrapper = createElement('div', { class: 'nav__user' });
+  const userPic = createElement('div', { class: 'nav__pic' });
+  renderElement(userPic, userWrapper);
+  const userName = createElement('p', { class: 'nav__name' }, userState.name);
+  renderElement(userName, userWrapper);
+  renderElement(userWrapper, result);
+
+  const logOutButton = createElement('button', { class: 'btn btn--logout' });
+  logOutButton.addEventListener('click', logOut);
+  renderElement(logOutButton, result);
+
+  return result;
+}
 
 export const buildLogo = (): HTMLElement => {
   const result = createElement('div', { class: 'logo logo__nav' });
@@ -71,8 +98,19 @@ export const buildNavigation = (context: Match | undefined): HTMLElement => {
   const result = createElement('nav', { class: 'nav' });
   const list = createElement('ul', { class: 'nav__list' });
   pages.forEach((page) => {
-    renderElement(buildNavItem(page, context), list);
+    if (appState.user) {
+      if (page.type === 'logout') {
+        renderElement(buildLogOut(page, appState.user), list);
+      } else {
+        renderElement(buildNavItem(page, context), list);
+      }
+    } else {
+      if (page.type === 'statistics' || page.type === 'logout') return;
+
+      renderElement(buildNavItem(page, context), list);
+    }
   });
+
   renderElement(list, result);
   return result;
 };

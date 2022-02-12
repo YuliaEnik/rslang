@@ -158,3 +158,8 @@ body {
   color: $color-dark;
   @include font($size: 1.6rem, $height: 3em, $weight: $weight-bold);
 }
+
+.nav__name {
+  color: $color-dark;
+  @include font($size: 1.4rem, $height: 1.4em, $weight: $weight-bold);
+}
