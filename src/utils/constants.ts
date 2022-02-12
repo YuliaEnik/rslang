@@ -39,4 +39,9 @@ export const pages: Page[] = [
     link: '/settings',
     type: 'settings',
   },
+  {
+    title: '',
+    link: '/logout',
+    type: 'logout',
+  },
 ];

@@ -39,7 +39,7 @@ function buildLogOut(page: { title: string; link: string; type: string }, userSt
 }
 
 export const buildLogo = (): HTMLElement => {
-  const result = createElement('div', { class: 'logo logo__nav' });
+  const result = createElement('a', { class: 'logo logo__nav', href: '/', 'data-navigo': '' });
   const logoImg = createElement('div', { class: 'logo__img' });
   renderElement(logoImg, result);
   const logoText = createElement('p', { class: 'logo__text' }, 'RS Lang');
