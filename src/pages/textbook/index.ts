@@ -11,13 +11,13 @@ function applyAuthentication(levelButton: HTMLElement, userState: UserState | nu
 }
 
 export function buildTextbook(appState: AppState): HTMLDivElement {
-  // let currentPage = 0;
-  // let group = 0;
+  let currentPage = 0;
+  let group = 0;
   const template = document.createElement('div');
   template.innerHTML = html;
-  // const levelButtons = template.querySelectorAll('.level');
-  // const words = template.querySelector('.words') as HTMLElement;
-  // const wordCard = template.querySelector('.word-card') as HTMLElement;
+  const levelButtons = template.querySelectorAll('.level__item');
+  const words = template.querySelector('.words__list') as HTMLElement;
+  const wordCard = template.querySelector('.word__popup') as HTMLElement;
 
   // // add options to select
   // const pageSelector = template.querySelector('.select__list') as HTMLInputElement;
@@ -28,21 +28,21 @@ export function buildTextbook(appState: AppState): HTMLDivElement {
   //   pageSelector.appendChild(option);
   // }
 
-  // function renderCard() {
-  //   wordCard.innerHTML = '';
-  //   wordCard.classList.add('active');
-  // }
+  function renderCard() {
+    // wordCard.innerHTML = '';
+    // wordCard.classList.add('active');
+  }
 
-  // function renderWordsList(id: number, page: number) {
-  //   words.innerHTML = '';
-  //   getWords({ group: id, page }).then((wordsData) => {
-  //     // console.log(wordsData);
-  //     wordsData.forEach((wordEl) => {
-  //       words?.appendChild(renderWord({ word: wordEl, onclick: renderCard }, appState.user));
-  //     });
-  //   });
-  // }
-  // renderWordsList(group, currentPage);
+  function renderWordsList(id: number, page: number) {
+    words.innerHTML = '';
+    getWords({ group: id, page }).then((wordsData) => {
+      console.log(wordsData);
+      wordsData.forEach((wordEl) => {
+        words?.appendChild(renderWord({ word: wordEl, onclick: renderCard }, appState.user));
+      });
+    });
+  }
+  renderWordsList(group, currentPage);
 
   // levelButtons.forEach((el) => {
   //   const levelBtnEl = el as HTMLElement;
