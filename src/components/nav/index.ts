@@ -46,9 +46,10 @@ const buildActiveClass = (pageLink: string, context: Match | undefined): string 
   return currentUrl === pageLink ? ' active' : '';
 };
 
-function logOut() {
+export function logOut(): void {
   appState.user = null;
   localStorage.removeItem('userState');
+  alert('You have been logged out');
   router.navigate('/?loggedout=true');
 }
 
