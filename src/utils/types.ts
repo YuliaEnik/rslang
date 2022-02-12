@@ -27,9 +27,9 @@ export interface StateSprint {
 }
 
 export interface StateTextContentEn {
-  btnTrue: string,
-  btnFalse: string,
-  exit: string
+  btnTrue: string;
+  btnFalse: string;
+  exit: string;
 }
 
 export interface IData {
@@ -47,6 +47,12 @@ export interface IData {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
+}
+
+export interface Page {
+  title: string;
+  link: string;
+  type: string;
 }
 
 export interface NewUser {
