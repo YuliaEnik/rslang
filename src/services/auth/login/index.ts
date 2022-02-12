@@ -1,7 +1,9 @@
 import { appState } from '../../../app';
 import { API_ENDPOINT } from '../../../utils/constants';
 import { router } from '../../../utils/router';
-import { AuthInfo, ResponseStatus, UserLogIn, UserState } from '../../../utils/types';
+import {
+  AuthInfo, ResponseStatus, UserLogIn, UserState,
+} from '../../../utils/types';
 
 function updateAppStateUser(userState: UserState): void {
   appState.user = userState;

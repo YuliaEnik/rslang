@@ -1,3 +1,4 @@
+import { logOut } from '../components/nav';
 import { saveUserToLocalStorage } from '../services/auth/login';
 import { API_ENDPOINT } from './constants';
 import { ResponseStatus, UserState, Word } from './types';
@@ -26,7 +27,8 @@ async function refreshUserToken(userState: UserState): Promise<void> {
   });
 
   if (response.status !== ResponseStatus.SUCCESS) {
-    throw Error(`Failed to refresh user token. Error: '${response.text}'`);
+    // throw Error(`Failed to refresh user token. Error: '${response.text}'`);
+    logOut();
   }
 
   const content = await response.json();
@@ -47,6 +49,10 @@ async function fetchForUser(url: string, userState: UserState) {
       },
     });
 
+  if (response.status === ResponseStatus.SUCCESS) {
+    const result = await response.json();
+    return result;
+  }
   if (response.status === ResponseStatus.UNAUTHORIZED) {
     await refreshUserToken(userState);
   }
@@ -66,10 +72,18 @@ async function fetchForUser(url: string, userState: UserState) {
   return result;
 }
 
-export async function getUserWords(userState: UserState | null): Promise<Word[]> {
+export async function getAllUserWords(userState: UserState | null): Promise<Word[]> {
   if (!userState) throw Error('User state is null. Cannot get user words.');
 
   const url = `${API_ENDPOINT}/users/${userState.userId}/words`;
+  const response = await fetchForUser(url, userState);
+  return response;
+}
+
+export async function getUserWords(userState: UserState | null, req?: { group: number, page?: number }): Promise<Word[]> {
+  if (!userState) throw Error('User state is null. Cannot get user words.');
+
+  const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}`;
   const response = await fetchForUser(url, userState);
   return response;
 }
