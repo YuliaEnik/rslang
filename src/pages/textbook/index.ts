@@ -1,6 +1,8 @@
+import { appState } from '../../app';
 import { getWords } from '../../utils/api';
-import { AppState, UserState } from '../../utils/types';
-import html from './textbook.html';
+import { router } from '../../utils/router';
+import { UserState } from '../../utils/types';
+import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
 
@@ -10,11 +12,9 @@ function applyAuthentication(levelButton: HTMLElement, userState: UserState | nu
   }
 }
 
-export function buildTextbook(appState: AppState, group: number): HTMLDivElement {
-  let currentPage = 0;
-  if (!group) {
-    group = 0;
-  }
+export function buildDictionaryPage(): HTMLDivElement {
+  let currentPage = appState.groupState.pageNumber;
+  let { group } = appState.groupState;
   const template = document.createElement('div');
   template.innerHTML = html;
   const levelButtons = template.querySelectorAll('.level__item');
@@ -59,15 +59,17 @@ export function buildTextbook(appState: AppState, group: number): HTMLDivElement
   // pageSelector.addEventListener('change', () => {
   //   currentPage = Number(pageSelector.value) - 1;
   //   renderWordsList(group, currentPage);
+  //   router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
   // });
 
-  // const prevBtn = template.querySelector('.btn--prev') as HTMLButtonElement;
-  // const nextBtn = template.querySelector('.btn--next') as HTMLButtonElement;
+  // const prevBtn = template.querySelector('.previous-btn') as HTMLButtonElement;
+  // const nextBtn = template.querySelector('.next-btn') as HTMLButtonElement;
   // prevBtn.addEventListener('click', () => {
   //   if (currentPage > 0) {
   //     currentPage -= 1;
   //     pageSelector.value = String(currentPage + 1);
   //     renderWordsList(group, currentPage);
+  //     router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
   //   }
   // });
 
@@ -76,6 +78,7 @@ export function buildTextbook(appState: AppState, group: number): HTMLDivElement
   //     currentPage += 1;
   //     pageSelector.value = String(currentPage + 1);
   //     renderWordsList(group, currentPage);
+  //     router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
   //   }
   // });
 
