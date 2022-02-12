@@ -8,7 +8,7 @@
     "dev": "webpack serve --env development",
     "lint": "eslint src"
   },
-  "author": "Kris Casper",
+  "author": "Maria, Aleinik Yuliуa, Lepner Yuliya",
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",

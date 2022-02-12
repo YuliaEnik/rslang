@@ -63,6 +63,11 @@ export interface NewUser {
 
 export enum ResponseStatus {
   SUCCESS = 200,
+  IS_DELETED = 204,
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  INVALID_TOKEN = 403,
+  NOT_FOUND = 404,
   CREDENTIALS = 422,
   EXISTED = 417,
 }
@@ -79,10 +84,33 @@ export interface Input {
   class: string;
 }
 
-export interface Auth {
+export interface AuthInfo {
   message: string;
   token: string;
   refreshToken: string;
   userId: string;
   name: string;
+}
+
+export interface UserState {
+  token: string | null;
+  refreshToken: string | null;
+  userId: string | null;
+  name: string | null;
+  email: string | null;
+}
+
+export interface AppState {
+  user: UserState | null;
+  groupState: GroupState;
+}
+
+export interface GroupState {
+  group: number;
+  pageNumber: number;
+}
+
+export interface UserLogIn {
+  email: string;
+  password: string;
 }
