@@ -18,6 +18,8 @@ export function buildTextbook(appState: AppState, group: number): HTMLDivElement
   const words = template.querySelector('.words__list') as HTMLElement;
   const wordCard = template.querySelector('.word__popup') as HTMLElement;
 
+  renderWordsList(0, 0);
+
   // // add options to select
   // const pageSelector = template.querySelector('.select__list') as HTMLInputElement;
   // for (let i = 0; i < 30; i++) {
