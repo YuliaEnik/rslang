@@ -87,11 +87,11 @@ export interface AuthInfo {
 }
 
 export interface UserState {
-  token: string | null;
-  refreshToken: string | null;
-  userId: string | null;
-  name: string | null;
-  email: string | null;
+  token: string;
+  refreshToken: string;
+  userId: string;
+  name: string;
+  email: string;
 }
 
 export interface AppState {
