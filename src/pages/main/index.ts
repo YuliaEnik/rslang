@@ -11,7 +11,7 @@ export const buildMainPage = (): HTMLElement => {
   renderElement(btnSingIn, header);
   renderElement(header, result);
   const slideGreeting = createElement('section', { class: 'section greeting' });
-  const slideGreetingTitle = createElement('h2', { class: 'section__title' }, 'Start your learning journey today!');
+  const slideGreetingTitle = createElement('h2', { class: 'section__title--main section__title' }, 'Start your learning journey today!');
   renderElement(slideGreetingTitle, slideGreeting);
   renderElement(slideGreetingTitle, slideGreeting);
   renderElement(slideGreeting, result);

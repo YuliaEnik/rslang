@@ -8,11 +8,11 @@
 h1,
 h2,
 h3 {
-  color: white;
+  color: black;
 }
 
 .level {
-  border: 1px solid white;
+  border: 1px solid black;
   background-color: white;
   display: flex;
   justify-content: center;
@@ -42,7 +42,7 @@ h3 {
 .word {
   text-transform: lowercase;
   font-size: 1rem;
-  border: solid 1px white;
+  border: solid 1px black;
   display: inline-block;
   padding: 20px;
 }
@@ -69,6 +69,6 @@ h3 {
 .page-btn {
   margin: 0 20px;
   padding: 0 10px;
-  color: white;
-  border: solid 1px white;
+  color: black;
+  border: solid 1px black;
 }
