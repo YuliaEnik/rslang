@@ -72,3 +72,9 @@ body {
   color: $color-dark;
   @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-semibold);
 }
+
+.form__link {
+  @extend %font;
+  color: $color-primary;
+}
+

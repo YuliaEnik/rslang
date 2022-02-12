@@ -9,6 +9,7 @@ import { buildSettingsPage } from '../pages/settings';
 import { stateTextContentEn } from './constants';
 import { buildSignUpPage } from '../pages/signup';
 import { appState } from '../app';
+import { buildLogInPage } from '../pages/login';
 
 export const router: Navigo = new Navigo('/');
 
@@ -33,4 +34,7 @@ router
   })
   .on('/signup', (context) => {
     renderPage(buildSignUpPage(), context);
+  })
+  .on('/login', (context) => {
+    renderPage(buildLogInPage(), context);
   });
