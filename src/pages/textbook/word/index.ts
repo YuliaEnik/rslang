@@ -1,6 +1,7 @@
+import { loadUserFromLocalStorage } from '../../../services/auth/login';
 import { API_ENDPOINT } from '../../../utils/constants';
 import { UserState, Word } from '../../../utils/types';
-import { createElement } from '../../../utils/utils';
+import { createElement, getElement } from '../../../utils/utils';
 import html from './index.html';
 import './style.scss';
 
@@ -47,6 +48,7 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
   const audioBtnElMeaning = template.querySelector('.audio-meaning-btn') as HTMLButtonElement;
   const audioBtnElExample = template.querySelector('.audio-example-btn') as HTMLButtonElement;
   const audioElWord = template.querySelector('.audio-word') as HTMLAudioElement;
+  const audioElWordAll = template.querySelectorAll('.audio-word');
   const audioElMeaning = template.querySelector('.audio-meaning') as HTMLAudioElement;
   const audioElExample = template.querySelector('.audio-example') as HTMLAudioElement;
 
@@ -61,13 +63,31 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
   audioElMeaning.src = `${API_ENDPOINT}/${audioMeaning}`;
   audioElExample.src = `${API_ENDPOINT}/${audioExample}`;
 
+  function stopAudio(node: NodeListOf<Element>) {
+    node.forEach((element) => {
+      const audio = element as HTMLAudioElement;
+      audio.pause();
+    });
+  }
+
   audioBtnElWord.addEventListener('click', () => {
+    stopAudio(document.querySelectorAll('.audio-word'));
+    stopAudio(document.querySelectorAll('.audio-meaning'));
+    stopAudio(document.querySelectorAll('.audio-example'));
     audioElWord.play();
   });
+
   audioBtnElMeaning.addEventListener('click', () => {
+    stopAudio(document.querySelectorAll('.audio-word'));
+    stopAudio(document.querySelectorAll('.audio-meaning'));
+    stopAudio(document.querySelectorAll('.audio-example'));
     audioElMeaning.play();
   });
+
   audioBtnElExample.addEventListener('click', () => {
+    stopAudio(document.querySelectorAll('.audio-word'));
+    stopAudio(document.querySelectorAll('.audio-meaning'));
+    stopAudio(document.querySelectorAll('.audio-example'));
     audioElExample.play();
   });
 
