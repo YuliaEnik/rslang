@@ -1,5 +1,6 @@
+import { appState } from '../../app';
 import { getWords } from '../../utils/api';
-import { AppState, UserState } from '../../utils/types';
+import { UserState } from '../../utils/types';
 import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
@@ -10,7 +11,7 @@ function applyAuthentication(levelButton: HTMLElement, userState: UserState | nu
   }
 }
 
-export function buildTextbook(appState: AppState): HTMLDivElement {
+export function buildDictionaryPage(): HTMLDivElement {
   let currentPage = 0;
   let group = 0;
   const template = document.createElement('div');

@@ -53,8 +53,8 @@ export const buildLayout = (pageElement: HTMLElement, context: Match | undefined
   return result;
 };
 
-export const renderPage = (pageElement: HTMLElement, context: Match | undefined): void => {
-  const layout = buildLayout(pageElement, context);
+export const renderPage = (buildPageElement: HTMLElement, context: Match | undefined): void => {
+  const layout = buildLayout(buildPageElement, context);
   document.body.innerHTML = '';
   document.body.appendChild(layout);
 };
