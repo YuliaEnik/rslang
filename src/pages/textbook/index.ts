@@ -2,15 +2,16 @@ import { appState } from '../../app';
 import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
 import { UserState } from '../../utils/types';
-import { createElement, renderElement } from '../../utils/utils';
+import { createElement, getElement, renderElement } from '../../utils/utils';
 import { playGame } from './games';
 import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
 
-function applyAuthentication(levelButton: HTMLElement, userState: UserState | null) {
+function applyAuthentication(levelButton: HTMLElement, gamesEl: HTMLElement, userState: UserState | null) {
   if (userState?.userId) {
     levelButton.classList.remove('level__item--hidden');
+    gamesEl.classList.remove('hidden');
   }
 }
 
@@ -89,6 +90,11 @@ export function buildDictionaryPage(): HTMLDivElement {
     const gamesButton = template.querySelectorAll('.games__item');
     gamesButton.forEach((gameButton) => gameButton.addEventListener('click', playGame));
   }
+
+  // for authorized user
+
+  const gamesEl = template.querySelector('.games') as HTMLDivElement;
+  applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
 
   return template;
 }
