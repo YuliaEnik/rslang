@@ -1,32 +1,31 @@
-<main class="main">
-  <section class="section textboook">
-    <h2 class="title section__title textbook__title">TextBook</h2>
-    <div class="level">
-      <h4 class="subtitle level__title">Choose a level</h4>
-      <ul class="level__list">
-        <li class="level__item a1 level-0"><a href="/dictionary/1?page=1" class="level__link">Easy (A1)</a></li>
-        <li class="level__item a2 level-1"><a href="/dictionary/2?page=1" class="level__link">Easy (A2)</a></li>
-        <li class="level__item b1 level-2"><a href="/dictionary/3?page=1" class="level__link">Medium (B1)</a></li>
-        <li class="level__item b2 level-3"><a href="/dictionary/4?page=1" class="level__link">Medium (B2)</a></li>
-        <li class="level__item c1 level-4"><a href="/dictionary/5?page=1" class="level__link">Advanced (C1)</a></li>
-        <li class="level__item c2 level-5"><a href="/dictionary/6?page=1" class="level__link">Advanced (C2)</a></li>
-        <li id='level-difficult' class="level__item difficult level__item--hidden"><a href="/dictionary/difficult"
-            class="level__link">Difficult</a></li>
-      </ul>
-    </div>
-    <div class="words">
-      <header class="words__header">
-        <h3 class="title words__title">Words</h3>
-        <div class="pagination">
-          <button class="page-btn previous-btn">Previous</button>
-          <select class="page-selector" name="list">
-          </select>
-          <button class="page-btn next-btn">Next</button>
-          <ul class="page-list"></ul>
-        </div>
-      </header>
-      <ul class="words__list">
-        <!-- <li class="word words__item">
+<section class="section textboook">
+  <h2 class="title section__title textbook__title">TextBook</h2>
+  <div class="level">
+    <h4 class="subtitle level__title">Choose a level</h4>
+    <ul class="level__list">
+      <li class="level__item a1 level-0"><a href="/dictionary/1?page=1" class="level__link">Easy (A1)</a></li>
+      <li class="level__item a2 level-1"><a href="/dictionary/2?page=1" class="level__link">Easy (A2)</a></li>
+      <li class="level__item b1 level-2"><a href="/dictionary/3?page=1" class="level__link">Medium (B1)</a></li>
+      <li class="level__item b2 level-3"><a href="/dictionary/4?page=1" class="level__link">Medium (B2)</a></li>
+      <li class="level__item c1 level-4"><a href="/dictionary/5?page=1" class="level__link">Advanced (C1)</a></li>
+      <li class="level__item c2 level-5"><a href="/dictionary/6?page=1" class="level__link">Advanced (C2)</a></li>
+      <li id='level-difficult' class="level__item difficult level__item--hidden level-6"><a href="/dictionary/difficult"
+          class="level__link">Difficult</a></li>
+    </ul>
+  </div>
+  <div class="words">
+    <header class="words__header">
+      <h3 class="title words__title">Words</h3>
+      <div class="pagination">
+        <button class="page-btn previous-btn">Previous</button>
+        <select class="page-selector" name="list">
+        </select>
+        <button class="page-btn next-btn">Next</button>
+        <ul class="page-list"></ul>
+      </div>
+    </header>
+    <ul class="words__list">
+      <!-- <li class="word words__item">
             <button class="btn btn--play-audio"></button>
             <div class="word__text">
               <p class="word__eng">endangered</p>
@@ -79,27 +78,26 @@
               </header>
             </div>
             </li> -->
+    </ul>
+    <div class="games hidden">
+      <h4 class="subtitle level__title">Choose a game to learn words</h4>
+      <ul class="games__list">
+        <li class="games__item games__item--sprint" data-game="sprint">
+          <a class="games__link">
+            <img src="/public/img/sprint.png" alt="A link to game Sprint" class="games__img">
+            <span class="games__description">Pick a correct answer. Be quick!</span>
+            <button class="btn btn--games">Play</button>
+          </a>
+        </li>
+        <li class="games__item games__item--audio" data-game="audio">
+          <a class="games__link">
+            <img src="/public/img/challenge.png" alt="A link to game Sprint" class="games__img">
+            <span class="games__description">Guess a pronounced word.</span>
+            <button class="btn btn--games">Play</button>
+          </a>
+        </li>
       </ul>
-      <div class="games">
-        <h4 class="subtitle level__title">Choose a game to learn words</h4>
-        <ul class="games__list">
-          <li class="games__item games__item--sprint" data-game="sprint">
-            <a class="games__link">
-              <img src="/public/img/sprint.png" alt="A link to game Sprint" class="games__img">
-              <span class="games__description">Pick a correct answer. Be quick!</span>
-              <button class="btn btn--games">Play</button>
-            </a>
-          </li>
-          <li class="games__item games__item--audio" data-game="audio">
-            <a class="games__link">
-              <img src="/public/img/challenge.png" alt="A link to game Sprint" class="games__img">
-              <span class="games__description">Guess a pronounced word.</span>
-              <button class="btn btn--games">Play</button>
-            </a>
-          </li>
-        </ul>
-      </div>
-  </section>
-</main>
+    </div>
+</section>
 <div class="overlay"></div>
 </div>
