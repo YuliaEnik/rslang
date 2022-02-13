@@ -35,28 +35,32 @@ export function buildDictionaryPage(): HTMLDivElement {
   let { group } = appState.groupState;
   const template = document.createElement('div');
   template.innerHTML = html;
-  const levelButtons = template.querySelectorAll('.level');
-  const words = template.querySelector('.words') as HTMLElement;
-  const wordCard = template.querySelector('.word-card') as HTMLElement;
+  const levelButtons = template.querySelectorAll('.level__item');
+  const words = template.querySelector('.words__list') as HTMLElement;
+  const wordCard = template.querySelector('.word__popup') as HTMLElement;
 
   // add options to select
-  const pageSelector = template.querySelector('.page-selector') as HTMLSelectElement;
+
+  const pageSelector = template.querySelector('.page-selector') as HTMLInputElement;
   for (let i = 0; i < 30; i++) {
     const option = document.createElement('option') as HTMLOptionElement;
+    option.classList.add('select__item');
     option.value = String(i + 1);
-    option.innerHTML = option.value;
+    option.innerText = `Page ${option.value}`;
     pageSelector.appendChild(option);
   }
 
   function renderCard() {
-    wordCard.innerHTML = '';
-    wordCard.classList.add('active');
+    // wordCard.innerHTML = '';
+    // wordCard.classList.add('active');
   }
 
   function renderWordsList(id: number, page: number) {
     words.innerHTML = '';
+    pageSelector.value = String(currentPage + 1);
+    template.querySelector(`.level-${id}`)?.classList.add('active');
     getWords({ group: id, page }).then((wordsData) => {
-      // console.log(wordsData);
+      console.log(wordsData);
       wordsData.forEach((wordEl) => {
         words?.appendChild(renderWord({ word: wordEl, onclick: renderCard }, appState.user));
       });
@@ -65,18 +69,13 @@ export function buildDictionaryPage(): HTMLDivElement {
   renderWordsList(group, currentPage);
 
   levelButtons.forEach((el) => {
-    const levelBtnEl = el as HTMLElement;
-    applyAuthentication(levelBtnEl, appState.user);
     el.addEventListener('click', () => {
-      words.innerText = '';
-      group = Number(levelBtnEl.dataset.level);
-      renderWordsList(group, currentPage);
+      el.classList.add('active');
     });
   });
 
   pageSelector.addEventListener('change', () => {
     currentPage = Number(pageSelector.value) - 1;
-    renderWordsList(group, currentPage);
     router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
   });
 
@@ -86,7 +85,6 @@ export function buildDictionaryPage(): HTMLDivElement {
     if (currentPage > 0) {
       currentPage -= 1;
       pageSelector.value = String(currentPage + 1);
-      renderWordsList(group, currentPage);
       router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
     }
   });
@@ -95,7 +93,6 @@ export function buildDictionaryPage(): HTMLDivElement {
     if (currentPage < 29) {
       currentPage += 1;
       pageSelector.value = String(currentPage + 1);
-      renderWordsList(group, currentPage);
       router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
     }
   });

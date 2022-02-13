@@ -15,13 +15,13 @@
   &:first-child {
     border-radius: 10px 0 0 10px;
   }
-  &:last-child{
+  &:last-child {
     border-radius: 0 10px 10px 0;
   }
   &:not(:last-child) {
     border-right: 2px solid $color-lightgrey;
   }
-  &.a1.active {
+  &.active {
     background-color: $color-a1;
     border: none;
   }
