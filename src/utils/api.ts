@@ -72,14 +72,6 @@ async function fetchForUser(url: string, userState: UserState) {
   return result;
 }
 
-export async function getAllUserWords(userState: UserState | null): Promise<Word[]> {
-  if (!userState) throw Error('User state is null. Cannot get user words.');
-
-  const url = `${API_ENDPOINT}/users/${userState.userId}/words`;
-  const response = await fetchForUser(url, userState);
-  return response;
-}
-
 export async function getUserWords(userState: UserState | null, req?: { group: number, page?: number }) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
 
