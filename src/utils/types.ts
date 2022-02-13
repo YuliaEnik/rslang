@@ -25,13 +25,14 @@ export interface UserWord {
 }
 
 export interface StateSprint {
-  curIndex:number;
-  score:number;
-  countCorrectAnsw:number;
+  curIndex: number;
+  score: number;
+  countCorrectAnsw: number;
   questionsArray: Word[];
-  falseAnsw:number;
-  trueAnsw:number;
-  randomTrueFalse:number | null;
+  falseAnsw: number;
+  trueAnsw: number;
+  randomTrueFalse: number | null;
+  max_sec: number
 }
 
 export interface StateTextContentEn {

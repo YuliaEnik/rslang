@@ -1,5 +1,6 @@
 import { Word } from '../../../utils/types';
-import { stateSprint } from './state';
+import { stateSprint } from '../../../utils/constants';
+import { createResult } from '../../result/result';
 
 const createScore = (scoreWrap:HTMLElement) => {
   scoreWrap.textContent = '';
@@ -19,7 +20,7 @@ const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement) => {
   }
 };
 
-const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement) => {
+const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement):void => {
   const k = Number(btn.dataset.answ);
   if (k === stateSprint.randomTrueFalse) {
     data[stateSprint.curIndex].correctAnswer = 1;
@@ -64,8 +65,23 @@ const setWords = (data: Word[], wordEn: HTMLElement, wordRu:HTMLElement) => {
   setWordRu(data, wordRu, stateSprint.curIndex);
 };
 
+const checkEnd = ():void => {
+  if (stateSprint.max_sec === -1) {
+    createResult(stateSprint);
+  }
+};
+
+export const addBusAnimation = (busParent:HTMLElement) => {
+  busParent.classList.add('animate');
+};
+
+const removeBusAnimation = (busParent:HTMLElement) => {
+  busParent.classList.remove('animate');
+};
+
 export {
   checkAnswer,
   updateCurIndex,
   setWords,
+  checkEnd,
 };

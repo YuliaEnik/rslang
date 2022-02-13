@@ -10,8 +10,8 @@ const removePic = (parent: HTMLElement) => {
   parent.innerHTML = '';
 };
 
-const createPics = (stateSprint: StateSprint, data:Word[], parentPic:HTMLElement) => {
-   if (stateSprint.countCorrectAnsw === 3) {
+const createPics = (stateSprint: StateSprint, data:Word[], parentPic:HTMLElement):void => {
+  if (stateSprint.countCorrectAnsw === 3) {
     removePic(parentPic);
   }
   if (data[stateSprint.curIndex].correctAnswer === 1) {

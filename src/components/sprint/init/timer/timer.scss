@@ -1,0 +1,22 @@
+.timer {
+  height: 5rem;
+  width: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color:#FFD66B;
+  border: solid 4px#FFD66B;
+  border-radius: 50%;
+  font-size: 2rem;
+}
+
+.clock {
+  height: 1rem;
+  width: 1rem;
+  position: relative;
+  top: 0;
+  background-image: url(./../../../../assets/svg/clock.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
