@@ -1,9 +1,9 @@
 import { appState } from '../../app';
-import { data } from '../../components/sprint/sprintApp';
-import { getUserWords, getUserWordsforGame, getWords } from '../../utils/api';
+import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
-import { UserState, Word } from '../../utils/types';
+import { UserState } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
+import { playGame } from './games';
 import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
@@ -11,60 +11,6 @@ import { renderWord } from './word';
 function applyAuthentication(levelButton: HTMLElement, userState: UserState | null) {
   if (userState?.userId) {
     levelButton.classList.remove('level__item--hidden');
-  }
-}
-
-async function getWordsforGame(game: string) {
-  let result = await getUserWordsforGame(appState.user, {
-    group: appState.groupState.group,
-    page: appState.groupState.pageNumber,
-    wordsPerPage: 20,
-  });
-  data.splice(0, data.length);
-
-  const content = [...result];
-  if (content[0]) {
-    // eslint-disable-next-line @typescript-eslint/dot-notation
-    const words = content[0]['paginatedResults'] as Word[];
-    words.forEach((word: Word) => {
-      if (!word.userWord?.optional.isLearned) {
-        data.push(word);
-      }
-    });
-
-    if (data.length < 20 && appState.groupState.pageNumber > 0) {
-      result = await getUserWordsforGame(appState.user, {
-        group: appState.groupState.group,
-        page: appState.groupState.pageNumber - 1,
-        wordsPerPage: 20,
-      });
-      const contentNew = [...result];
-      if (contentNew[0]) {
-        // eslint-disable-next-line @typescript-eslint/dot-notation
-        const wordsNew = contentNew[0]['paginatedResults'] as Word[];
-        wordsNew.forEach((word: Word) => {
-          if (!word.userWord?.optional.isLearned) {
-            if (data.length < 20) {
-              data.push(word);
-            }
-          }
-        });
-      }
-    }
-
-    if (game === 'sprint') {
-      router.navigate('/games');
-    } else if (game === 'audio') {
-      alert(`Game ${game} is under contruction`)
-    }
-  }
-}
-
-async function playGame(event: Event) {
-  const target = (event.target as HTMLElement).closest('.games__item');
-  if (target) {
-    const game = target.getAttribute('data-game') as string;
-    getWordsforGame(game);
   }
 }
 
