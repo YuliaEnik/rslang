@@ -9,7 +9,7 @@ export const createResult = (state:StateSprint):HTMLElement => {
   const resultWrapper = createHTMLelement('div', { class: 'result-wrapper' }, parent);
   const resultContent = createHTMLelement('div', { class: 'result-content' }, resultWrapper);
   const titleWrap = createHTMLelement('div', { class: 'result-title-wrap' }, resultContent);
-  const resWords = createHTMLelement('div', { class: 'title res-words' }, titleWrap, 'words');
+  const resWords = createHTMLelement('div', { class: 'result-title res-words' }, titleWrap, 'words');
   const wordsWrap = createHTMLelement('div', { class: 'result-content res-words-wrap display-none' }, resultContent);
   state.questionsArray.forEach((el) => {
     const wrap = createHTMLelement('div', { class: 'result-horizontal-wrap' }, wordsWrap);
@@ -30,7 +30,7 @@ export const createResult = (state:StateSprint):HTMLElement => {
   const butWrap = createHTMLelement('div', { class: 'result-horizontal-wrap' }, resultContent);
   const btnRestart = createHTMLelement('div', { class: 'button res-btn' }, butWrap, 'Play again');
   const bntExit = createHTMLelement('div', { class: 'button res-btn' }, butWrap, 'Go to Dictionary');
-  const resResult = createHTMLelement('div', { class: 'title res-result active' }, titleWrap, 'result');
+  const resResult = createHTMLelement('div', { class: 'result-title res-result active' }, titleWrap, 'result');
   resWords.addEventListener('click', () => {
     wordsWrap.classList.remove('display-none');
     resultWrap.classList.add('display-none');

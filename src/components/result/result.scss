@@ -26,6 +26,21 @@
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #F3F3F4;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #605BFF;
+    transition: background 0.3s ease;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #FFD66B;
+  }
 }
 
 .result-cell {
@@ -40,7 +55,7 @@
   gap: 1rem;
 }
 
-.title {
+.result-title {
   width: 50%;
   padding-bottom: 2rem;
   display: flex;
@@ -139,17 +154,20 @@
   display: none;
 }
 
-.active {
-  color: #605BFF;
-  opacity: 0.8;
-  border-bottom: solid 1px #605BFF;
-}
-
 .res-words,
 .res-result,
 .res-sound {
   cursor: pointer;
   transition: .5s;
+}
+
+.res-words,
+.res-result {
+  &.active {
+    color: #605BFF;
+    opacity: 0.8;
+    border-bottom: solid 1px #605BFF;
+  }
 }
 
 .res-btn {

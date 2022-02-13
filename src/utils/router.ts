@@ -8,8 +8,9 @@ import { viewGame } from '../pages/games/game';
 import { buildSettingsPage } from '../pages/settings';
 import { stateTextContentEn } from './constants';
 import { buildSignUpPage } from '../pages/signup';
-import { appState } from '../app';
+import { appState, data } from '../app';
 import { buildLogInPage } from '../pages/login';
+import { getWords } from './api';
 
 function updateDictionaryPageAppState(context: Match | undefined) {
   appState.groupState.group = context?.data && context.data[1] ? parseInt(context.data[1], 10) - 1 : 0;
@@ -26,7 +27,11 @@ router
     updateDictionaryPageAppState(context);
     renderPage(buildDictionaryPage(), context);
   })
-  .on('/games', (context) => {
+  .on('/games', async (context) => {
+    data.words = await getWords();
+    renderPage(viewGame(stateTextContentEn), context);
+  })
+  .on('/games/sprint', (context) => {
     renderPage(viewGame(stateTextContentEn), context);
   })
   .on('/statistics', (context) => {
