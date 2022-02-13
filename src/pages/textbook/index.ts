@@ -28,7 +28,11 @@ async function getWordsforGame(game: string) {
     const words = content[0]['paginatedResults'] as Word[];
     data.splice(0, data.length);
     words.forEach((word: Word) => data.push(word));
-    router.navigate('/games');
+    if (game === 'sprint') {
+      router.navigate('/games');
+    } else if (game === 'audio') {
+      alert(`Game ${game} is under contruction`)
+    }
   }
 }
 
