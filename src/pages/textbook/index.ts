@@ -15,19 +15,43 @@ function applyAuthentication(levelButton: HTMLElement, userState: UserState | nu
 }
 
 async function getWordsforGame(game: string) {
-  const result = await getUserWordsforGame(appState.user, {
+  let result = await getUserWordsforGame(appState.user, {
     group: appState.groupState.group,
     page: appState.groupState.pageNumber,
     wordsPerPage: 20,
-    filter: '%7B%22%24and%22%3A%5B%7B%22userWord.optional.isLearned%22%3Anull%7D%5D%7D',
   });
+  data.splice(0, data.length);
 
   const content = [...result];
   if (content[0]) {
     // eslint-disable-next-line @typescript-eslint/dot-notation
     const words = content[0]['paginatedResults'] as Word[];
-    data.splice(0, data.length);
-    words.forEach((word: Word) => data.push(word));
+    words.forEach((word: Word) => {
+      if (!word.userWord?.optional.isLearned) {
+        data.push(word);
+      }
+    });
+
+    if (data.length < 20 && appState.groupState.pageNumber > 0) {
+      result = await getUserWordsforGame(appState.user, {
+        group: appState.groupState.group,
+        page: appState.groupState.pageNumber - 1,
+        wordsPerPage: 20,
+      });
+      const contentNew = [...result];
+      if (contentNew[0]) {
+        // eslint-disable-next-line @typescript-eslint/dot-notation
+        const wordsNew = contentNew[0]['paginatedResults'] as Word[];
+        wordsNew.forEach((word: Word) => {
+          if (!word.userWord?.optional.isLearned) {
+            if (data.length < 20) {
+              data.push(word);
+            }
+          }
+        });
+      }
+    }
+
     if (game === 'sprint') {
       router.navigate('/games');
     } else if (game === 'audio') {
