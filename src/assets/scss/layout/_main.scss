@@ -3,6 +3,20 @@
   grid-row: 1 / 2;
   grid-column: 2 / 3;
   overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $color-bg;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: $color-primary;
+    transition: background 0.3s ease;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background:  $color-secondary;
+  }
 }
 
 .main-page {
