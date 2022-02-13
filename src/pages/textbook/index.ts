@@ -2,7 +2,7 @@ import { appState } from '../../app';
 import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
 import { UserState } from '../../utils/types';
-import html from './index.html';
+import html from './textbook.html';
 import './style.scss';
 import { renderWord } from './word';
 
@@ -21,14 +21,16 @@ export function buildDictionaryPage(): HTMLDivElement {
   const words = template.querySelector('.words__list') as HTMLElement;
   const wordCard = template.querySelector('.word__popup') as HTMLElement;
 
-  // // add options to select
-  // const pageSelector = template.querySelector('.select__list') as HTMLInputElement;
-  // for (let i = 0; i < 30; i++) {
-  //   const option = document.createElement('li') as HTMLLIElement;
-  //   option.classList.add('.select__item');
-  //   option.innerText = String(i + 1);
-  //   pageSelector.appendChild(option);
-  // }
+  // add options to select
+
+  const pageSelector = template.querySelector('.page-selector') as HTMLInputElement;
+  for (let i = 0; i < 30; i++) {
+    const option = document.createElement('option') as HTMLOptionElement;
+    option.classList.add('select__item');
+    option.value = String(i + 1);
+    option.innerText = `Page ${option.value}`;
+    pageSelector.appendChild(option);
+  }
 
   function renderCard() {
     // wordCard.innerHTML = '';
@@ -37,6 +39,8 @@ export function buildDictionaryPage(): HTMLDivElement {
 
   function renderWordsList(id: number, page: number) {
     words.innerHTML = '';
+    pageSelector.value = String(currentPage + 1);
+    template.querySelector(`.level-${id}`)?.classList.add('active');
     getWords({ group: id, page }).then((wordsData) => {
       console.log(wordsData);
       wordsData.forEach((wordEl) => {
@@ -46,41 +50,34 @@ export function buildDictionaryPage(): HTMLDivElement {
   }
   renderWordsList(group, currentPage);
 
-  // levelButtons.forEach((el) => {
-  //   const levelBtnEl = el as HTMLElement;
-  //   applyAuthentication(levelBtnEl, appState.user);
-  //   el.addEventListener('click', () => {
-  //     words.innerText = '';
-  //     group = Number(levelBtnEl.dataset.level);
-  //     renderWordsList(group, currentPage);
-  //   });
-  // });
+  levelButtons.forEach((el) => {
+    el.addEventListener('click', () => {
+      el.classList.add('active');
+    });
+  });
 
-  // pageSelector.addEventListener('change', () => {
-  //   currentPage = Number(pageSelector.value) - 1;
-  //   renderWordsList(group, currentPage);
-  //   router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
-  // });
+  pageSelector.addEventListener('change', () => {
+    currentPage = Number(pageSelector.value) - 1;
+    router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
+  });
 
-  // const prevBtn = template.querySelector('.previous-btn') as HTMLButtonElement;
-  // const nextBtn = template.querySelector('.next-btn') as HTMLButtonElement;
-  // prevBtn.addEventListener('click', () => {
-  //   if (currentPage > 0) {
-  //     currentPage -= 1;
-  //     pageSelector.value = String(currentPage + 1);
-  //     renderWordsList(group, currentPage);
-  //     router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
-  //   }
-  // });
+  const prevBtn = template.querySelector('.previous-btn') as HTMLButtonElement;
+  const nextBtn = template.querySelector('.next-btn') as HTMLButtonElement;
+  prevBtn.addEventListener('click', () => {
+    if (currentPage > 0) {
+      currentPage -= 1;
+      pageSelector.value = String(currentPage + 1);
+      router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
+    }
+  });
 
-  // nextBtn.addEventListener('click', () => {
-  //   if (currentPage < 29) {
-  //     currentPage += 1;
-  //     pageSelector.value = String(currentPage + 1);
-  //     renderWordsList(group, currentPage);
-  //     router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
-  //   }
-  // });
+  nextBtn.addEventListener('click', () => {
+    if (currentPage < 29) {
+      currentPage += 1;
+      pageSelector.value = String(currentPage + 1);
+      router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
+    }
+  });
 
   return template;
 }
