@@ -1,3 +1,4 @@
+import { appState } from '../../../app';
 import { loadUserFromLocalStorage } from '../../../services/auth/login';
 import { API_ENDPOINT } from '../../../utils/constants';
 import { UserState, Word } from '../../../utils/types';
@@ -7,11 +8,9 @@ import './style.scss';
 
 function appendUserButtons(wordElement: HTMLElement, userState: UserState | null) {
   if (userState?.userId) {
-    // TODO: add classes and eventListeners
-    const addToStudiedButton = createElement('button', {});
+    const addToStudiedButton = createElement('button', { class: 'btn btn--studied' });
+    const addToDifficultButton = createElement('button', { class: 'btn btn--difficult' });
     wordElement.appendChild(addToStudiedButton);
-
-    const addToDifficultButton = createElement('button', {});
     wordElement.appendChild(addToDifficultButton);
   }
 }
@@ -91,6 +90,9 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
     stopAllAudio();
     audioElExample.play();
   });
+
+  const cardColumn = template.querySelector('.column__header') as HTMLHeadElement;
+  appendUserButtons(cardColumn, appState.user);
 
   return template.children[0] as HTMLDivElement;
 }
