@@ -1,6 +1,6 @@
 import { appState } from '../../app';
 import { data } from '../../components/sprint/sprintApp';
-import { getUserWords, getWords } from '../../utils/api';
+import { getUserWords, getUserWordsforGame, getWords } from '../../utils/api';
 import { router } from '../../utils/router';
 import { UserState, Word } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
@@ -14,19 +14,29 @@ function applyAuthentication(levelButton: HTMLElement, userState: UserState | nu
   }
 }
 
-function checkLearned(words: Word[]) {
-  
-}
-
-async function playGame() {
-  const result = await getUserWords(appState.user, {
+async function getWordsforGame(game: string) {
+  const result = await getUserWordsforGame(appState.user, {
     group: appState.groupState.group,
     page: appState.groupState.pageNumber,
+    wordsPerPage: 20,
+    filter: '%7B%22%24and%22%3A%5B%7B%22userWord.optional.isLearned%22%3Anull%7D%5D%7D',
   });
-  const words = [...result[0].paginatedResults];
-  checkLearned(words);
-  while (words.length < 20) {
 
+  const content = [...result];
+  if (content[0]) {
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    const words = content[0]['paginatedResults'] as Word[];
+    data.splice(0, data.length);
+    words.forEach((word: Word) => data.push(word));
+    router.navigate('/games');
+  }
+}
+
+async function playGame(event: Event) {
+  const target = (event.target as HTMLElement).closest('.games__item');
+  if (target) {
+    const game = target.getAttribute('data-game') as string;
+    getWordsforGame(game);
   }
 }
 
@@ -60,7 +70,6 @@ export function buildDictionaryPage(): HTMLDivElement {
     pageSelector.value = String(currentPage + 1);
     template.querySelector(`.level-${id}`)?.classList.add('active');
     getWords({ group: id, page }).then((wordsData) => {
-      console.log(wordsData);
       wordsData.forEach((wordEl) => {
         words?.appendChild(renderWord({ word: wordEl, onclick: renderCard }, appState.user));
       });
@@ -102,6 +111,10 @@ export function buildDictionaryPage(): HTMLDivElement {
     renderElement(sprintButton, template);
   }
 
+  if (appState?.user?.userId) {
+    const gamesButton = template.querySelectorAll('.games__item');
+    gamesButton.forEach((gameButton) => gameButton.addEventListener('click', playGame));
+  }
+
   return template;
 }
-

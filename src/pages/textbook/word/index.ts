@@ -24,7 +24,6 @@ function stopAudio(node: NodeListOf<Element>) {
 }
 
 export function renderWord(params: { word: Word, onclick?: () => void }, userState: UserState | null): HTMLDivElement {
-  console.log(params.word);
   const template = document.createElement('div');
   template.innerHTML = html;
 
