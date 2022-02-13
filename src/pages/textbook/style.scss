@@ -11,6 +11,10 @@ h3 {
   color: black;
 }
 
+.level__item--hidden {
+  display: none;
+}
+
 .level:hover {
   cursor: pointer;
 }
