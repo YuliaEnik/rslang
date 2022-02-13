@@ -3,6 +3,8 @@ import { getElement, createHTMLelement } from '../../utils/utils';
 import { sprint } from '../../components/sprint/sprintApp';
 import { StateTextContentEn } from '../../utils/types';
 import { fullscreen } from '../../components/full-screen/full-screen';
+import { data } from '../../app';
+import { getWords } from '../../utils/api';
 
 export const viewGame = (stateTextContentEn: StateTextContentEn):HTMLElement => {
   const parent = getElement('div');

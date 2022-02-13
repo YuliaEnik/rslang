@@ -1,5 +1,4 @@
-import { appState } from '../../../app';
-import { data } from '../../../components/sprint/sprintApp';
+import { appState, data } from '../../../app';
 import { getUserWordsforGame } from '../../../utils/api';
 import { router } from '../../../utils/router';
 import { Word } from '../../../utils/types';
@@ -10,7 +9,7 @@ async function getWordsforGame(game: string) {
     page: appState.groupState.pageNumber,
     wordsPerPage: 20,
   });
-  data.splice(0, data.length);
+  data.words.splice(0, data.words.length);
 
   const content = [...result];
   if (content[0]) {
@@ -18,11 +17,11 @@ async function getWordsforGame(game: string) {
     const words = content[0]['paginatedResults'] as Word[];
     words.forEach((word: Word) => {
       if (!word.userWord?.optional.isLearned) {
-        data.push(word);
+        data.words.push(word);
       }
     });
 
-    if (data.length < 20 && appState.groupState.pageNumber > 0) {
+    if (data.words.length < 20 && appState.groupState.pageNumber > 0) {
       result = await getUserWordsforGame(appState.user, {
         group: appState.groupState.group,
         page: appState.groupState.pageNumber - 1,
@@ -34,8 +33,8 @@ async function getWordsforGame(game: string) {
         const wordsNew = contentNew[0]['paginatedResults'] as Word[];
         wordsNew.forEach((word: Word) => {
           if (!word.userWord?.optional.isLearned) {
-            if (data.length < 20) {
-              data.push(word);
+            if (data.words.length < 20) {
+              data.words.push(word);
             }
           }
         });
@@ -43,7 +42,7 @@ async function getWordsforGame(game: string) {
     }
 
     if (game === 'sprint') {
-      router.navigate('/games');
+      router.navigate('/games/sprint');
     } else if (game === 'audio') {
       alert(`Game ${game} is under contruction`)
     }

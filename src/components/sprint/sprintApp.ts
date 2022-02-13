@@ -12,15 +12,13 @@ import { stateSprint } from '../../utils/constants';
 import { createPics } from './init/pictures/pictures';
 import { countdown } from './init/timer/timer';
 import { getWords } from '../../utils/api';
-
-let data:Word[];
+import { data } from '../../app';
 
 export const sprint = async (
   parent:HTMLElement,
   stateTextContentEn:StateTextContentEn,
   busParent: HTMLElement,
 ): Promise<HTMLElement> => {
-  data = await getWords();
   const arrayBtnEl:HTMLElement[] = [];
   busParent.classList.add('bus');
   const sprintWrapper = createHTMLelement('div', { class: 'sprint-wrapper' }, parent);
@@ -43,19 +41,15 @@ export const sprint = async (
   arrayBtnEl.push(btnFalse);
   arrayBtnEl.forEach((el) => {
     el.addEventListener(('click'), () => {
-      checkAnswer(data, el, scoreWrap);
-      createPics(stateSprint, data, answerPicturesWrap);
+      checkAnswer(data.words, el, scoreWrap);
+      createPics(stateSprint, data.words, answerPicturesWrap);
       updateCurIndex();
-      setWords(data, wordWrapEn, wordWrapRu);
+      setWords(data.words, wordWrapEn, wordWrapRu);
     });
   });
-  setWords(data, wordWrapEn, wordWrapRu);
+  setWords(data.words, wordWrapEn, wordWrapRu);
   checkEnd();
   countdown(timer);
   addBusAnimation(busParent);
   return sprintWrapper;
-};
-
-export {
-  data,
 };
