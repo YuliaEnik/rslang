@@ -2,7 +2,7 @@ import { appState } from '../../app';
 import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
 import { UserState } from '../../utils/types';
-import html from './textbook.html';
+import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
 
