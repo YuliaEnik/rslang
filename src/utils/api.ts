@@ -72,18 +72,22 @@ async function fetchForUser(url: string, userState: UserState) {
   return result;
 }
 
-export async function getAllUserWords(userState: UserState | null): Promise<Word[]> {
+export async function getUserWords(userState: UserState | null, req?: { group: number, page?: number }) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
 
-  const url = `${API_ENDPOINT}/users/${userState.userId}/words`;
+  const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}&wordsPerPage=20`;
   const response = await fetchForUser(url, userState);
   return response;
 }
 
-export async function getUserWords(userState: UserState | null, req?: { group: number, page?: number }): Promise<Word[]> {
+export async function getUserWordsforGame(userState: UserState | null, req?: {
+  group: number,
+  page?: number,
+  wordsPerPage?: number,
+  filter?: string,
+}): Promise<[]> {
   if (!userState) throw Error('User state is null. Cannot get user words.');
-
   const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}`;
-  const response = await fetchForUser(url, userState);
+  const response = fetchForUser(url, userState);
   return response;
 }

@@ -14,6 +14,14 @@ export interface Word {
   textMeaningTranslate: string;
   wordTranslate: string;
   correctAnswer: number | undefined | null;
+  userWord?: UserWord;
+}
+
+export interface UserWord {
+  difficulty: string;
+  optional: {
+    isLearned: true | null;
+  }
 }
 
 export interface StateSprint {

@@ -2,6 +2,8 @@ import { appState } from '../../app';
 import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
 import { UserState } from '../../utils/types';
+import { createElement, renderElement } from '../../utils/utils';
+import { playGame } from './games';
 import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
@@ -42,7 +44,6 @@ export function buildDictionaryPage(): HTMLDivElement {
     pageSelector.value = String(currentPage + 1);
     template.querySelector(`.level-${id}`)?.classList.add('active');
     getWords({ group: id, page }).then((wordsData) => {
-      console.log(wordsData);
       wordsData.forEach((wordEl) => {
         words?.appendChild(renderWord({ word: wordEl, onclick: renderCard }, appState.user));
       });
@@ -78,6 +79,16 @@ export function buildDictionaryPage(): HTMLDivElement {
       router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
     }
   });
+  if (appState?.user?.userId) {
+    const sprintButton = createElement('button', { class: 'btn btn--signin' }, 'Play sprint');
+    sprintButton.addEventListener('click', playGame);
+    renderElement(sprintButton, template);
+  }
+
+  if (appState?.user?.userId) {
+    const gamesButton = template.querySelectorAll('.games__item');
+    gamesButton.forEach((gameButton) => gameButton.addEventListener('click', playGame));
+  }
 
   return template;
 }
