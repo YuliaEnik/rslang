@@ -9,13 +9,11 @@ body {
 }
 
 .nav__link {
-  @extend %font;
   color: $color-grey;
   @include font($size: 1.6rem, $height: 2rem, $weight: $weight-semibold);
 }
 
 .logo__text {
-  @extend %font;
   color: $color-dark;
   @include font($size: 2.4rem, $height: 3.2rem, $weight: $weight-extrabold);
 }
@@ -28,28 +26,42 @@ body {
     color: $color-light;
     @include font($size: 1.6rem, $height: 5rem, $weight: $weight-extrabold);
   }
+  &--prev,
+  &--next {
+    @include font($size: 1.6rem, $height: 3rem, $weight: $weight-extrabold);
+  }
+}
+
+.title {
+  color: $color-dark;
+  @include font($size: 2.4rem, $height: 3.3rem, $weight: $weight-extrabold);
 }
 
 .section__title {
-  @extend %font;
-  color: $color-light;
-  @include font($size: 5.6rem, $height: 7.6rem, $weight: $weight-extrabold);
+  color: $color-dark;
+  @include font($size: 2.4rem, $height: 3.3rem, $weight: $weight-extrabold);
+  &--main {
+    color: $color-light;
+    @include font($size: 5.6rem, $height: 7.6rem, $weight: $weight-extrabold);
+  }
+}
+
+.subtitle {
+  color: $color-grey;
+  @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-bold);
 }
 
 .copyrights {
-  @extend %font;
   color: $color-grey;
   @include font($size: 1.2rem, $height: 1.6rem, $weight: $weight-extrabold);
 }
 
 .developers__title {
-  @extend %font;
   color: $color-grey;
   @include font($size: 1.4rem, $height: 1.8rem, $weight: $weight-bold);
 }
 
 .developers__link {
-  @extend %font;
   color: $color-grey;
   @include font($size: 1.4rem, $height: 1.8rem, $weight: $weight-semibold);
 }
@@ -68,7 +80,86 @@ body {
 }
 
 .speech-bubble {
-  @extend %font;
   color: $color-dark;
   @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-semibold);
+}
+
+.form__link {
+  @extend %font;
+  color: $color-primary;
+}
+
+.level__link {
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 4.4rem, $weight: $weight-semibold);
+}
+
+.word__eng {
+  color: $color-dark;
+  @include font($size: 2rem, $height: 2.7rem, $weight: $weight-bold);
+}
+
+.word__popup {
+  & .word__eng {
+    color: $color-primary;
+    @include font($size: 2rem, $height: 2.6rem, $weight: $weight-bold);
+  }
+  & .word__translation {
+    color: $color-dark;
+    @include font($size: 1.8rem, $height: 2.4rem, $weight: $weight-bold);
+  }
+}
+
+.word__translation {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 2.2rem);
+}
+
+.word__transcription {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-semibold);
+}
+
+.word__subheading {
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-semibold);
+}
+
+.stat__game {
+  color: $color-dark;
+  @include font($size: 1.4rem, $height: 2rem,  $weight: $weight-semibold);
+}
+
+.stat__result {
+  color: $color-dark;
+  @include font($size: 1.2rem, $height: 2.2rem, $weight: $weight-semibold);
+}
+
+.word__phrase {
+  color: $color-dark;
+  @include font($size: 1.4rem, $height: 2rem, $weight: $weight-semibold);
+}
+
+.games__description {
+  color: $color-dark;
+  @include font($size: 1.2rem, $height: 1.4rem, $weight: $weight-bold);
+}
+
+.select__input {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 3em, $weight: $weight-bold);
+  &::placeholder {
+    color: $color-dark;
+  }
+}
+
+.select__item {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 3em, $weight: $weight-bold);
+}
+
+.nav__name {
+  color: $color-dark;
+  @include font($size: 1.4rem, $height: 1.4em, $weight: $weight-bold);
 }

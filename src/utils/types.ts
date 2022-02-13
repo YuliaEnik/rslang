@@ -14,6 +14,14 @@ export interface Word {
   textMeaningTranslate: string;
   wordTranslate: string;
   correctAnswer: number | undefined | null;
+  userWord?: UserWord;
+}
+
+export interface UserWord {
+  difficulty: string;
+  optional: {
+    isLearned: true | null;
+  }
 }
 
 export interface StateSprint {
@@ -28,9 +36,9 @@ export interface StateSprint {
 }
 
 export interface StateTextContentEn {
-  btnTrue: string,
-  btnFalse: string,
-  exit: string
+  btnTrue: string;
+  btnFalse: string;
+  exit: string;
 }
 
 export interface IData {
@@ -50,6 +58,12 @@ export interface IData {
   textExampleTranslate: string;
 }
 
+export interface Page {
+  title: string;
+  link: string;
+  type: string;
+}
+
 export interface NewUser {
   name: string;
   email: string;
@@ -58,6 +72,11 @@ export interface NewUser {
 
 export enum ResponseStatus {
   SUCCESS = 200,
+  IS_DELETED = 204,
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  INVALID_TOKEN = 403,
+  NOT_FOUND = 404,
   CREDENTIALS = 422,
   EXISTED = 417,
 }
@@ -74,10 +93,33 @@ export interface Input {
   class: string;
 }
 
-export interface Auth {
+export interface AuthInfo {
   message: string;
   token: string;
   refreshToken: string;
   userId: string;
   name: string;
+}
+
+export interface UserState {
+  token: string;
+  refreshToken: string;
+  userId: string;
+  name: string;
+  email: string;
+}
+
+export interface AppState {
+  user: UserState | null;
+  groupState: GroupState;
+}
+
+export interface GroupState {
+  group: number;
+  pageNumber: number;
+}
+
+export interface UserLogIn {
+  email: string;
+  password: string;
 }
