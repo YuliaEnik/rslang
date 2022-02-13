@@ -46,21 +46,29 @@
 
 .statistics__item--new-words {
   & > .statistics__item-image {
-    background-color: rgba(91, 147, 255, 0.65);;
+    background-color: rgba(91, 147, 255, 0.3);;
   }
 }
 
 .statistics__item--correct {
   & > .statistics__item-image {
-    background-color: rgba(255, 214, 107, 0.65);
+    background-color: rgba(255, 214, 107, 0.5);
   }
 }
 
 .statistics__item-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   grid-column: 1 / 2;
   width: 60px;
   height: 60px;
   border-radius: 50%;
+  & > img {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+  }
 }
 
 
