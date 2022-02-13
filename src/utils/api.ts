@@ -80,10 +80,10 @@ export async function getAllUserWords(userState: UserState | null): Promise<Word
   return response;
 }
 
-export async function getUserWords(userState: UserState | null, req?: { group: number, page?: number }): Promise<Word[]> {
+export async function getUserWords(userState: UserState | null, req?: { group: number, page?: number }) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
 
-  const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}`;
+  const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}&wordsPerPage=20`;
   const response = await fetchForUser(url, userState);
   return response;
 }

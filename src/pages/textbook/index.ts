@@ -1,7 +1,9 @@
 import { appState } from '../../app';
-import { getWords } from '../../utils/api';
+import { data } from '../../components/sprint/sprintApp';
+import { getUserWords, getWords } from '../../utils/api';
 import { router } from '../../utils/router';
-import { UserState } from '../../utils/types';
+import { UserState, Word } from '../../utils/types';
+import { createElement, renderElement } from '../../utils/utils';
 import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
@@ -9,6 +11,22 @@ import { renderWord } from './word';
 function applyAuthentication(levelButton: HTMLElement, userState: UserState | null) {
   if (userState?.userId) {
     levelButton.classList.remove('level__item--hidden');
+  }
+}
+
+function checkLearned(words: Word[]) {
+  
+}
+
+async function playGame() {
+  const result = await getUserWords(appState.user, {
+    group: appState.groupState.group,
+    page: appState.groupState.pageNumber,
+  });
+  const words = [...result[0].paginatedResults];
+  checkLearned(words);
+  while (words.length < 20) {
+
   }
 }
 
@@ -81,6 +99,12 @@ export function buildDictionaryPage(): HTMLDivElement {
       router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
     }
   });
+  if (appState?.user?.userId) {
+    const sprintButton = createElement('button', { class: 'btn btn--signin' }, 'Play sprint');
+    sprintButton.addEventListener('click', playGame);
+    renderElement(sprintButton, template);
+  }
 
   return template;
 }
+
