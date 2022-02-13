@@ -1,0 +1,21 @@
+.full-screen {
+  height: 2rem;
+  width: 2rem;
+  position: absolute;
+  top:3rem;
+  right: 3rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.screen-open {
+  background-image: url(./../../assets/svg/full_screen.svg);
+}
+.screen-close {
+  background-image: url(./../../assets/svg/close.svg);
+}
