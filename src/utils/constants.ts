@@ -45,11 +45,6 @@ export const pages: Page[] = [
     type: 'developers',
   },
   {
-    title: 'Settings',
-    link: '/settings',
-    type: 'settings',
-  },
-  {
     title: '',
     link: '/logout',
     type: 'logout',

@@ -2,7 +2,7 @@ import { appState } from '../../app';
 import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
 import { UserState } from '../../utils/types';
-import { createElement, getElement, renderElement } from '../../utils/utils';
+import { createElement, renderElement } from '../../utils/utils';
 import { playGame } from './games';
 import html from './index.html';
 import './style.scss';
@@ -80,11 +80,6 @@ export function buildDictionaryPage(): HTMLDivElement {
       router.navigate(`/dictionary/${group + 1}?page=${currentPage + 1}`);
     }
   });
-  if (appState?.user?.userId) {
-    const sprintButton = createElement('button', { class: 'btn btn--signin' }, 'Play sprint');
-    sprintButton.addEventListener('click', playGame);
-    renderElement(sprintButton, template);
-  }
 
   if (appState?.user?.userId) {
     const gamesButton = template.querySelectorAll('.games__item');

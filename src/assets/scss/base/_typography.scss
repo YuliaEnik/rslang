@@ -148,7 +148,7 @@ body {
 .select__input {
   @extend %font;
   color: $color-dark;
-  @include font($size: 1.6rem, $height: 3em, $weight: $weight-bold);
+  @include font($size: 1.6rem, $height: 3rem, $weight: $weight-bold);
   &::placeholder {
     color: $color-dark;
   }
@@ -156,10 +156,35 @@ body {
 
 .select__item {
   color: $color-dark;
-  @include font($size: 1.6rem, $height: 3em, $weight: $weight-bold);
+  @include font($size: 1.6rem, $height: 3rem, $weight: $weight-bold);
 }
 
 .nav__name {
   color: $color-dark;
-  @include font($size: 1.4rem, $height: 1.4em, $weight: $weight-bold);
+  @include font($size: 1.4rem, $height: 1.4rem, $weight: $weight-bold);
+}
+
+.period__item {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 4.4rem, $weight: $weight-bold);
+}
+
+.statistics__item-quantity {
+  color: $color-dark;
+  @include font($size: 3.6rem, $height: 5rem, $weight: $weight-black);
+}
+
+.statistics__item-desc {
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-bold);
+}
+
+.statistics__item-title {
+  color: $color-dark;
+  @include font($size: 3rem, $height: 4.4rem, $weight: $weight-extrabold);
+}
+
+.statistics__item-item {
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-bold);
 }
