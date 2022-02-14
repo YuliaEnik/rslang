@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { logOut } from '../components/nav';
 import { saveUserToLocalStorage } from '../services/auth/login';
 import { API_ENDPOINT } from './constants';
@@ -72,9 +73,28 @@ async function fetchForUser(url: string, userState: UserState) {
   return result;
 }
 
+export async function createUserWord(userState: UserState | null, wordId: string) {
+  const result = await fetch(`${API_ENDPOINT}/users/${userState?.userId}/words/${wordId}`, {
+    method: 'POST',
+  });
+  if (!result.ok) {
+    throw new Error('Cannot create word');
+  }
+  return result;
+}
+
+export async function updateUserWord(userState: UserState | null, wordId: string) {
+  const result = await fetch(`${API_ENDPOINT}/users/${userState?.userId}/words/${wordId}`, {
+    method: 'PUT',
+  });
+  if (!result.ok) {
+    throw new Error('Cannot update word');
+  }
+  return result;
+}
+
 export async function getUserWords(userState: UserState | null, req?: { group: number, page?: number }) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
-
   const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}&wordsPerPage=20`;
   const response = await fetchForUser(url, userState);
   return response;
