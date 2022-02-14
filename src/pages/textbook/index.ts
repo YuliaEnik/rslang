@@ -17,7 +17,7 @@ function applyAuthentication(levelButton: HTMLElement, gamesEl: HTMLElement, use
 
 export function buildDictionaryPage(): HTMLDivElement {
   let currentPage = appState.groupState.pageNumber;
-  let { group } = appState.groupState;
+  const { group } = appState.groupState;
   const template = document.createElement('div');
   template.innerHTML = html;
   const levelButtons = template.querySelectorAll('.level__item');
