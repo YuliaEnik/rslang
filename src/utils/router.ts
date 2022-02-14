@@ -19,8 +19,13 @@ function updateDictionaryPageAppState(context: Match | undefined) {
 export const router: Navigo = new Navigo('/');
 
 router
-  .on('/', (context) => {
-    renderPage(buildMainPage(), context);
+  .on({
+    '/': {
+      as: 'Main',
+      uses: (context: Match | undefined) => {
+        renderPage(buildMainPage(), context);
+      },
+    },
   })
   .on(/dictionary(\/(.*)?)?/, (context) => {
     updateDictionaryPageAppState(context);
