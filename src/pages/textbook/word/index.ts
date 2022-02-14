@@ -1,6 +1,6 @@
 import { appState } from '../../../app';
 import { loadUserFromLocalStorage } from '../../../services/auth/login';
-import { createUserWord, getAuthUserWords, getUserWords } from '../../../utils/api';
+import { createUserWord, getAggregatedWords, getUserWords } from '../../../utils/api';
 import { API_ENDPOINT } from '../../../utils/constants';
 import { UserState, Word } from '../../../utils/types';
 import { createElement, getElement } from '../../../utils/utils';

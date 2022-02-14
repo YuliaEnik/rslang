@@ -5,7 +5,6 @@ import { buildStatisticsPage } from '../pages/statistics';
 import { buildDictionaryPage } from '../pages/textbook';
 import { renderPage } from './utils';
 import { viewGame } from '../pages/games/game';
-import { buildSettingsPage } from '../pages/settings';
 import { stateTextContentEn } from './constants';
 import { buildSignUpPage } from '../pages/signup';
 import { appState, data } from '../app';
@@ -39,9 +38,6 @@ router
   })
   .on('/developers', (context) => {
     renderPage(buildDevelopersPage(), context);
-  })
-  .on('/settings', (context) => {
-    renderPage(buildSettingsPage(), context);
   })
   .on('/signup', (context) => {
     renderPage(buildSignUpPage(), context);
