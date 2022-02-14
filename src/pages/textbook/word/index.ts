@@ -1,5 +1,6 @@
 import { appState } from '../../../app';
 import { loadUserFromLocalStorage } from '../../../services/auth/login';
+import { createUserWord, getAuthUserWords, getUserWords } from '../../../utils/api';
 import { API_ENDPOINT } from '../../../utils/constants';
 import { UserState, Word } from '../../../utils/types';
 import { createElement, getElement } from '../../../utils/utils';
@@ -93,6 +94,22 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
 
   const cardColumn = template.querySelector('.column__header') as HTMLHeadElement;
   appendUserButtons(cardColumn, appState.user);
+
+  const diffBtn = template.querySelectorAll('.btn--difficult');
+  diffBtn.forEach((el) => {
+    el.addEventListener('click', () => {
+      addUserWordToDifficult(word.id);
+      getUserWords(appState.user).then((userWords) => {
+        console.log(userWords);
+        console.log(word.id);
+      });
+    });
+  });
+
+  async function addUserWordToDifficult(wordId: string) {
+    await createUserWord(appState.user, wordId);
+    alert(`Word ${word.word} added to difficult`);
+  }
 
   return template.children[0] as HTMLDivElement;
 }
