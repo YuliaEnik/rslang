@@ -1,7 +1,7 @@
 import { logOut } from '../components/nav';
 import { saveUserToLocalStorage } from '../services/auth/login';
 import { API_ENDPOINT } from './constants';
-import { BodyApi, ResponseStatus, UserState, Word } from './types';
+import { UserWord, ResponseStatus, UserState, Word } from './types';
 
 function buildGetParams(params?: { [key: string]: string | number }) {
   if (!params) {
@@ -37,7 +37,7 @@ async function refreshUserToken(userState: UserState): Promise<void> {
   saveUserToLocalStorage(userState);
 }
 
-async function fetchForUser(url: string, userState: UserState, body?: BodyApi, method = 'GET') {
+async function fetchForUser(url: string, userState: UserState, body?: UserWord, method = 'GET') {
   let response = await fetch(url,
     {
       method,
@@ -67,13 +67,14 @@ async function fetchForUser(url: string, userState: UserState, body?: BodyApi, m
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify(body),
     });
 
   //const result = await response.json();
   return response;
 }
 
-export async function getUserWords(userState: UserState | null, req?: { group: number, page?: number }) {
+export async function getAggregatedWords(userState: UserState | null, req?: { group: number, page?: number }) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
 
   const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}&wordsPerPage=20`;
@@ -104,7 +105,7 @@ export async function getWord(userState: UserState | null, wordId: string) {
   }
 }
 
-export async function updateWord(userState: UserState | null, wordId: string, body: BodyApi, method: string) {
+export async function updateWord(userState: UserState | null, wordId: string, body: UserWord, method: string) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
   const url = `${API_ENDPOINT}/users/${userState.userId}/words/${wordId}`;
   const response = await fetchForUser(url, userState, body, method);

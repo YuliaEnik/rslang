@@ -127,10 +127,3 @@ export interface UserLogIn {
 export interface Data {
   words: Word[];
 }
-
-export interface BodyApi {
-  difficulty: string;
-  optional: {
-    isLearned: boolean;
-  }
-}
