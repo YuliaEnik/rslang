@@ -16,7 +16,7 @@ async function getWordsForGame(game: string) {
     // eslint-disable-next-line @typescript-eslint/dot-notation
     const words = content[0]['paginatedResults'] as Word[];
     words.forEach((word: Word) => {
-      if (!word.userWord?.optional.isLearned) {
+      if (!word.userWord?.optional?.isLearned) {
         data.words.push(word);
       }
     });
