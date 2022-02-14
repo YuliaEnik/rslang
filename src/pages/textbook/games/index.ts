@@ -1,10 +1,10 @@
 import { appState, data } from '../../../app';
-import { getUserWordsforGame } from '../../../utils/api';
+import { getUserWordsForGame } from '../../../utils/api';
 import { router } from '../../../utils/router';
 import { Word } from '../../../utils/types';
 
-async function getWordsforGame(game: string) {
-  let result = await getUserWordsforGame(appState.user, {
+async function getWordsForGame(game: string) {
+  let result = await getUserWordsForGame(appState.user, {
     group: appState.groupState.group,
     page: appState.groupState.pageNumber,
     wordsPerPage: 20,
@@ -22,7 +22,7 @@ async function getWordsforGame(game: string) {
     });
 
     if (data.words.length < 20 && appState.groupState.pageNumber > 0) {
-      result = await getUserWordsforGame(appState.user, {
+      result = await getUserWordsForGame(appState.user, {
         group: appState.groupState.group,
         page: appState.groupState.pageNumber - 1,
         wordsPerPage: 20,
@@ -53,6 +53,6 @@ export async function playGame(event: Event): Promise<void> {
   const target = (event.target as HTMLElement).closest('.games__item');
   if (target) {
     const game = target.getAttribute('data-game') as string;
-    getWordsforGame(game);
+    getWordsForGame(game);
   }
 }
