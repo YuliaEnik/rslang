@@ -27,15 +27,15 @@ export interface UserWordOptional {
   isLearned?: true | null;
   date?: string;
   games?: {
-    sprint?: {
-      correct: number;
-      wrong: number;
-    };
-    audiochallenge?: {
-      correct: number;
-      wrong: number;
-    }
-  }
+    sprint?: GameStatistics;
+    audiochallenge?: GameStatistics;
+  };
+}
+
+export interface GameStatistics {
+  correct: number;
+  wrong: number;
+  streak?: number;
 }
 
 export interface UserWordResponse {
@@ -44,6 +44,24 @@ export interface UserWordResponse {
   wordId: string;
   difficulty?: string;
   optional?: UserWordOptional;
+}
+
+export interface UserStatistics {
+  [key: string]: UserStatisticsOptional | number | undefined;
+  learnedWords: number;
+  optional?: UserStatisticsOptional;
+}
+
+export interface UserStatisticsResponse {
+  [key: string]: UserStatisticsOptional | number | string | undefined;
+  id: string;
+  learnedWords: number;
+  optional?: UserStatisticsOptional;
+}
+
+export interface UserStatisticsOptional {
+  newWords?: number;
+  newWordsLastUpdate?: string;
 }
 
 export interface StateSprint {

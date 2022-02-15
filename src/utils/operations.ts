@@ -1,6 +1,6 @@
 import { appState } from '../app';
-import { createUserWord, getWord, updateUserWord } from './api';
-import { UserState, UserWord, UserWordResponse } from './types';
+import { createUserWord, getUserStatistic, getWord, updateUserStatistic, updateUserWord } from './api';
+import { UserState, UserStatistics, UserStatisticsOptional, UserStatisticsResponse, UserWord, UserWordResponse } from './types';
 
 export function addWordToDifficultList(wordId: string) {
   return createUserWord(appState.user, wordId, { difficulty: 'difficult' });
@@ -24,7 +24,7 @@ function initiateStatisctics(date: string, answer: number): UserWord {
 
 export function updateWordStatistics(body: UserWordResponse, answer: number): UserWord {
   const date = new Date();
-  const dateString = date.toISOString();
+  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
   const content = Object.keys(body).reduce((object: UserWord, property: string) => {
     if (property !== 'id' && property !== 'wordId') {
@@ -70,7 +70,7 @@ export async function addGameResult(userState: UserState | null, wordId: string,
   const result = await getWord(userState, wordId);
 
   const date = new Date();
-  const dateString = date.toISOString();
+  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
   if (!result.ok) {
     const body = initiateStatisctics(dateString, answer);
@@ -82,6 +82,36 @@ export async function addGameResult(userState: UserState | null, wordId: string,
   }
 }
 
-function addToNew() {
-  console.log('1');
+export async function updateNewWords() {
+  const date = new Date();
+  const dateString = date.toISOString();
+  const currentDate = dateString.substring(0, dateString.indexOf('T'));
+
+  const response = await getUserStatistic(appState.user);
+
+  if (response.optional?.newWordsLastUpdate && response.optional?.newWords) {
+    if (currentDate !== response.optional.newWordsLastUpdate) {
+      response.optional.newWordsLastUpdate = currentDate;
+      response.optional.newWords = 1;
+    }
+    if (currentDate === response.optional.newWordsLastUpdate) {
+      response.optional.newWords++;
+    }
+  }
+
+  if (!response.optional?.newWordsLastUpdate) {
+    response.optional = {};
+    response.optional.newWordsLastUpdate = currentDate;
+    response.optional.newWords = 1;
+  }
+
+  const body = {
+    learnedWords: response.learnedWords,
+    optional: {
+      newWordsLastUpdate: response.optional.newWordsLastUpdate,
+      newWords: response.optional.newWords,
+    },
+  };
+
+  updateUserStatistic(appState.user, body);
 }
