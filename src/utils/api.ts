@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { logOut } from '../components/nav';
 import { saveUserToLocalStorage } from '../services/auth/login';
 import { API_ENDPOINT } from './constants';
-import { BodyApi, ResponseStatus, UserState, Word } from './types';
+import {
+  UserWord, ResponseStatus, UserState, Word, AggregateResponse,
+} from './types';
 
 function buildGetParams(params?: { [key: string]: string | number }) {
   if (!params) {
@@ -37,7 +40,7 @@ async function refreshUserToken(userState: UserState): Promise<void> {
   saveUserToLocalStorage(userState);
 }
 
-async function fetchForUser(url: string, userState: UserState, body?: BodyApi, method = 'GET') {
+async function fetchForUser(url: string, userState: UserState, body?: UserWord, method = 'GET') {
   let response = await fetch(url,
     {
       method,
@@ -51,7 +54,7 @@ async function fetchForUser(url: string, userState: UserState, body?: BodyApi, m
     });
 
   if (response.status === ResponseStatus.SUCCESS) {
-    //const result = await response.json();
+    // const result = await response.json();
     return response;
   }
   if (response.status === ResponseStatus.UNAUTHORIZED) {
@@ -67,21 +70,54 @@ async function fetchForUser(url: string, userState: UserState, body?: BodyApi, m
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify(body),
     });
 
-  //const result = await response.json();
+  // const result = await response.json();
   return response;
 }
 
-export async function getUserWords(userState: UserState | null, req?: { group: number, page?: number }) {
+export async function getUserWords(userState: UserState | null) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
+  const result = await fetchForUser(`${API_ENDPOINT}/users/${userState?.userId}/words`, userState);
+  return result;
+}
 
+export async function createUserWord(userState: UserState | null, wordId: string, userWord?: UserWord) {
+  if (!userState) throw Error('User state is null. Cannot create word.');
+  const result = await fetchForUser(
+    `${API_ENDPOINT}/users/${userState?.userId}/words/${wordId}`,
+    userState,
+    userWord,
+    'POST',
+  );
+  if (!result.ok) {
+    throw new Error('Cannot create word');
+  }
+  return result;
+}
+
+export async function updateUserWord(userState: UserState | null, wordId: string) {
+  const result = await fetch(`${API_ENDPOINT}/users/${userState?.userId}/words/${wordId}`, {
+    method: 'PUT',
+  });
+  if (!result.ok) {
+    throw new Error('Cannot update word');
+  }
+  return result;
+}
+
+export async function getAggregatedWords(
+  userState: UserState | null, req?: { group: number, page?: number, filter?: string }
+) {
+  if (!userState) throw Error('User state is null. Cannot get user words.');
   const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}&wordsPerPage=20`;
   const response = await fetchForUser(url, userState);
-  return response;
+  const result: AggregateResponse[] = await response.json();
+  return result;
 }
 
-export async function getUserWordsforGame(userState: UserState | null, req?: {
+export async function getUserWordsForGame(userState: UserState | null, req?: {
   group: number,
   page?: number,
   wordsPerPage?: number,
@@ -104,7 +140,7 @@ export async function getWord(userState: UserState | null, wordId: string) {
   }
 }
 
-export async function updateWord(userState: UserState | null, wordId: string, body: BodyApi, method: string) {
+export async function updateWord(userState: UserState | null, wordId: string, body: UserWord, method: string) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
   const url = `${API_ENDPOINT}/users/${userState.userId}/words/${wordId}`;
   const response = await fetchForUser(url, userState, body, method);

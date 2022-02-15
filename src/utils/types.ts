@@ -19,7 +19,7 @@ export interface Word {
 
 export interface UserWord {
   difficulty: string;
-  optional: {
+  optional?: {
     isLearned: true | null;
   }
 }
@@ -133,4 +133,28 @@ export interface BodyApi {
   optional: {
     isLearned: boolean;
   }
+}
+export interface AggregateResponse {
+  paginatedResults: PaginatedResult[];
+  totalCount: TotalCount[];
+}
+export interface PaginatedResult {
+  _id: string;
+  group: number;
+  page: number;
+  word: string;
+  image: string;
+  audio: string;
+  audioMeaning: string;
+  audioExample: string;
+  textMeaning: string;
+  textExample: string;
+  transcription: string;
+  textExampleTranslate: string;
+  textMeaningTranslate: string;
+  wordTranslate: string;
+  userWord: UserWord;
+}
+export interface TotalCount {
+  count: number;
 }
