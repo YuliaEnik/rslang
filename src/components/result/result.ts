@@ -28,8 +28,8 @@ export const createResult = (state:StateSprint):HTMLElement => {
   const dilogScore = createHTMLelement('div', { class: 'dialog-cell dialog-score' }, dilogWrap, `Your score is ${state.score}!`);
   const dilogChees = createHTMLelement('div', { class: 'dialog-cell dialog-chees' }, dilogWrap, 'Cheers!');
   const butWrap = createHTMLelement('div', { class: 'result-horizontal-wrap' }, resultContent);
-  const btnRestart = createHTMLelement('div', { class: 'button res-btn' }, butWrap, 'Play again');
-  const bntExit = createHTMLelement('div', { class: 'button res-btn' }, butWrap, 'Go to Dictionary');
+  const btnRestart = createHTMLelement('div', { class: 'res-btn' }, butWrap, 'Play again');
+  const bntExit = createHTMLelement('div', { class: ' res-btn' }, butWrap, 'Go to Dictionary');
   const resResult = createHTMLelement('div', { class: 'result-title res-result active' }, titleWrap, 'result');
   resWords.addEventListener('click', () => {
     wordsWrap.classList.remove('display-none');

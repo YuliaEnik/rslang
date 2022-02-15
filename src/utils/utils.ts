@@ -64,3 +64,5 @@ export const renderPage = (buildPageElement: HTMLElement, context: Match | undef
   document.body.innerHTML = '';
   document.body.appendChild(layout);
 };
+
+export const random = (max_num:number):number => Math.floor(Math.random() * max_num);

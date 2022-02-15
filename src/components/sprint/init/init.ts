@@ -1,33 +1,35 @@
 import { Word } from '../../../utils/types';
 import { stateSprint } from '../../../utils/constants';
 import { createResult } from '../../result/result';
+import { createSmilePic, removePic, createAngryPic } from './pictures/pictures';
+import { getElement } from '../../../utils/utils';
 
 const createScore = (scoreWrap:HTMLElement) => {
   scoreWrap.textContent = '';
-  stateSprint.score += 30;
+  stateSprint.score += stateSprint.points;
   scoreWrap.textContent = `${stateSprint.score}`;
 };
 
-const checkCountCorrectAnswers = (data:Word[], scoreWrap:HTMLElement) => {
-  if (data[stateSprint.curIndex].correctAnswer === 1) {
+const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, parentPic:HTMLElement):void => {
+  const btnAnsw = Number(btn.dataset.answ);
+  //correct Answer
+  if (btnAnsw === stateSprint.isTrueTranslate) {
+    data[stateSprint.curIndex].correctAnswer = 1;
+    createScore(scoreWrap);
+    createSmilePic(parentPic);
     stateSprint.countCorrectAnsw++;
-    if (stateSprint.countCorrectAnsw === 3) {
-      createScore(scoreWrap);
+    if (stateSprint.countCorrectAnsw === 4) {
+      removePic(parentPic);
+      stateSprint.points = stateSprint.points * 2;
       stateSprint.countCorrectAnsw = 0;
     }
-  } else if (data[stateSprint.curIndex].correctAnswer === 0) {
-    stateSprint.countCorrectAnsw = 0;
-  }
-};
-
-const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement):void => {
-  const k = Number(btn.dataset.answ);
-  if (k === stateSprint.randomTrueFalse) {
-    data[stateSprint.curIndex].correctAnswer = 1;
   } else {
+    //incorrect
     data[stateSprint.curIndex].correctAnswer = 0;
+    createAngryPic(parentPic);
+    stateSprint.countCorrectAnsw = 0;
+    stateSprint.points = 10;
   }
-  checkCountCorrectAnswers(data, scoreWrap);
   stateSprint.questionsArray.push(data[stateSprint.curIndex]);
 };
 
@@ -35,7 +37,7 @@ const updateCurIndex = () => {
   stateSprint.curIndex += 1;
 };
 
-const getTrueFalseRandom = ():number => Math.floor(Math.random() * 2);
+const isTrueTranslate = ():number => Math.floor(Math.random() * 2);
 
 const createRandomAnswerFalse = (data: Word[], currentIndex: number): number => {
   const getRandomTranslateWord = ():number => Math.floor(Math.random() * data.length);
@@ -47,13 +49,15 @@ const createRandomAnswerFalse = (data: Word[], currentIndex: number): number => 
 };
 
 const setWordRu = (data: Word[], wordRu: HTMLElement, currentIndex:number) => {
-  stateSprint.randomTrueFalse = getTrueFalseRandom();
-  if (stateSprint.randomTrueFalse === stateSprint.falseAnsw) {
+  stateSprint.isTrueTranslate = isTrueTranslate();
+  if (stateSprint.isTrueTranslate === stateSprint.falseAnsw) {
     wordRu.textContent = data[createRandomAnswerFalse(data, stateSprint.curIndex)].wordTranslate;
   } else {
     wordRu.textContent = data[currentIndex].wordTranslate;
   }
 };
+
+
 
 const setWordEn = (data: Word[], wordEn: HTMLElement) => {
   wordEn.textContent = '';
@@ -65,23 +69,16 @@ const setWords = (data: Word[], wordEn: HTMLElement, wordRu:HTMLElement) => {
   setWordRu(data, wordRu, stateSprint.curIndex);
 };
 
-const checkEnd = ():void => {
-  if (stateSprint.max_sec === -1) {
-    createResult(stateSprint);
+const isEnd = (data: Word[]):boolean => {
+  if (stateSprint.curIndex === data.length-1) {
+    return true;
   }
-};
-
-export const addBusAnimation = (busParent:HTMLElement) => {
-  busParent.classList.add('animate');
-};
-
-const removeBusAnimation = (busParent:HTMLElement) => {
-  busParent.classList.remove('animate');
+  return false;
 };
 
 export {
   checkAnswer,
   updateCurIndex,
   setWords,
-  checkEnd,
+  isEnd,
 };
