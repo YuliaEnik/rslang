@@ -1,7 +1,7 @@
 import { appState } from '../../app';
-import { getWords } from '../../utils/api';
+import { getAggregatedWords, getUserWords, getWords } from '../../utils/api';
 import { router } from '../../utils/router';
-import { UserState } from '../../utils/types';
+import { UserState, UserWord } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
 import { playGame } from './games';
 import html from './index.html';
@@ -90,6 +90,27 @@ export function buildDictionaryPage(): HTMLDivElement {
 
   const gamesEl = template.querySelector('.games') as HTMLDivElement;
   applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
+
+  // page with difficult words
+
+  function renderDifficultPage() {
+    words.innerHTML = '';
+    // getAggregatedWords(appState.user, {
+    //   group: appState.groupState.group || 0,
+    //   page: appState.groupState.pageNumber || 0,
+    //   filter: JSON.stringify({ 'userWord.difficulty': 'difficult' }),
+    // }).then(async (wordsData) => {
+    //   wordsData[0].paginatedResults.map((el) => {
+    //   });
+    // });
+  }
+
+  const diffBtn = template.querySelector('.difficult') as HTMLButtonElement;
+  diffBtn.addEventListener('click', () => {
+    renderDifficultPage();
+  });
+
+  renderDifficultPage();
 
   return template;
 }

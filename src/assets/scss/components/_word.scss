@@ -47,12 +47,15 @@
     z-index: 6;
     transition: all 0.5s ease-in-out;
   }
+  &.a2 .word__phrase--bubble {
+    background-color: $color-a2;
+  }
 }
 
 .word__info {
   display: grid;
   grid-template-columns: 20px 1fr;
-  grid-template-rows:max-content;
+  grid-template-rows: max-content;
   column-gap: 12px;
   margin-bottom: 15px;
   & > .btn--play-audio {
@@ -139,6 +142,6 @@
 
 .word__phrase--bubble {
   padding: 10px;
-  background-color: $color-a1;
+  // background-color: $color-a1;
   border-radius: 10px 10px 10px 0;
 }
