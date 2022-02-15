@@ -1,8 +1,10 @@
 import { appState } from '../../app';
 import { getAggregatedWords, getUserWords, getWords } from '../../utils/api';
 import { router } from '../../utils/router';
-import { UserState, UserWord } from '../../utils/types';
-import { createElement, renderElement } from '../../utils/utils';
+import {
+  UserState, UserWord, Word, WordFromAggregated,
+} from '../../utils/types';
+import { createElement, render, renderElement } from '../../utils/utils';
 import { playGame } from './games';
 import html from './index.html';
 import './style.scss';
@@ -15,9 +17,31 @@ function applyAuthentication(levelButton: HTMLElement, gamesEl: HTMLElement, use
   }
 }
 
+function convertWordFromAggregated(wordFromAggregated: WordFromAggregated): Word {
+  return {
+    // eslint-disable-next-line no-underscore-dangle
+    id: wordFromAggregated._id,
+    group: wordFromAggregated.group,
+    page: wordFromAggregated.page,
+    word: wordFromAggregated.word,
+    image: wordFromAggregated.image,
+    audio: wordFromAggregated.audio,
+    audioMeaning: wordFromAggregated.audioMeaning,
+    audioExample: wordFromAggregated.audioExample,
+    textMeaning: wordFromAggregated.textMeaning,
+    textExample: wordFromAggregated.textExample,
+    transcription: wordFromAggregated.transcription,
+    textExampleTranslate: wordFromAggregated.textExampleTranslate,
+    textMeaningTranslate: wordFromAggregated.textMeaningTranslate,
+    wordTranslate: wordFromAggregated.wordTranslate,
+    correctAnswer: undefined,
+    userWord: wordFromAggregated.userWord,
+  };
+}
+
 export function buildDictionaryPage(): HTMLDivElement {
   let currentPage = appState.groupState.pageNumber;
-  const { group } = appState.groupState;
+  let { group } = appState.groupState;
   const template = document.createElement('div');
   template.innerHTML = html;
   const levelButtons = template.querySelectorAll('.level__item');
@@ -45,12 +69,18 @@ export function buildDictionaryPage(): HTMLDivElement {
     pageSelector.value = String(currentPage + 1);
     template.querySelector(`.level-${id}`)?.classList.add('active');
     getWords({ group: id, page }).then((wordsData) => {
+      console.log(wordsData);
       wordsData.forEach((wordEl) => {
         words?.appendChild(renderWord({ word: wordEl, onclick: renderCard }, appState.user));
       });
     });
   }
-  renderWordsList(group, currentPage);
+  if (group < 6) {
+    renderWordsList(group, currentPage);
+  } else {
+    group = 6;
+    renderDifficultPage();
+  }
 
   levelButtons.forEach((el) => {
     el.addEventListener('click', () => {
@@ -95,22 +125,26 @@ export function buildDictionaryPage(): HTMLDivElement {
 
   function renderDifficultPage() {
     words.innerHTML = '';
-    // getAggregatedWords(appState.user, {
-    //   group: appState.groupState.group || 0,
-    //   page: appState.groupState.pageNumber || 0,
-    //   filter: JSON.stringify({ 'userWord.difficulty': 'difficult' }),
-    // }).then(async (wordsData) => {
-    //   wordsData[0].paginatedResults.map((el) => {
-    //   });
-    // });
+    appState.groupState.group = 6;
+    template.querySelector('.level-6')?.classList.add('active');
+    getAggregatedWords(appState.user, {
+      page: appState.groupState.pageNumber || 0,
+      filter: JSON.stringify({ 'userWord.difficulty': 'difficult' }),
+    }).then(async (wordsData) => {
+      const convertedWords = wordsData[0].paginatedResults.map((el) => convertWordFromAggregated(el));
+      console.log(wordsData);
+      convertedWords.forEach((el) => {
+        const renderEl = renderWord({ word: el }, appState.user);
+        renderEl.querySelector('.btn--difficult')?.classList.add('active');
+        words?.appendChild(renderEl);
+      });
+    });
   }
 
   const diffBtn = template.querySelector('.difficult') as HTMLButtonElement;
   diffBtn.addEventListener('click', () => {
     renderDifficultPage();
   });
-
-  renderDifficultPage();
 
   return template;
 }

@@ -3,17 +3,23 @@ import { loadUserFromLocalStorage } from '../../../services/auth/login';
 import { createUserWord, getAggregatedWords, getUserWords } from '../../../utils/api';
 import { API_ENDPOINT } from '../../../utils/constants';
 import { addWordToDifficultList } from '../../../utils/operations';
-import { UserState, Word } from '../../../utils/types';
+import { AppState, UserState, Word } from '../../../utils/types';
 import { createElement, getElement } from '../../../utils/utils';
 import html from './index.html';
 import './style.scss';
 
-function appendUserButtons(wordElement: HTMLElement, userState: UserState | null) {
-  if (userState?.userId) {
+function appendUserButtons(wordElement: HTMLElement, appState: AppState) {
+  if (appState.user?.userId) {
     const addToStudiedButton = createElement('button', { class: 'btn btn--studied' });
     const addToDifficultButton = createElement('button', { class: 'btn btn--difficult' });
     wordElement.appendChild(addToStudiedButton);
     wordElement.appendChild(addToDifficultButton);
+  }
+}
+
+function showOrHideUserAttr(wordElement: HTMLElement, userState: UserState | null) {
+  if (userState?.userId) {
+    wordElement.classList.remove('hidden');
   }
 }
 
@@ -32,7 +38,6 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
   wordElement?.addEventListener('click', () => {
     params.onclick?.();
   });
-
   const { word } = params;
   const engWord = word.word;
   const { transcription } = word;
@@ -94,25 +99,30 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
   });
 
   const cardColumn = template.querySelector('.column__header') as HTMLHeadElement;
-  appendUserButtons(cardColumn, appState.user);
+  const wordStat = template.querySelector('.word_stat') as HTMLElement;
+  appendUserButtons(cardColumn, appState);
+  showOrHideUserAttr(wordStat, appState.user);
 
-  const diffBtn = template.querySelector('.btn--difficult') as HTMLButtonElement;
-  diffBtn.addEventListener('click', () => {
-    addWordToDifficultList(word.id).then(() => {
-      alert('Word added')
+  if (userState?.userId) {
+    const diffBtn = template.querySelector('.btn--difficult') as HTMLButtonElement;
+    diffBtn.addEventListener('click', () => {
+      diffBtn.classList.add('active');
+      diffBtn.style.pointerEvents = 'none';
+      addWordToDifficultList(word.id).then(() => {
+        alert('Word added')
+      });
+      getUserWords(appState.user).then(async (wordsData) => {
+        const result = await wordsData.json();
+        console.log(result);
+      });
+      getAggregatedWords(appState.user, {
+        group: appState.groupState.group,
+        page: appState.groupState.pageNumber,
+      }).then(async (wordsData) => {
+        console.log(wordsData);
+      });
     });
-    // getUserWords(appState.user).then(async (wordsData) => {
-    //   const result = await wordsData.json();
-    //   console.log(result);
-    // });
-    // getAggregatedWords(appState.user, {
-    //   group: appState.groupState.group,
-    //   page: appState.groupState.pageNumber,
-    // }).then(async (wordsData) => {
-    //   const result = await wordsData.json();
-    //   console.log(result);
-    // });
-  });
+  }
 
   return template.children[0] as HTMLDivElement;
 }
