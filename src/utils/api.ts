@@ -108,7 +108,7 @@ export async function updateUserWord(userState: UserState | null, wordId: string
 }
 
 export async function getAggregatedWords(
-  userState: UserState | null, req?: { group: number, page?: number, filter?: string }
+  userState: UserState | null, req?: { group?: number, page?: number, filter?: string }
 ) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
   const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}&wordsPerPage=20`;
