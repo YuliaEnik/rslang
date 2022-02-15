@@ -16,12 +16,6 @@ function buildGetParams(params?: { [key: string]: string | number }) {
   return `?${queryString}`;
 }
 
-export async function getWords(req?: { group: number, page?: number }): Promise<Word[]> {
-  const result = await fetch(`${API_ENDPOINT}/words/${buildGetParams(req)}`);
-  const data = await result.json();
-  return data;
-}
-
 async function refreshUserToken(userState: UserState): Promise<void> {
   const response = await fetch(`${API_ENDPOINT}/users/${userState.userId}/tokens`, {
     headers: {
@@ -77,43 +71,68 @@ async function fetchForUser(url: string, userState: UserState, body?: UserWord, 
   return response;
 }
 
+export async function getWords(req?: { group: number, page?: number }): Promise<Word[]> {
+  const result = await fetch(`${API_ENDPOINT}/words/${buildGetParams(req)}`);
+  const data = await result.json();
+  return data;
+}
+
 export async function getUserWords(userState: UserState | null) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
-  const result = await fetchForUser(`${API_ENDPOINT}/users/${userState?.userId}/words`, userState);
+
+  const url = `${API_ENDPOINT}/users/${userState.userId}/words`;
+  const result = await fetchForUser(url, userState);
+  return result;
+}
+
+export async function getWord(userState: UserState | null, wordId: string) {
+  if (!userState) throw Error('User state is null. Cannot get user word.');
+
+  const url = `${API_ENDPOINT}/users/${userState.userId}/words/${wordId}`;
+  const result = await fetchForUser(url, userState);
   return result;
 }
 
 export async function createUserWord(userState: UserState | null, wordId: string, userWord?: UserWord) {
   if (!userState) throw Error('User state is null. Cannot create word.');
+
+  const url = `${API_ENDPOINT}/users/${userState.userId}/words/${wordId}`;
   const result = await fetchForUser(
-    `${API_ENDPOINT}/users/${userState?.userId}/words/${wordId}`,
+    url,
     userState,
     userWord,
     'POST',
   );
+
   if (!result.ok) {
     throw new Error('Cannot create word');
   }
+
   return result;
 }
 
-export async function updateUserWord(userState: UserState | null, wordId: string) {
-  const result = await fetch(`${API_ENDPOINT}/users/${userState?.userId}/words/${wordId}`, {
-    method: 'PUT',
-  });
+export async function updateUserWord(userState: UserState | null, wordId: string, userWord?: UserWord) {
+  if (!userState) throw Error('User state is null. Cannot update word.');
+
+  const url = `${API_ENDPOINT}/users/${userState?.userId}/words/${wordId}`;
+  const result = await fetchForUser(url, userState, userWord, 'PUT');
+
   if (!result.ok) {
     throw new Error('Cannot update word');
   }
+
   return result;
 }
 
 export async function getAggregatedWords(
-  userState: UserState | null, req?: { group: number, page?: number, filter?: string }
+  userState: UserState | null, req?: { group: number, page?: number, filter?: string },
 ) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
+
   const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}&wordsPerPage=20`;
   const response = await fetchForUser(url, userState);
   const result: AggregateResponse[] = await response.json();
+
   return result;
 }
 
@@ -128,24 +147,4 @@ export async function getUserWordsForGame(userState: UserState | null, req?: {
   const response = await fetchForUser(url, userState);
   const result = await response.json();
   return result;
-}
-
-export async function getWord(userState: UserState | null, wordId: string) {
-  if (!userState) throw Error('User state is null. Cannot get user words.');
-  const url = `${API_ENDPOINT}/users/${userState.userId}/words/${wordId}`;
-  const response = await fetchForUser(url, userState);
-  if (response.status === ResponseStatus.SUCCESS) {
-    const result = await response.json();
-    console.log(result);
-  }
-}
-
-export async function updateWord(userState: UserState | null, wordId: string, body: UserWord, method: string) {
-  if (!userState) throw Error('User state is null. Cannot get user words.');
-  const url = `${API_ENDPOINT}/users/${userState.userId}/words/${wordId}`;
-  const response = await fetchForUser(url, userState, body, method);
-  if (response.status === ResponseStatus.SUCCESS) {
-    const result = await response.json();
-    console.log(result);
-  }
 }

@@ -18,9 +18,16 @@ export interface Word {
 }
 
 export interface UserWord {
-  difficulty: string;
+  difficulty?: string;
   optional?: {
-    isLearned: true | null;
+    isLearned?: true | null;
+    date?: string;
+    games?: {
+      sprint?: {
+        correct: number;
+        wrong: number;
+      }
+    }
   }
 }
 
