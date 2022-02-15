@@ -114,8 +114,13 @@ export async function createUserWord(userState: UserState | null, wordId: string
 export async function updateUserWord(userState: UserState | null, wordId: string, userWord?: UserWord) {
   if (!userState) throw Error('User state is null. Cannot update word.');
 
-  const url = `${API_ENDPOINT}/users/${userState?.userId}/words/${wordId}`;
-  const result = await fetchForUser(url, userState, userWord, 'PUT');
+  const url = `${API_ENDPOINT}/users/${userState.userId}/words/${wordId}`;
+  const result = await fetchForUser(
+    url,
+    userState,
+    userWord,
+    'PUT',
+  );
 
   if (!result.ok) {
     throw new Error('Cannot update word');
