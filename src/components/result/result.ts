@@ -1,6 +1,9 @@
 import './result.scss';
 import { StateSprint } from '../../utils/types';
+import { stateTextContentEn } from '../../utils/constants';
+
 import { createHTMLelement, getElement } from '../../utils/utils';
+import { viewGame } from '../../pages/games/game';
 
 export const createResult = (state:StateSprint):HTMLElement => {
   const parent = getElement('.game-wrapper-content');

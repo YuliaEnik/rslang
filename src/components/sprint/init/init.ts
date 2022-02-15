@@ -1,8 +1,6 @@
 import { Word } from '../../../utils/types';
 import { stateSprint } from '../../../utils/constants';
-import { createResult } from '../../result/result';
 import { createSmilePic, removePic, createAngryPic } from './pictures/pictures';
-import { getElement } from '../../../utils/utils';
 
 const createScore = (scoreWrap:HTMLElement) => {
   scoreWrap.textContent = '';
@@ -12,7 +10,7 @@ const createScore = (scoreWrap:HTMLElement) => {
 
 const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, parentPic:HTMLElement):void => {
   const btnAnsw = Number(btn.dataset.answ);
-  //correct Answer
+  // correct Answer
   if (btnAnsw === stateSprint.isTrueTranslate) {
     data[stateSprint.curIndex].correctAnswer = 1;
     createScore(scoreWrap);
@@ -20,11 +18,11 @@ const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, par
     stateSprint.countCorrectAnsw++;
     if (stateSprint.countCorrectAnsw === 4) {
       removePic(parentPic);
-      stateSprint.points = stateSprint.points * 2;
+      stateSprint.points *= 2;
       stateSprint.countCorrectAnsw = 0;
     }
   } else {
-    //incorrect
+    // incorrect
     data[stateSprint.curIndex].correctAnswer = 0;
     createAngryPic(parentPic);
     stateSprint.countCorrectAnsw = 0;
@@ -57,8 +55,6 @@ const setWordRu = (data: Word[], wordRu: HTMLElement, currentIndex:number) => {
   }
 };
 
-
-
 const setWordEn = (data: Word[], wordEn: HTMLElement) => {
   wordEn.textContent = '';
   wordEn.textContent = data[stateSprint.curIndex].word;
@@ -70,7 +66,7 @@ const setWords = (data: Word[], wordEn: HTMLElement, wordRu:HTMLElement) => {
 };
 
 const isEnd = (data: Word[]):boolean => {
-  if (stateSprint.curIndex === data.length-1) {
+  if (stateSprint.curIndex === data.length - 1) {
     return true;
   }
   return false;

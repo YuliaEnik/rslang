@@ -6,14 +6,10 @@ import {
   updateCurIndex,
   setWords,
   isEnd,
- // checkEnd,
- // addBusAnimation,
 } from './init/init';
-import { createResult } from './../result/result';
+import { createResult } from '../result/result';
 import { stateSprint } from '../../utils/constants';
-//import { createPics } from './init/pictures/pictures';
-import { countdown, timer1} from './init/timer/timer';
-import { getWords } from '../../utils/api';
+import { countdown, timer1 } from './init/timer/timer';
 import { data } from '../../app';
 
 export const sprint = async (
@@ -58,4 +54,3 @@ export const sprint = async (
   countdown(timer);
   return sprintWrapper;
 };
-

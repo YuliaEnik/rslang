@@ -3,7 +3,7 @@ import { createHTMLelement, getElement, random } from '../../../../utils/utils';
 
 const createSmilePic = (parent:HTMLElement) => {
   const angryWrap = getElement('.angryWrap') as HTMLElement;
-  if(angryWrap) {
+  if (angryWrap) {
     angryWrap.remove();
   }
   const elem = createHTMLelement('div', { class: 'answerPic' }, parent);
@@ -15,7 +15,7 @@ const createAngryPic = (parent:HTMLElement) => {
   const elem = createHTMLelement('div', { class: 'angryWrap' }, parent);
   const angryWrap = createHTMLelement('div', { class: 'answerPic angryPic' }, elem);
   angryWrap.style.backgroundImage = `url(img/angry/${random(3)}.jpeg)`;
-}
+};
 
 const removePic = (parent: HTMLElement) => {
   parent.innerHTML = '';
