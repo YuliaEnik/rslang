@@ -1,6 +1,6 @@
 import { appState } from '../app';
 import { createUserWord, getUserStatistic, getWord, updateUserStatistic, updateUserWord } from './api';
-import { Game, UserState, UserStatistics, UserStatisticsOptional, UserStatisticsResponse, UserWord, UserWordResponse } from './types';
+import { UserState, UserStatisticsResponse, UserWord, UserWordResponse } from './types';
 
 export function addWordToDifficultList(wordId: string) {
   return createUserWord(appState.user, wordId, { difficulty: 'difficult' });
@@ -18,7 +18,6 @@ function initiateStatisctics(date: string, answer: number): UserWord {
       },
     },
   };
-
   return body;
 }
 
@@ -119,22 +118,82 @@ export async function addGameResult(userState: UserState | null, wordId: string,
   }
 }
 
-export async function updateStreak(game: string, answer: number) {
+function countStreak(game: string, answer: number, currentDate: string, response: UserStatisticsResponse) {
+  if (answer) {
+    if (response.optional?.games?.game) {
+      if (currentDate === response.optional.games.game.streakLastUpdate) {
+        response.optional.games.game.currentStreak++;
+        response.optional.games.game.streakLastUpdate = currentDate;
+      } else if (currentDate !== response.optional.games.sprint.streakLastUpdate) {
+        response.optional.games.game.bestStreak = 1;
+        response.optional.games.game.currentStreak = 1;
+        response.optional.games.game.streakLastUpdate = currentDate;
+      }
+    }
+  }
+  if (!answer) {
+    if (response.optional?.games?.game) {
+      if (currentDate === response.optional.games.game.streakLastUpdate) {
+        if (response.optional.games.game.currentStreak > response.optional.games.game.bestStreak) {
+          response.optional.games.game.bestStreak = response.optional.games.game.currentStreak;
+          response.optional.games.game.currentStreak = 0;
+          response.optional.games.game.streakLastUpdate = currentDate;
+        }
+        response.optional.games.game.currentStreak = 0;
+        response.optional.games.game.streakLastUpdate = currentDate;
+      } else if (currentDate !== response.optional.games.game.streakLastUpdate) {
+        response.optional.games.game.bestStreak = 0;
+        response.optional.games.game.currentStreak = 0;
+        response.optional.games.game.streakLastUpdate = currentDate;
+      }
+    }
+  }
+}
+
+function getBestStreak(date: string, response: UserStatisticsResponse) {
+  if (response.optional?.games?.game) {
+    if (date === response.optional.games.game.streakLastUpdate
+      && response.optional.games.game.currentStreak >= response.optional.games.game.bestStreak) {
+      response.optional.games.game.bestStreak = response.optional.games.game.currentStreak;
+      response.optional.games.game.streakLastUpdate = date;
+    } else if (date !== response.optional.games.sprint.streakLastUpdate) {
+      response.optional.games.game.bestStreak = response.optional.games.game.currentStreak;
+      response.optional.games.game.streakLastUpdate = date;
+    }
+  }
+
+  const result = {
+    learnedWords: response.learnedWords,
+    optional: {
+      games: {
+      },
+    },
+  };
+  if (response.optional?.games) {
+    result.optional.games = response.optional.games;
+  }
+
+  return result;
+}
+
+export async function updateStreak(game: string, answer: number, isFinished: boolean) {
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
   const response = await getUserStatistic(appState.user);
   if (game === 'sprint') {
-    if (answer) {
-      if (response.optional?.games?.sprint) {
-        if (currentDate === response.optional.games.sprint.streakLastUpdate
-          && response.optional.games.sprint.bestStreak === response.optional.games.sprint.currentStreak) {
-          response.optional.games.sprint.bestStreak++;
-        } else if (currentDate === response.optional.games.sprint.streakLastUpdate
-          && response.optional.games.sprint.bestStreak > response.optional.games.sprint.currentStreak) {
-          response.optional.games.sprint.currentStreak++;
-        }
-      }
+    countStreak('sprint', answer, currentDate, response);
+    if (isFinished) {
+      const result = getBestStreak(currentDate, response);
+      updateUserStatistic(appState.user, result);
+    }
+  }
+  if (game === 'audiochallenge') {
+    countStreak('audiochallenge', answer, currentDate, response);
+    if (isFinished) {
+      getBestStreak(currentDate, response);
+      const result = getBestStreak(currentDate, response);
+      updateUserStatistic(appState.user, result);
     }
   }
 }
