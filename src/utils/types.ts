@@ -18,17 +18,28 @@ export interface Word {
 }
 
 export interface UserWord {
+  [key: string]: string | UserWordOptional | undefined;
   difficulty?: string;
-  optional?: {
-    isLearned?: true | null;
-    date?: string;
-    games?: {
-      sprint?: {
-        correct: number;
-        wrong: number;
-      }
+  optional?: UserWordOptional;
+}
+
+export interface UserWordOptional {
+  isLearned?: true | null;
+  date?: string;
+  games?: {
+    sprint?: {
+      correct: number;
+      wrong: number;
     }
   }
+}
+
+export interface UserWordResponse {
+  [key: string]: string | UserWordOptional | undefined;
+  id: string,
+  wordId: string;
+  difficulty?: string;
+  optional?: UserWordOptional;
 }
 
 export interface StateSprint {
