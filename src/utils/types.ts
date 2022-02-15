@@ -120,11 +120,10 @@ export interface Data {
 }
 
 export interface AggregateResponse {
-  paginatedResults: PaginatedResult[];
+  paginatedResults: WordFromAggregated[];
   totalCount: TotalCount[];
 }
-
-export interface PaginatedResult {
+export interface WordFromAggregated {
   _id: string;
   group: number;
   page: number;
