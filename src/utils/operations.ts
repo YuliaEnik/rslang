@@ -24,8 +24,11 @@ function convertWordFromAggregated(wordFromAggregated: WordFromAggregated): Word
   };
 }
 
-export function addWordToDifficultList(wordId: string) {
-  return createUserWord(appState.user, wordId, { difficulty: 'difficult' });
+export function addWordToDifficultList(word: Word) {
+  if (word.userWord) {
+    return updateUserWord(appState.user, word.id, { difficulty: 'difficult' });
+  }
+  return createUserWord(appState.user, word.id, { difficulty: 'difficult' });
 }
 
 export function removeWordFromDifficult(wordId: string) {
