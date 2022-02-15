@@ -1,5 +1,7 @@
+import { UsageState } from 'webpack';
 import { appState } from '../../app';
 import { getAggregatedWords, getUserWords, getWords } from '../../utils/api';
+import { getWordsForRendering } from '../../utils/operations';
 import { router } from '../../utils/router';
 import {
   UserState, UserWord, Word, WordFromAggregated,
@@ -68,7 +70,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     words.innerHTML = '';
     pageSelector.value = String(currentPage + 1);
     template.querySelector(`.level-${id}`)?.classList.add('active');
-    getWords({ group: id, page }).then((wordsData) => {
+    getWordsForRendering(appState.user, { group, page: currentPage }).then((wordsData) => {
       console.log(wordsData);
       wordsData.forEach((wordEl) => {
         words?.appendChild(renderWord({ word: wordEl, onclick: renderCard }, appState.user));
