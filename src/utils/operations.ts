@@ -1,6 +1,6 @@
 import { appState } from '../app';
 import { createUserWord, getUserStatistic, getWord, updateUserStatistic, updateUserWord } from './api';
-import { UserState, UserStatistics, UserStatisticsOptional, UserStatisticsResponse, UserWord, UserWordResponse } from './types';
+import { Game, UserState, UserStatistics, UserStatisticsOptional, UserStatisticsResponse, UserWord, UserWordResponse } from './types';
 
 export function addWordToDifficultList(wordId: string) {
   return createUserWord(appState.user, wordId, { difficulty: 'difficult' });
@@ -116,5 +116,25 @@ export async function addGameResult(userState: UserState | null, wordId: string,
     const content = await result.json();
     const body = updateWordStatistics(content, answer);
     updateUserWord(appState.user, wordId, body);
+  }
+}
+
+export async function updateStreak(game: string, answer: number) {
+  const date = new Date();
+  const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
+
+  const response = await getUserStatistic(appState.user);
+  if (game === 'sprint') {
+    if (answer) {
+      if (response.optional?.games?.sprint) {
+        if (currentDate === response.optional.games.sprint.streakLastUpdate
+          && response.optional.games.sprint.bestStreak === response.optional.games.sprint.currentStreak) {
+          response.optional.games.sprint.bestStreak++;
+        } else if (currentDate === response.optional.games.sprint.streakLastUpdate
+          && response.optional.games.sprint.bestStreak > response.optional.games.sprint.currentStreak) {
+          response.optional.games.sprint.currentStreak++;
+        }
+      }
+    }
   }
 }

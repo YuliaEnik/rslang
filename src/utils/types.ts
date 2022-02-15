@@ -35,7 +35,6 @@ export interface UserWordOptional {
 export interface GameStatistics {
   correct: number;
   wrong: number;
-  streak?: number;
 }
 
 export interface UserWordResponse {
@@ -62,6 +61,23 @@ export interface UserStatisticsResponse {
 export interface UserStatisticsOptional {
   newWords?: number;
   newWordsLastUpdate?: string;
+  games?: {
+    sprint?: {
+      bestStreak: number;
+      currentStreak: number;
+      streakLastUpdate: string;
+    },
+    audioChallenge?: {
+      bestStreak: number;
+      currentStreak: number;
+      streakLastUpdate: string;
+    }
+  }
+}
+
+export enum Game {
+  SPRINT = 'sprint',
+  AUDIO_CHALLENGE = 'audiochallenge',
 }
 
 export interface StateSprint {
