@@ -1,8 +1,9 @@
+import { WebpackOptionsValidationError } from 'webpack';
 import { appState } from '../../../app';
 import { loadUserFromLocalStorage } from '../../../services/auth/login';
 import { createUserWord, getAggregatedWords, getUserWords } from '../../../utils/api';
 import { API_ENDPOINT } from '../../../utils/constants';
-import { addWordToDifficultList } from '../../../utils/operations';
+import { addWordToDifficultList, removeWordFromDifficult } from '../../../utils/operations';
 import { AppState, UserState, Word } from '../../../utils/types';
 import { createElement, getElement } from '../../../utils/utils';
 import html from './index.html';
@@ -106,15 +107,22 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
   if (userState?.userId) {
     const diffBtn = template.querySelector('.btn--difficult') as HTMLButtonElement;
     diffBtn.addEventListener('click', () => {
-      diffBtn.classList.add('active');
-      diffBtn.style.pointerEvents = 'none';
-      addWordToDifficultList(word.id).then(() => {
-        alert('Word added')
-      });
-      getUserWords(appState.user).then(async (wordsData) => {
-        const result = await wordsData.json();
-        console.log(result);
-      });
+      if (word.userWord?.difficulty !== 'difficult') {
+        addWordToDifficultList(word).then(() => {
+          diffBtn.classList.add('active');
+          alert('Word added')
+        });
+      } else {
+        removeWordFromDifficult(word.id).then(() => {
+          diffBtn.classList.remove('active');
+          alert('Word removed from difficult page')
+          window.location.reload();
+        });
+      }
+      // getUserWords(appState.user).then(async (wordsData) => {
+      //   const result = await wordsData.json();
+      //   console.log(result);
+      // });
       getAggregatedWords(appState.user, {
         group: appState.groupState.group,
         page: appState.groupState.pageNumber,
@@ -122,6 +130,9 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
         console.log(wordsData);
       });
     });
+    if (word.userWord?.difficulty === 'difficult') {
+      diffBtn.classList.add('active');
+    }
   }
 
   return template.children[0] as HTMLDivElement;
