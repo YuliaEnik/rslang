@@ -5,13 +5,11 @@ import {
   checkAnswer,
   updateCurIndex,
   setWords,
-  checkEnd,
-  addBusAnimation,
+  isEnd,
 } from './init/init';
+import { createResult } from '../result/result';
 import { stateSprint } from '../../utils/constants';
-import { createPics } from './init/pictures/pictures';
-import { countdown } from './init/timer/timer';
-import { getWords } from '../../utils/api';
+import { countdown, timer1 } from './init/timer/timer';
 import { data } from '../../app';
 
 export const sprint = async (
@@ -22,15 +20,15 @@ export const sprint = async (
   const arrayBtnEl:HTMLElement[] = [];
   busParent.classList.add('bus');
   const sprintWrapper = createHTMLelement('div', { class: 'sprint-wrapper' }, parent);
+  const soundBtn = createHTMLelement('div', { class: 'sound sound-on' }, parent);
   const sprintContent = createHTMLelement('div', { class: 'sprint-content' }, sprintWrapper);
   const timerScoreWrap = createHTMLelement('div', { class: 'horizontal-wrap' }, sprintContent);
   const timer = createHTMLelement('div', { class: 'timer' }, timerScoreWrap);
-  // const clock = createHTMLelement('div', { class: 'clock' }, timer);
   const scoreWrap = createHTMLelement('div', { class: 'score' }, timerScoreWrap, `${stateSprint.score}`);
   const answerPicturesWrap = createHTMLelement('div', { class: 'answ-pic-wrap' }, sprintContent);
-  const wordWrapEn = createHTMLelement('div', { class: 'sprintWordEn' }, sprintContent);
-  const wordWrapRu = createHTMLelement('div', { class: 'sprintWordRu' }, sprintContent);
-  const btnContainer = createHTMLelement('div', { class: 'horizontal-wrap' }, sprintContent);
+  const wordWrapEn = createHTMLelement('h2', { class: 'sprintWordEn' }, sprintContent);
+  const wordWrapRu = createHTMLelement('h2', { class: 'sprintWordRu' }, sprintContent);
+  const btnContainer = createHTMLelement('div', { class: 'btn-wrap' }, sprintContent);
   const btnTrue = createHTMLelement('button',
     { class: 'button button_true', 'data-answ': String(stateSprint.trueAnsw) },
     btnContainer, stateTextContentEn.btnTrue);
@@ -41,15 +39,18 @@ export const sprint = async (
   arrayBtnEl.push(btnFalse);
   arrayBtnEl.forEach((el) => {
     el.addEventListener(('click'), () => {
-      checkAnswer(data.words, el, scoreWrap);
-      createPics(stateSprint, data.words, answerPicturesWrap);
+      checkAnswer(data.words, el, scoreWrap, answerPicturesWrap);
+      if (isEnd(data.words)) {
+        createResult(stateSprint);
+        clearTimeout(timer1);
+        busParent.style.animationPlayState = 'paused';
+        return;
+      }
       updateCurIndex();
       setWords(data.words, wordWrapEn, wordWrapRu);
     });
   });
   setWords(data.words, wordWrapEn, wordWrapRu);
-  checkEnd();
   countdown(timer);
-  addBusAnimation(busParent);
   return sprintWrapper;
 };

@@ -38,8 +38,9 @@ export interface StateSprint {
   questionsArray: Word[];
   falseAnsw: number;
   trueAnsw: number;
-  randomTrueFalse: number | null;
-  max_sec: number
+  isTrueTranslate: number | null;
+  game_time: number;
+  points: number;
 }
 
 export interface StateTextContentEn {

@@ -1,9 +1,71 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 10px;
+  box-sizing: border-box;
+}
+
+*,
+::after,
+::before {
+  box-sizing: inherit;
+}
+
+.game-section {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #5B93FF;;
+
+}
+
+.game-wrapper-content {
+  height: 100%;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media  (max-width: 600px){
+    width: 100%;
+  }
+}
+
+.exit {
+  width: 5rem;
+  height: 3rem;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  box-shadow: 1px 17px 44px rgba(3, 2, 41, 0.07);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .7s;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
 .sprint-wrapper {
-  height: 45rem;
-  width: 70%;
+  height: 55rem;
+  width: 50rem;
   padding: 3%;
   display: flex;
-  align-self:flex-start;
+  align-self: center;
   @media  (max-width: 920px){
     width: 80%;
   }
@@ -52,44 +114,37 @@
   gap: 1rem;
 }
 
+.btn-wrap {
+  display: flex;
+  justify-self: center;
+}
+
 .button {
   height: 4rem;
-  width: 16rem;
+  width: 10rem;
   display: flex;
   align-items: center;
   justify-content:space-around;
   font-size: 2rem;
   border: none;
-  border-radius: 5px;
   color: white;
   cursor: pointer;
+  box-shadow: inset -2px -4px 6px rgba(0, 0, 0, 0.1);
   transition: .7s;
-  &:hover {
-    opacity: 0.5;
-  }
   &_true {
     background-color: #3BAD69;
+    border-radius: 5px 0px 0px 5px;
+    &:hover {
+      background-color: #147c3e;
+    }
   }
   &_false {
     background-color: #E53939;
+    border-radius: 0px 5px 5px 0px;
+    &:hover {
+      background-color: #cc0606;
+    }
   }
-}
-
-.answ-pic-wrap {
-  height: 7rem;
-  width: 24rem;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-.answerPic {
-  height: 7rem;
-  width: 7rem;
-  border-radius: 50%;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
 }
 
 .score {
@@ -130,11 +185,14 @@
   background-repeat: no-repeat;
   background-position-x: 100%;
   background-position-y: 100%;
-  background-size: 20rem 17rem;
-
+  background-size: 24rem 21rem;
+  animation-name: bus;
+  animation-duration: 60s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
 }
 
-.animate {
-  transition: background-position-x 60s linear;
-  //background-position-x: 0;
+@keyframes bus {
+  0%   {background-position-x: 100%;}
+  100% {background-position-x: 0%;}
 }

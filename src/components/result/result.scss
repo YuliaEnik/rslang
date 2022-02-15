@@ -1,12 +1,12 @@
 .result-wrapper {
   height: 55rem;
-  width: 45rem;
+  width: 50rem;
   padding: 2%;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: white;
-  box-shadow: 1px 17px 44px rgba(3, 2, 41, 0.07);
+  box-shadow: 0 5px 30px 0 rgba(0,0,0,0.2);
   border-radius: 10px;
   @media  (max-width: 920px){
     width: 90%;
@@ -171,6 +171,11 @@
 }
 
 .res-btn {
+  height: 4rem;
+  width: 14rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
   background-color: #605BFF;
   font-family: Nunito;
@@ -178,5 +183,5 @@
   font-weight: 800;
   font-size: 14px;
   line-height: 19px;
-  text-align: center;
+  border-radius: 5px;
 }
