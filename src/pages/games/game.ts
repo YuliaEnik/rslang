@@ -14,7 +14,6 @@ export const viewGame = (stateTextContentEn: StateTextContentEn):HTMLElement => 
   fullScreen.addEventListener('click', () => {
     fullscreen(gameSection, fullScreen);
   });
-  const sound = createHTMLelement('div', { class: 'sound sound-on' }, gameWrapper);
   const gameContent = createHTMLelement('div', { class: 'game-wrapper-content' }, gameWrapper);
   sprint(gameContent, stateTextContentEn, gameWrapper);
   return gameSection;
