@@ -1,26 +1,28 @@
-import { Word, StateSprint } from '../../../../utils/types';
-import { createHTMLelement } from '../../../../utils/utils';
+import './pictures.scss';
+import { createHTMLelement, getElement, random } from '../../../../utils/utils';
 
-const createOnePic = (parent: HTMLElement) => {
+const createSmilePic = (parent:HTMLElement) => {
+  const angryWrap = getElement('.angryWrap') as HTMLElement;
+  if (angryWrap) {
+    angryWrap.remove();
+  }
   const elem = createHTMLelement('div', { class: 'answerPic' }, parent);
   elem.style.backgroundImage = 'url(1.png)';
+};
+
+const createAngryPic = (parent:HTMLElement) => {
+  parent.innerHTML = '';
+  const elem = createHTMLelement('div', { class: 'angryWrap' }, parent);
+  const angryWrap = createHTMLelement('div', { class: 'answerPic angryPic' }, elem);
+  angryWrap.style.backgroundImage = `url(img/angry/${random(3)}.jpeg)`;
 };
 
 const removePic = (parent: HTMLElement) => {
   parent.innerHTML = '';
 };
 
-const createPics = (stateSprint: StateSprint, data:Word[], parentPic:HTMLElement):void => {
-  if (stateSprint.countCorrectAnsw === 3) {
-    removePic(parentPic);
-  }
-  if (data[stateSprint.curIndex].correctAnswer === 1) {
-    createOnePic(parentPic);
-  } if (data[stateSprint.curIndex].correctAnswer === 0) {
-    removePic(parentPic);
-  }
-};
-
 export {
-  createPics,
+  createSmilePic,
+  removePic,
+  createAngryPic,
 };

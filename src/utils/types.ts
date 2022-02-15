@@ -13,14 +13,21 @@ export interface Word {
   textExampleTranslate: string;
   textMeaningTranslate: string;
   wordTranslate: string;
-  correctAnswer: number | undefined | null;
+  correctAnswer?: number;
   userWord?: UserWord;
 }
 
 export interface UserWord {
-  difficulty: string;
+  difficulty?: string;
   optional?: {
-    isLearned: true | null;
+    isLearned?: true | null;
+    date?: string;
+    games?: {
+      sprint?: {
+        correct: number;
+        wrong: number;
+      }
+    }
   }
 }
 
@@ -31,31 +38,15 @@ export interface StateSprint {
   questionsArray: Word[];
   falseAnsw: number;
   trueAnsw: number;
-  randomTrueFalse: number | null;
-  max_sec: number
+  isTrueTranslate: number | null;
+  game_time: number;
+  points: number;
 }
 
 export interface StateTextContentEn {
   btnTrue: string;
   btnFalse: string;
   exit: string;
-}
-
-export interface IData {
-  id: string;
-  group: number;
-  page: number;
-  word: string;
-  image: string;
-  audio: string;
-  audioMeaning: string;
-  audioExample: string;
-  textMeaning: string;
-  textExample: string;
-  transcription: string;
-  wordTranslate: string;
-  textMeaningTranslate: string;
-  textExampleTranslate: string;
 }
 
 export interface Page {
@@ -128,12 +119,6 @@ export interface Data {
   words: Word[];
 }
 
-export interface BodyApi {
-  difficulty: string;
-  optional: {
-    isLearned: boolean;
-  }
-}
 export interface AggregateResponse {
   paginatedResults: WordFromAggregated[];
   totalCount: TotalCount[];
@@ -155,6 +140,7 @@ export interface WordFromAggregated {
   wordTranslate: string;
   userWord: UserWord;
 }
+
 export interface TotalCount {
   count: number;
 }

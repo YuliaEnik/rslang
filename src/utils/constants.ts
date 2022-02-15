@@ -15,9 +15,11 @@ export const stateSprint: StateSprint = {
   questionsArray: [],
   falseAnsw: 0,
   trueAnsw: 1,
-  randomTrueFalse: null,
-  max_sec: 60,
+  isTrueTranslate: null,
+  game_time: 60,
+  points: 10,
 };
+
 export const pages: Page[] = [
   {
     title: 'Main',
