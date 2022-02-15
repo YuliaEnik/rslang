@@ -81,3 +81,7 @@ export async function addGameResult(userState: UserState | null, wordId: string,
     updateUserWord(appState.user, wordId, body);
   }
 }
+
+function addToNew() {
+  console.log('1');
+}

@@ -55,6 +55,20 @@ export const buildStatisticsPage = (): HTMLElement => {
   renderElement(correctDesc, correctItem);
   renderElement(correctItem, statOverallList);
 
+  const learnedItem = createElement('li', { class: 'statistics__item statistics__item--learned' });
+  const learnedImgContainer = createElement('div', { class: 'statistics__item-image' });
+  const learnedImg = createElement('img', {
+    src: 'svg/stat-correct.svg',
+    class: '',
+  });
+  renderElement(learnedImg, learnedImgContainer);
+  renderElement(learnedImgContainer, learnedItem);
+  const learnedQuantity = createElement('span', { class: 'statistics__item-quantity' }, '78%');
+  renderElement(learnedQuantity, learnedItem);
+  const LearnedDesc = createElement('span', { class: 'statistics__item-desc' }, 'Correct answers');
+  renderElement(LearnedDesc, learnedItem);
+  renderElement(learnedItem, statOverallList);
+
   renderElement(statOverallList, result);
 
   const statGamesList = createElement('ul', { class: 'statistics__list statistics__list--games' });
@@ -79,10 +93,10 @@ export const buildStatisticsPage = (): HTMLElement => {
     renderElement(statItemPercent, statList);
 
     const statItemstreak = createElement('li', { class: 'statistics__item-item' });
-    statItemPercent.append('Correct answers: ');
-    const statItemstreakAmount = createElement('span', { class: 'statistics__item--percent' }, '40');
+    statItemstreak.append('Streak of correct answers: ');
+    const statItemstreakAmount = createElement('span', { class: 'statistics__item--percent' }, '4');
     statItemstreak.append(statItemstreakAmount);
-    statItemstreak.append(' %');
+    statItemstreak.append('.');
     renderElement(statItemstreak, statList);
 
     renderElement(statList, gameItem);

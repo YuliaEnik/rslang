@@ -30,6 +30,10 @@ export interface UserWordOptional {
     sprint?: {
       correct: number;
       wrong: number;
+    };
+    audiochallenge?: {
+      correct: number;
+      wrong: number;
     }
   }
 }
