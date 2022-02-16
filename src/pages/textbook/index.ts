@@ -128,5 +128,24 @@ export function buildDictionaryPage(): HTMLDivElement {
 
   // check if all words learned / dufficult
 
+  function showMessageAllLearned() {
+    gamesEl.innerHTML = 'YOU LEARNED ALL WORDS FROM THIS PAGE';
+  }
+
+  function checkIfPageLearned() {
+    getAggregatedWords(appState.user, {
+      group: appState.groupState.group,
+      page: appState.groupState.pageNumber,
+    }).then(async (wordsData) => {
+      const checkDefaultOpt = wordsData[0].paginatedResults.every((el) => el.userWord?.difficulty === 'learned');
+      console.log(checkDefaultOpt);
+      if (checkDefaultOpt && wordsData[0].paginatedResults.length !== 0) {
+        showMessageAllLearned();
+      }
+    });
+  }
+
+  checkIfPageLearned();
+
   return template;
 }

@@ -185,7 +185,7 @@ export interface WordFromAggregated {
   textExampleTranslate: string;
   textMeaningTranslate: string;
   wordTranslate: string;
-  userWord: UserWord;
+  userWord?: UserWord;
 }
 
 export interface TotalCount {

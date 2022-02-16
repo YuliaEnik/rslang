@@ -156,6 +156,16 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
       addWordToLearned,
       (w) => removeWordFromLearned(w.id),
     );
+    // getUserWords(appState.user).then(async (wordsData) => {
+    //   const result = await wordsData.json();
+    //   console.log(result);
+    // });
+    getAggregatedWords(appState.user, {
+      group: appState.groupState.group,
+      page: appState.groupState.pageNumber,
+    }).then(async (wordsData) => {
+      console.log(wordsData);
+    });
   }
 
   return template.children[0] as HTMLDivElement;
