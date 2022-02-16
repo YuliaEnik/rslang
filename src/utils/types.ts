@@ -1,4 +1,5 @@
 export interface Word {
+  _id?: string;
   id: string;
   group: number;
   page: number;
@@ -25,10 +26,10 @@ export interface UserWord {
 
 export interface UserWordOptional {
   isLearned?: true | null;
-  date?: string;
+  wordLastUpdate?: string;
   games?: {
     sprint?: GameStatistics;
-    audiochallenge?: GameStatistics;
+    audioChallenge?: GameStatistics;
   };
 }
 
@@ -65,13 +66,16 @@ export interface UserStatisticsOptional {
 }
 
 export interface GamesStat {
-  [key: string]: GameStreak;
+  [key: string]: GameStat;
 }
 
-export interface GameStreak {
+export interface GameStat {
   bestStreak: number;
   currentStreak: number;
   streakLastUpdate: string;
+  correct: number;
+  wrong: number;
+  gameLastUpdate: string;
 }
 
 export interface StateSprint {
