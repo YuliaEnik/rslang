@@ -166,7 +166,6 @@ export async function getUserStatistics(userState: UserState | null): Promise<Us
 
 export async function updateUserStatistics(userState: UserState | null, body: UserStatistics): Promise<UserStatisticsResponse> {
   if (!userState) throw Error('User state is null. Cannot get user statistics.');
-
   const url = `${API_ENDPOINT}/users/${userState.userId}/statistics`;
   const response = await fetchForUser(url, userState, body, 'PUT');
   const result = await response.json();
