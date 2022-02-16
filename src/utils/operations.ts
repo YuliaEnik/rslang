@@ -56,3 +56,10 @@ export async function getWordsForRendering(
   const convertedWords = result[0].paginatedResults.map((el) => convertWordFromAggregated(el));
   return convertedWords;
 }
+
+export function addWordToLearned(word: Word) {
+  if (word.userWord) {
+    return updateUserWord(appState.user, word.id, { difficulty: 'learned' });
+  }
+  return createUserWord(appState.user, word.id, { difficulty: 'learned' });
+}
