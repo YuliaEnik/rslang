@@ -1,7 +1,7 @@
 import Navigo, { Match } from 'navigo';
 import { buildDevelopersPage } from '../pages/developers';
 import { buildMainPage } from '../pages/main';
-import { buildStatisticsPage } from '../pages/statistics';
+import { buildStatisticsPage, calculateStat } from '../pages/statistics';
 import { buildDictionaryPage } from '../pages/textbook';
 import { renderPage } from './utils';
 import { viewGame } from '../pages/games/game';
@@ -9,7 +9,7 @@ import { stateTextContentEn } from './constants';
 import { buildSignUpPage } from '../pages/signup';
 import { appState, data } from '../app';
 import { buildLogInPage } from '../pages/login';
-import { getWords } from './api';
+import { getUserStatistics, getWords } from './api';
 
 function updateDictionaryPageAppState(context: Match | undefined) {
   appState.groupState.group = context?.data && context.data[1] ? parseInt(context.data[1], 10) - 1 : 0;
@@ -38,8 +38,10 @@ router
   .on('/games/sprint', (context) => {
     renderPage(viewGame(stateTextContentEn), context);
   })
-  .on('/statistics', (context) => {
-    renderPage(buildStatisticsPage(), context);
+  .on('/statistics', async (context) => {
+    const userStatistics = await getUserStatistics(appState.user);
+    const result = await calculateStat(userStatistics);
+    renderPage(buildStatisticsPage(result), context);
   })
   .on('/developers', (context) => {
     renderPage(buildDevelopersPage(), context);
