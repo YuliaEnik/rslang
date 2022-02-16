@@ -36,6 +36,7 @@
         "props": false
       }
     ],
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }
