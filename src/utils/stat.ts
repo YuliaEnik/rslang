@@ -7,7 +7,10 @@ import {
   updateUserStatistics,
 } from './api';
 import {
+  GamesStat,
+  GameStat,
   UserState,
+  UserStatistics,
   UserStatisticsResponse,
   UserWord, UserWordResponse,
 } from './types';
@@ -33,36 +36,32 @@ export async function updateNewWords() {
   const dateString = date.toISOString();
   const currentDate = dateString.substring(0, dateString.indexOf('T'));
 
-  const response = await getUserStatistics(appState.user);
+  const currentUserStatistics = await getUserStatistics(appState.user);
 
-  if (response.optional?.newWordsLastUpdate && response.optional?.newWords) {
-    if (currentDate !== response.optional.newWordsLastUpdate) {
-      response.optional.newWordsLastUpdate = currentDate;
-      response.optional.newWords = 1;
+  if (currentUserStatistics.optional?.newWordsLastUpdate && currentUserStatistics.optional?.newWords) {
+    if (currentDate !== currentUserStatistics.optional.newWordsLastUpdate) {
+      currentUserStatistics.optional.newWordsLastUpdate = currentDate;
+      currentUserStatistics.optional.newWords = 1;
     }
-    if (currentDate === response.optional.newWordsLastUpdate) {
-      response.optional.newWords++;
+    if (currentDate === currentUserStatistics.optional.newWordsLastUpdate) {
+      currentUserStatistics.optional.newWords++;
     }
+  } else {
+    currentUserStatistics.optional = currentUserStatistics.optional || {};
+    currentUserStatistics.optional.newWordsLastUpdate = currentDate;
+    currentUserStatistics.optional.newWords = 1;
   }
 
-  if (!response.optional?.newWordsLastUpdate) {
-    response.optional = {};
-    response.optional.newWordsLastUpdate = currentDate;
-    response.optional.newWords = 1;
-  }
-
-  const body = {
-    learnedWords: response.learnedWords,
-    optional: {
-      newWordsLastUpdate: response.optional.newWordsLastUpdate,
-      newWords: response.optional.newWords,
-    },
+  const userStatistics: UserStatistics = {
+    learnedWords: currentUserStatistics.learnedWords,
+    optional: currentUserStatistics.optional,
   };
-
-  updateUserStatistics(appState.user, body);
+  // eslint-disable-next-line no-debugger
+  // debugger;
+  await updateUserStatistics(appState.user, userStatistics);
 }
 
-export function updateWordStatistics(body: UserWordResponse, answer: number): UserWord {
+export async function updateWordStatistics(body: UserWordResponse, answer: number): Promise<UserWord> {
   const date = new Date();
   const dateString = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
@@ -75,7 +74,7 @@ export function updateWordStatistics(body: UserWordResponse, answer: number): Us
 
   if (content.optional) {
     content.optional.wordLastUpdate = dateString;
-  } else {
+  } else if (!content.optional) {
     content.optional = {};
     content.optional.wordLastUpdate = dateString;
   }
@@ -85,7 +84,7 @@ export function updateWordStatistics(body: UserWordResponse, answer: number): Us
       content.optional.games.sprint.correct++;
     }
     if (!content.optional.games) {
-      updateNewWords();
+      await updateNewWords();
       content.optional.games = {};
       content.optional.games.sprint = {
         correct: 1,
@@ -97,7 +96,7 @@ export function updateWordStatistics(body: UserWordResponse, answer: number): Us
       content.optional.games.sprint.wrong++;
     }
     if (!content.optional.games) {
-      updateNewWords();
+      await updateNewWords();
       content.optional.games = {};
       content.optional.games.sprint = {
         correct: 0,
@@ -108,7 +107,6 @@ export function updateWordStatistics(body: UserWordResponse, answer: number): Us
   return content;
 }
 
-// eslint-disable-next-line consistent-return
 export async function addGameResult(userState: UserState | null, wordId: string, answer: number) {
   const result = await getWord(userState, wordId);
 
@@ -117,17 +115,17 @@ export async function addGameResult(userState: UserState | null, wordId: string,
 
   if (!result.ok) {
     const body = initiateStatisctics(wordLastUpdate, answer);
-    updateNewWords();
-    createUserWord(appState.user, wordId, body);
+    await updateNewWords();
+    await createUserWord(appState.user, wordId, body);
   } else if (result.ok) {
     const content = await result.json();
-    const body = updateWordStatistics(content, answer);
-    updateUserWord(appState.user, wordId, body);
-    return true;
+    const body = await updateWordStatistics(content, answer);
+    await updateUserWord(appState.user, wordId, body);
   }
+  return true;
 }
 
-function countStreak(game: string, answer: number, currentDate: string, response: UserStatisticsResponse) {
+async function countStreak(game: string, answer: number, currentDate: string, response: UserStatisticsResponse) {
   if (answer) {
     if (response.optional?.games?.[game]) {
       if (currentDate === response.optional.games[game].streakLastUpdate) {
@@ -142,13 +140,24 @@ function countStreak(game: string, answer: number, currentDate: string, response
         response.optional.games[game].currentStreak = 1;
         response.optional.games[game].streakLastUpdate = currentDate;
       }
+    } else {
+      response.optional = response.optional || {};
+      response.optional.games = response.optional.games || {} as GamesStat;
+
+      const gameStat = response.optional.games[game] || {} as GameStat;
+      gameStat.bestStreak = 1;
+      gameStat.currentStreak = 1;
+      gameStat.streakLastUpdate = currentDate;
+
+      response.optional.games[game] = gameStat;
     }
   }
+
   if (!answer) {
     if (response.optional?.games?.[game]) {
       if (currentDate === response.optional.games[game].streakLastUpdate) {
-        if (response.optional.games[game].currentStreak > response.optional.games.game.bestStreak) {
-          response.optional.games[game].bestStreak = response.optional.games.game.currentStreak;
+        if (response.optional.games[game].currentStreak > response.optional.games[game].bestStreak) {
+          response.optional.games[game].bestStreak = response.optional.games[game].currentStreak;
           response.optional.games[game].currentStreak = 0;
           response.optional.games[game].streakLastUpdate = currentDate;
         }
@@ -159,21 +168,24 @@ function countStreak(game: string, answer: number, currentDate: string, response
         response.optional.games[game].currentStreak = 0;
         response.optional.games[game].streakLastUpdate = currentDate;
       }
+    } else {
+      response.optional = response.optional || {};
+      response.optional.games = response.optional.games || {} as GamesStat;
+
+      const gameStat = response.optional.games[game] || {} as GameStat;
+      gameStat.bestStreak = response.optional.games[game].currentStreak;
+      gameStat.currentStreak = 0;
+      gameStat.streakLastUpdate = currentDate;
+
+      response.optional.games[game] = gameStat;
     }
   }
 
-  const result = {
+  const userStatistics: UserStatistics = {
     learnedWords: response.learnedWords,
-    optional: {
-      games: {
-      },
-    },
+    optional: { ...response.optional },
   };
-  if (response.optional?.games) {
-    result.optional.games = response.optional.games;
-  }
-
-  updateUserStatistics(appState.user, result);
+  await updateUserStatistics(appState.user, userStatistics);
 }
 
 function getBestStreak(game: string, date: string, response: UserStatisticsResponse) {
@@ -190,14 +202,8 @@ function getBestStreak(game: string, date: string, response: UserStatisticsRespo
 
   const result = {
     learnedWords: response.learnedWords,
-    optional: {
-      games: {
-      },
-    },
+    optional: response.optional,
   };
-  if (response.optional?.games) {
-    result.optional.games = response.optional.games;
-  }
 
   return result;
 }
@@ -206,152 +212,82 @@ export async function updateStreak(game: string, answer: number, isFinished: boo
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
-  const response = await getUserStatistics(appState.user);
+  const currentUserStatistics = await getUserStatistics(appState.user);
   if (game === 'sprint') {
-    countStreak('sprint', answer, currentDate, response);
+    await countStreak(game, answer, currentDate, currentUserStatistics);
     if (isFinished) {
-      countStreak('sprint', answer, currentDate, response);
-      const result = getBestStreak(game, currentDate, response);
-      if (response.optional?.games?.[game].currentStreak) {
-        response.optional.games[game].currentStreak = 0;
+      await countStreak(game, answer, currentDate, currentUserStatistics);
+      const updatedUserStatistics = getBestStreak(game, currentDate, currentUserStatistics);
+      if (currentUserStatistics.optional?.games?.[game].currentStreak) {
+        currentUserStatistics.optional.games[game].currentStreak = 0;
       }
-      updateUserStatistics(appState.user, result);
-    }
-  }
-  if (game === 'audioChallenge') {
-    countStreak('audioChallenge', answer, currentDate, response);
-    if (isFinished) {
-      countStreak('sprint', answer, currentDate, response);
-      const result = getBestStreak(game, currentDate, response);
-      if (response.optional?.games?.[game].currentStreak) {
-        response.optional.games[game].currentStreak = 0;
-      }
-      updateUserStatistics(appState.user, result);
+
+      await updateUserStatistics(appState.user, updatedUserStatistics);
     }
   }
 }
 
-async function countGameStatistics(game: string, answer: number, currentDate: string, response: UserStatisticsResponse) {
-  if (response.optional?.games?.[game]) {
-    if (currentDate === response.optional.games[game].gameLastUpdate) {
+async function calculateGameStatistics(
+  game: string,
+  answer: number,
+  currentDate: string,
+  currentUserStatistics: UserStatisticsResponse,
+) {
+  if (currentUserStatistics.optional?.games?.[game]) {
+    if (currentDate === currentUserStatistics.optional.games[game].gameLastUpdate) {
       if (answer) {
-        response.optional.games[game].correct++;
-        response.optional.games[game].gameLastUpdate = currentDate;
+        currentUserStatistics.optional.games[game].correct++;
+        currentUserStatistics.optional.games[game].gameLastUpdate = currentDate;
       } else {
-        response.optional.games[game].wrong++;
-        response.optional.games[game].gameLastUpdate = currentDate;
+        currentUserStatistics.optional.games[game].wrong++;
+        currentUserStatistics.optional.games[game].gameLastUpdate = currentDate;
       }
-    } else if (currentDate !== response.optional.games[game].gameLastUpdate) {
-      if (answer) {
-        response.optional.games[game].correct = 1;
-        response.optional.games[game].wrong = 0;
-        response.optional.games[game].gameLastUpdate = currentDate;
-      } else {
-        response.optional.games[game].wrong = 1;
-        response.optional.games[game].correct = 0;
-        response.optional.games[game].gameLastUpdate = currentDate;
-      }
+    } else if (currentDate !== currentUserStatistics.optional.games[game].gameLastUpdate
+    || currentUserStatistics.optional.games[game].gameLastUpdate === 'undefined') {
+      currentUserStatistics.optional.games[game].correct = answer ? 1 : 0;
+      currentUserStatistics.optional.games[game].wrong = answer ? 0 : 1;
+      currentUserStatistics.optional.games[game].gameLastUpdate = currentDate;
     }
-  } else if (!response.optional) {
-    if (answer) {
-      response.optional = {};
-      response.optional.games = {};
-      Object.defineProperty(response.optional.games, `${game}`, {
-        value: {},
-      });
-      response.optional.games[game].correct = 1;
-      response.optional.games[game].wrong = 0;
-      response.optional.games[game].gameLastUpdate = currentDate;
-    } else {
-      response.optional = {};
-      response.optional.games = {};
-      Object.defineProperty(response.optional.games, `${game}`, {
-        value: {},
-      });
-      response.optional.games[game].wrong = 1;
-      response.optional.games[game].correct = 0;
-      response.optional.games[game].gameLastUpdate = currentDate;
-    }
-  } else if (!response.optional.games) {
-    if (answer) {
-      response.optional.games = {};
-      Object.defineProperty(response.optional.games, `${game}`, {
-        value: {},
-      });
-      response.optional.games[game].correct = 1;
-      response.optional.games[game].wrong = 0;
-      response.optional.games[game].gameLastUpdate = currentDate;
-    } else {
-      response.optional.games = {};
-      Object.defineProperty(response.optional.games, `${game}`, {
-        value: {},
-      });
-      response.optional.games[game].wrong = 1;
-      response.optional.games[game].correct = 0;
-      response.optional.games[game].gameLastUpdate = currentDate;
-    }
-  } else if (!response.optional.games[game]) {
-    if (answer) {
-      Object.defineProperty(response.optional.games, `${game}`, {
-        value: {},
-      });
-      Object.defineProperty(response.optional.games[game], 'correct', {
-        value: 1,
-      });
-      Object.defineProperty(response.optional.games[game], 'wrong', {
-        value: 0,
-      });
-      Object.defineProperty(response.optional.games[game], 'gameLastUpdate', {
-        value: currentDate,
-      });
-    } else {
-      Object.defineProperty(response.optional.games, `${game}`, {
-        value: {},
-      });
-      Object.defineProperty(response.optional.games[game], 'correct', {
-        value: 0,
-      });
-      Object.defineProperty(response.optional.games[game], 'wrong', {
-        value: 1,
-      });
-      Object.defineProperty(response.optional.games[game], 'gameLastUpdate', {
-        value: currentDate,
-      });
-    }
+  } else {
+    currentUserStatistics.optional = currentUserStatistics.optional || {};
+    currentUserStatistics.optional.games = currentUserStatistics.optional.games || {} as GamesStat;
+
+    const gameStat = currentUserStatistics.optional.games[game] || {} as GameStat;
+    gameStat.correct = answer ? 1 : 0;
+    gameStat.wrong = answer ? 0 : 1;
+    gameStat.gameLastUpdate = currentDate;
+
+    currentUserStatistics.optional.games[game] = gameStat;
   }
 
-  const result = {
-    learnedWords: response.learnedWords,
-    optional: {
-      games: {
-      },
-    },
+  const userStatistics: UserStatistics = {
+    learnedWords: currentUserStatistics.learnedWords,
+    optional: currentUserStatistics.optional,
   };
-  if (response.optional?.games) {
-    result.optional.games = response.optional.games;
-  }
-  // eslint-disable-next-line no-debugger
-  debugger;
-  updateUserStatistics(appState.user, result);
+
+  await updateUserStatistics(appState.user, userStatistics);
 }
 
-export async function updateGameStatistics(game: string, answer: number) {
+export async function updateGameStatistics(game: string, answer: number): Promise<void> {
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
   const response = await getUserStatistics(appState.user);
   if (game === 'sprint') {
-    await countGameStatistics(game, answer, currentDate, response);
-  }
-  if (game === 'audioChallenge') {
-    await countGameStatistics(game, answer, currentDate, response);
+    await calculateGameStatistics(game, answer, currentDate, response);
   }
 }
 
-export async function getAnswer(userState: UserState | null, wordId: string, game: string, answer: number, isFinished: boolean) {
+export async function getAnswer(
+  userState: UserState | null,
+  wordId: string,
+  game: string,
+  answer: number,
+  isFinished: boolean,
+): Promise<void> {
   const isAdded = await addGameResult(userState, wordId, answer);
   if (isAdded) {
-    updateGameStatistics(game, answer);
-    updateStreak(game, answer, isFinished);
+    await updateGameStatistics(game, answer);
+    await updateStreak(game, answer, isFinished);
   }
 }
