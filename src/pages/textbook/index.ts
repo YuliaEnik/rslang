@@ -51,7 +51,16 @@ export function buildDictionaryPage(): HTMLDivElement {
     getWordsForRendering(appState.user, { group, page: currentPage }).then((wordsData) => {
       console.log(wordsData);
       wordsData.forEach((wordEl) => {
-        words?.appendChild(renderWord({ word: wordEl, onclick: renderCard }, appState.user));
+        words?.appendChild(
+          renderWord(
+            {
+              word: wordEl,
+              onclick: renderCard,
+              onDiffOrLearnedClick: checkIfPageLearned,
+            },
+            appState.user,
+          ),
+        );
       });
     });
   }
@@ -132,6 +141,10 @@ export function buildDictionaryPage(): HTMLDivElement {
     gamesEl.innerHTML = 'YOU LEARNED ALL WORDS FROM THIS PAGE';
   }
 
+  function stylePageElements() {
+    pageSelector.style.color = '#605bff';
+  }
+
   function checkIfPageLearned() {
     getAggregatedWords(appState.user, {
       group: appState.groupState.group,
@@ -141,6 +154,7 @@ export function buildDictionaryPage(): HTMLDivElement {
       console.log(checkDefaultOpt);
       if (checkDefaultOpt && wordsData[0].paginatedResults.length !== 0) {
         showMessageAllLearned();
+        stylePageElements();
       }
     });
   }

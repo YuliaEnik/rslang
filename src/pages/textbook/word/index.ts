@@ -62,7 +62,14 @@ function clickOnDiffOrLearnedButton(
   }
 }
 
-export function renderWord(params: { word: Word, onclick?: () => void }, userState: UserState | null): HTMLDivElement {
+export function renderWord(
+  params: {
+    word: Word,
+    onclick?: () => void,
+    onDiffOrLearnedClick?: () => void
+  },
+  userState: UserState | null,
+): HTMLDivElement {
   const template = document.createElement('div');
   template.innerHTML = html;
 
@@ -132,12 +139,19 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
 
   const cardColumn = template.querySelector('.column__header') as HTMLHeadElement;
   const wordStat = template.querySelector('.word_stat') as HTMLElement;
+
   appendUserButtons(cardColumn, appState);
   showOrHideUserAttr(wordStat, appState.user);
 
   if (userState?.userId) {
     const diffBtn = template.querySelector('.btn--difficult') as HTMLButtonElement;
     const learnedBtn = template.querySelector('.btn--studied') as HTMLButtonElement;
+    diffBtn.addEventListener('click', () => {
+      params.onDiffOrLearnedClick?.();
+    });
+    learnedBtn.addEventListener('click', () => {
+      params.onDiffOrLearnedClick?.();
+    });
     clickOnDiffOrLearnedButton(
       diffBtn,
       'difficult',
