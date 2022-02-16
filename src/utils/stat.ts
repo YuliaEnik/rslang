@@ -187,7 +187,6 @@ async function countStreak(
     optional: currentUserStat.optional,
   };
   return userStatistics;
-  // await updateUserStatistics(appState.user, userStatistics);
 }
 
 function getBestStreak(game: string, date: string, response: UserStatisticsResponse) {
@@ -209,13 +208,6 @@ function getBestStreak(game: string, date: string, response: UserStatisticsRespo
 
   return result;
 }
-
-// export async function updateStreak(game: string, answer: number, currentDate: string, currentUserStatistics: UserStatisticsResponse, isFinished: boolean) {
-//   // const currentUserStatistics = await getUserStatistics(appState.user);
-//   await countStreak(game, answer, currentDate, currentUserStatistics);
-
-//     // await updateUserStatistics(appState.user, updatedUserStatistics);
-//   }
 
 async function calculateGameStatistics(
   game: string,
@@ -250,12 +242,7 @@ async function calculateGameStatistics(
     currentUserStatistics.optional.games[game] = gameStat;
   }
 
-  // const userStatistics: UserStatistics = {
-  //   learnedWords: currentUserStatistics.learnedWords,
-  //   optional: currentUserStatistics.optional,
-  // };
   return currentUserStatistics;
-  // await updateUserStatistics(appState.user, userStatistics);
 }
 
 export async function updateGameStatistics(game: string, answer: number, isFinished: boolean): Promise<void> {
