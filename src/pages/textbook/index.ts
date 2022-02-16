@@ -1,7 +1,7 @@
 import { UsageState } from 'webpack';
 import { appState } from '../../app';
 import { getAggregatedWords, getUserWords, getWords } from '../../utils/api';
-import { getWordsForRendering } from '../../utils/operations';
+import { convertWordFromAggregated, getWordsForRendering } from '../../utils/operations';
 import { router } from '../../utils/router';
 import {
   UserState, UserWord, Word, WordFromAggregated,
@@ -17,28 +17,6 @@ function applyAuthentication(levelButton: HTMLElement, gamesEl: HTMLElement, use
     levelButton.classList.remove('level__item--hidden');
     gamesEl.classList.remove('hidden');
   }
-}
-
-function convertWordFromAggregated(wordFromAggregated: WordFromAggregated): Word {
-  return {
-    // eslint-disable-next-line no-underscore-dangle
-    id: wordFromAggregated._id,
-    group: wordFromAggregated.group,
-    page: wordFromAggregated.page,
-    word: wordFromAggregated.word,
-    image: wordFromAggregated.image,
-    audio: wordFromAggregated.audio,
-    audioMeaning: wordFromAggregated.audioMeaning,
-    audioExample: wordFromAggregated.audioExample,
-    textMeaning: wordFromAggregated.textMeaning,
-    textExample: wordFromAggregated.textExample,
-    transcription: wordFromAggregated.transcription,
-    textExampleTranslate: wordFromAggregated.textExampleTranslate,
-    textMeaningTranslate: wordFromAggregated.textMeaningTranslate,
-    wordTranslate: wordFromAggregated.wordTranslate,
-    correctAnswer: undefined,
-    userWord: wordFromAggregated.userWord,
-  };
 }
 
 export function buildDictionaryPage(): HTMLDivElement {
@@ -147,6 +125,8 @@ export function buildDictionaryPage(): HTMLDivElement {
   diffBtn.addEventListener('click', () => {
     renderDifficultPage();
   });
+
+  // check if all words learned / dufficult
 
   return template;
 }

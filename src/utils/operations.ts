@@ -12,7 +12,7 @@ import {
   WordFromAggregated,
 } from './types';
 
-function convertWordFromAggregated(wordFromAggregated: WordFromAggregated): Word {
+export function convertWordFromAggregated(wordFromAggregated: WordFromAggregated): Word {
   return {
     // eslint-disable-next-line no-underscore-dangle
     id: wordFromAggregated._id,
