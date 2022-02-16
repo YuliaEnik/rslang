@@ -110,12 +110,12 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
       if (word.userWord?.difficulty !== 'difficult') {
         addWordToDifficultList(word).then(() => {
           diffBtn.classList.add('active');
-          alert('Word added')
+          alert('Word added to difficult')
         });
       } else {
         removeWordFromDifficult(word.id).then(() => {
           diffBtn.classList.remove('active');
-          alert('Word removed from difficult page')
+          alert('Word removed from difficult')
           window.location.reload();
         });
       }
