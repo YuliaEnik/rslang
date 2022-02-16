@@ -56,8 +56,6 @@ export async function updateNewWords() {
     learnedWords: currentUserStatistics.learnedWords,
     optional: currentUserStatistics.optional,
   };
-  // eslint-disable-next-line no-debugger
-  // debugger;
   await updateUserStatistics(appState.user, userStatistics);
 }
 
@@ -125,67 +123,71 @@ export async function addGameResult(userState: UserState | null, wordId: string,
   return true;
 }
 
-async function countStreak(game: string, answer: number, currentDate: string, response: UserStatisticsResponse) {
+async function countStreak(
+  game: string,
+  answer: number,
+  currentDate: string,
+  currentUserStat: UserStatisticsResponse,
+) {
   if (answer) {
-    if (response.optional?.games?.[game]) {
-      if (currentDate === response.optional.games[game].streakLastUpdate) {
-        response.optional.games[game].currentStreak += 1;
-        response.optional.games[game].streakLastUpdate = currentDate;
-      } else if (currentDate !== response.optional.games.game.streakLastUpdate) {
-        response.optional.games[game].bestStreak = 1;
-        response.optional.games[game].currentStreak = 1;
-        response.optional.games[game].streakLastUpdate = currentDate;
-      } else if (response.optional.games[game].streakLastUpdate === 'undefined') {
-        response.optional.games[game].bestStreak = 1;
-        response.optional.games[game].currentStreak = 1;
-        response.optional.games[game].streakLastUpdate = currentDate;
+    if (currentUserStat.optional?.games?.[game]) {
+      if (currentDate === currentUserStat.optional.games[game].streakLastUpdate) {
+        currentUserStat.optional.games[game].currentStreak += 1;
+        currentUserStat.optional.games[game].streakLastUpdate = currentDate;
+      } else if (currentDate !== currentUserStat.optional.games[game].streakLastUpdate
+        || currentUserStat.optional.games[game].streakLastUpdate === 'undefined') {
+        currentUserStat.optional.games[game].bestStreak = 1;
+        currentUserStat.optional.games[game].currentStreak = 1;
+        currentUserStat.optional.games[game].streakLastUpdate = currentDate;
       }
     } else {
-      response.optional = response.optional || {};
-      response.optional.games = response.optional.games || {} as GamesStat;
+      currentUserStat.optional = currentUserStat.optional || {};
+      currentUserStat.optional.games = currentUserStat.optional.games || {} as GamesStat;
 
-      const gameStat = response.optional.games[game] || {} as GameStat;
+      const gameStat = currentUserStat.optional.games[game] || {} as GameStat;
       gameStat.bestStreak = 1;
       gameStat.currentStreak = 1;
       gameStat.streakLastUpdate = currentDate;
 
-      response.optional.games[game] = gameStat;
+      currentUserStat.optional.games[game] = gameStat;
     }
   }
 
   if (!answer) {
-    if (response.optional?.games?.[game]) {
-      if (currentDate === response.optional.games[game].streakLastUpdate) {
-        if (response.optional.games[game].currentStreak > response.optional.games[game].bestStreak) {
-          response.optional.games[game].bestStreak = response.optional.games[game].currentStreak;
-          response.optional.games[game].currentStreak = 0;
-          response.optional.games[game].streakLastUpdate = currentDate;
+    if (currentUserStat.optional?.games?.[game]) {
+      if (currentDate === currentUserStat.optional.games[game].streakLastUpdate) {
+        if (currentUserStat.optional.games[game].currentStreak
+          > currentUserStat.optional.games[game].bestStreak) {
+          currentUserStat.optional.games[game].bestStreak = currentUserStat.optional.games[game].currentStreak;
+          currentUserStat.optional.games[game].currentStreak = 0;
+          currentUserStat.optional.games[game].streakLastUpdate = currentDate;
         }
-        response.optional.games[game].currentStreak = 0;
-        response.optional.games[game].streakLastUpdate = currentDate;
-      } else if (currentDate !== response.optional.games[game].streakLastUpdate) {
-        response.optional.games[game].bestStreak = 0;
-        response.optional.games[game].currentStreak = 0;
-        response.optional.games[game].streakLastUpdate = currentDate;
+        currentUserStat.optional.games[game].currentStreak = 0;
+        currentUserStat.optional.games[game].streakLastUpdate = currentDate;
+      } else if (currentDate !== currentUserStat.optional.games[game].streakLastUpdate) {
+        currentUserStat.optional.games[game].bestStreak = 0;
+        currentUserStat.optional.games[game].currentStreak = 0;
+        currentUserStat.optional.games[game].streakLastUpdate = currentDate;
       }
     } else {
-      response.optional = response.optional || {};
-      response.optional.games = response.optional.games || {} as GamesStat;
+      currentUserStat.optional = currentUserStat.optional || {};
+      currentUserStat.optional.games = currentUserStat.optional.games || {} as GamesStat;
 
-      const gameStat = response.optional.games[game] || {} as GameStat;
-      gameStat.bestStreak = response.optional.games[game].currentStreak;
+      const gameStat = currentUserStat.optional.games[game] || {} as GameStat;
+      gameStat.bestStreak = currentUserStat.optional.games[game].currentStreak;
       gameStat.currentStreak = 0;
       gameStat.streakLastUpdate = currentDate;
 
-      response.optional.games[game] = gameStat;
+      currentUserStat.optional.games[game] = gameStat;
     }
   }
 
   const userStatistics: UserStatistics = {
-    learnedWords: response.learnedWords,
-    optional: { ...response.optional },
+    learnedWords: currentUserStat.learnedWords,
+    optional: currentUserStat.optional,
   };
-  await updateUserStatistics(appState.user, userStatistics);
+  return userStatistics;
+  // await updateUserStatistics(appState.user, userStatistics);
 }
 
 function getBestStreak(game: string, date: string, response: UserStatisticsResponse) {
@@ -208,24 +210,12 @@ function getBestStreak(game: string, date: string, response: UserStatisticsRespo
   return result;
 }
 
-export async function updateStreak(game: string, answer: number, isFinished: boolean) {
-  const date = new Date();
-  const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
+// export async function updateStreak(game: string, answer: number, currentDate: string, currentUserStatistics: UserStatisticsResponse, isFinished: boolean) {
+//   // const currentUserStatistics = await getUserStatistics(appState.user);
+//   await countStreak(game, answer, currentDate, currentUserStatistics);
 
-  const currentUserStatistics = await getUserStatistics(appState.user);
-  if (game === 'sprint') {
-    await countStreak(game, answer, currentDate, currentUserStatistics);
-    if (isFinished) {
-      await countStreak(game, answer, currentDate, currentUserStatistics);
-      const updatedUserStatistics = getBestStreak(game, currentDate, currentUserStatistics);
-      if (currentUserStatistics.optional?.games?.[game].currentStreak) {
-        currentUserStatistics.optional.games[game].currentStreak = 0;
-      }
-
-      await updateUserStatistics(appState.user, updatedUserStatistics);
-    }
-  }
-}
+//     // await updateUserStatistics(appState.user, updatedUserStatistics);
+//   }
 
 async function calculateGameStatistics(
   game: string,
@@ -260,21 +250,31 @@ async function calculateGameStatistics(
     currentUserStatistics.optional.games[game] = gameStat;
   }
 
-  const userStatistics: UserStatistics = {
-    learnedWords: currentUserStatistics.learnedWords,
-    optional: currentUserStatistics.optional,
-  };
-
-  await updateUserStatistics(appState.user, userStatistics);
+  // const userStatistics: UserStatistics = {
+  //   learnedWords: currentUserStatistics.learnedWords,
+  //   optional: currentUserStatistics.optional,
+  // };
+  return currentUserStatistics;
+  // await updateUserStatistics(appState.user, userStatistics);
 }
 
-export async function updateGameStatistics(game: string, answer: number): Promise<void> {
+export async function updateGameStatistics(game: string, answer: number, isFinished: boolean): Promise<void> {
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
-  const response = await getUserStatistics(appState.user);
-  if (game === 'sprint') {
-    await calculateGameStatistics(game, answer, currentDate, response);
+  const currentUserStat = await getUserStatistics(appState.user);
+
+  const userStatsGames = await calculateGameStatistics(game, answer, currentDate, currentUserStat);
+  const userStatesWithStreak = await countStreak(game, answer, currentDate, userStatsGames);
+
+  const updatedUserStat = await updateUserStatistics(appState.user, userStatesWithStreak);
+
+  if (isFinished) {
+    const updatedUserStatistics = getBestStreak(game, currentDate, updatedUserStat);
+    if (updatedUserStatistics.optional?.games?.[game].currentStreak) {
+      updatedUserStatistics.optional.games[game].currentStreak = 0;
+    }
+    await updateUserStatistics(appState.user, updatedUserStatistics);
   }
 }
 
@@ -287,7 +287,6 @@ export async function getAnswer(
 ): Promise<void> {
   const isAdded = await addGameResult(userState, wordId, answer);
   if (isAdded) {
-    await updateGameStatistics(game, answer);
-    await updateStreak(game, answer, isFinished);
+    await updateGameStatistics(game, answer, isFinished);
   }
 }
