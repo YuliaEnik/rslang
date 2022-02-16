@@ -7,6 +7,7 @@ import {
 } from './api';
 import {
   UserState,
+  UserWord,
   Word,
   WordFromAggregated,
 } from './types';
@@ -62,4 +63,8 @@ export function addWordToLearned(word: Word) {
     return updateUserWord(appState.user, word.id, { difficulty: 'learned' });
   }
   return createUserWord(appState.user, word.id, { difficulty: 'learned' });
+}
+
+export function removeWordFromLearned(wordId: string) {
+  return updateUserWord(appState.user, wordId, { difficulty: 'default' });
 }
