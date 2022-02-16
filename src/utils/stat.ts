@@ -3,8 +3,8 @@ import {
   createUserWord,
   getWord,
   updateUserWord,
-  getUserStatistic,
-  updateUserStatistic,
+  getUserStatistics,
+  updateUserStatistics,
 } from './api';
 import {
   UserState,
@@ -33,7 +33,7 @@ export async function updateNewWords() {
   const dateString = date.toISOString();
   const currentDate = dateString.substring(0, dateString.indexOf('T'));
 
-  const response = await getUserStatistic(appState.user);
+  const response = await getUserStatistics(appState.user);
 
   if (response.optional?.newWordsLastUpdate && response.optional?.newWords) {
     if (currentDate !== response.optional.newWordsLastUpdate) {
@@ -59,7 +59,7 @@ export async function updateNewWords() {
     },
   };
 
-  updateUserStatistic(appState.user, body);
+  updateUserStatistics(appState.user, body);
 }
 
 export function updateWordStatistics(body: UserWordResponse, answer: number): UserWord {
@@ -129,35 +129,35 @@ export async function addGameResult(userState: UserState | null, wordId: string,
 
 function countStreak(game: string, answer: number, currentDate: string, response: UserStatisticsResponse) {
   if (answer) {
-    if (response.optional?.games?.game) {
-      if (currentDate === response.optional.games.game.streakLastUpdate) {
-        response.optional.games.game.currentStreak += 1;
-        response.optional.games.game.streakLastUpdate = currentDate;
+    if (response.optional?.games?.[game]) {
+      if (currentDate === response.optional.games[game].streakLastUpdate) {
+        response.optional.games[game].currentStreak += 1;
+        response.optional.games[game].streakLastUpdate = currentDate;
       } else if (currentDate !== response.optional.games.game.streakLastUpdate) {
-        response.optional.games.game.bestStreak = 1;
-        response.optional.games.game.currentStreak = 1;
-        response.optional.games.game.streakLastUpdate = currentDate;
-      } else if (response.optional.games.game.streakLastUpdate === 'undefined') {
-        response.optional.games.game.bestStreak = 1;
-        response.optional.games.game.currentStreak = 1;
-        response.optional.games.game.streakLastUpdate = currentDate;
+        response.optional.games[game].bestStreak = 1;
+        response.optional.games[game].currentStreak = 1;
+        response.optional.games[game].streakLastUpdate = currentDate;
+      } else if (response.optional.games[game].streakLastUpdate === 'undefined') {
+        response.optional.games[game].bestStreak = 1;
+        response.optional.games[game].currentStreak = 1;
+        response.optional.games[game].streakLastUpdate = currentDate;
       }
     }
   }
   if (!answer) {
-    if (response.optional?.games?.game) {
-      if (currentDate === response.optional.games.game.streakLastUpdate) {
-        if (response.optional.games.game.currentStreak > response.optional.games.game.bestStreak) {
-          response.optional.games.game.bestStreak = response.optional.games.game.currentStreak;
-          response.optional.games.game.currentStreak = 0;
-          response.optional.games.game.streakLastUpdate = currentDate;
+    if (response.optional?.games?.[game]) {
+      if (currentDate === response.optional.games[game].streakLastUpdate) {
+        if (response.optional.games[game].currentStreak > response.optional.games.game.bestStreak) {
+          response.optional.games[game].bestStreak = response.optional.games.game.currentStreak;
+          response.optional.games[game].currentStreak = 0;
+          response.optional.games[game].streakLastUpdate = currentDate;
         }
-        response.optional.games.game.currentStreak = 0;
-        response.optional.games.game.streakLastUpdate = currentDate;
-      } else if (currentDate !== response.optional.games.game.streakLastUpdate) {
-        response.optional.games.game.bestStreak = 0;
-        response.optional.games.game.currentStreak = 0;
-        response.optional.games.game.streakLastUpdate = currentDate;
+        response.optional.games[game].currentStreak = 0;
+        response.optional.games[game].streakLastUpdate = currentDate;
+      } else if (currentDate !== response.optional.games[game].streakLastUpdate) {
+        response.optional.games[game].bestStreak = 0;
+        response.optional.games[game].currentStreak = 0;
+        response.optional.games[game].streakLastUpdate = currentDate;
       }
     }
   }
@@ -173,18 +173,18 @@ function countStreak(game: string, answer: number, currentDate: string, response
     result.optional.games = response.optional.games;
   }
 
-  updateUserStatistic(appState.user, result);
+  updateUserStatistics(appState.user, result);
 }
 
-function getBestStreak(date: string, response: UserStatisticsResponse) {
-  if (response.optional?.games?.game) {
-    if (date === response.optional.games.game.streakLastUpdate
-      && response.optional.games.game.currentStreak >= response.optional.games.game.bestStreak) {
-      response.optional.games.game.bestStreak = response.optional.games.game.currentStreak;
-      response.optional.games.game.streakLastUpdate = date;
-    } else if (date !== response.optional.games.game.streakLastUpdate) {
-      response.optional.games.game.bestStreak = response.optional.games.game.currentStreak;
-      response.optional.games.game.streakLastUpdate = date;
+function getBestStreak(game: string, date: string, response: UserStatisticsResponse) {
+  if (response.optional?.games?.[game]) {
+    if (date === response.optional.games[game].streakLastUpdate
+      && response.optional.games[game].currentStreak >= response.optional.games[game].bestStreak) {
+      response.optional.games[game].bestStreak = response.optional.games[game].currentStreak;
+      response.optional.games[game].streakLastUpdate = date;
+    } else if (date !== response.optional.games[game].streakLastUpdate) {
+      response.optional.games[game].bestStreak = response.optional.games[game].currentStreak;
+      response.optional.games[game].streakLastUpdate = date;
     }
   }
 
@@ -206,103 +206,115 @@ export async function updateStreak(game: string, answer: number, isFinished: boo
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
-  const response = await getUserStatistic(appState.user);
+  const response = await getUserStatistics(appState.user);
   if (game === 'sprint') {
     countStreak('sprint', answer, currentDate, response);
     if (isFinished) {
       countStreak('sprint', answer, currentDate, response);
-      const result = getBestStreak(currentDate, response);
-      if (response.optional?.games?.game.currentStreak) {
-        response.optional.games.game.currentStreak = 0;
+      const result = getBestStreak(game, currentDate, response);
+      if (response.optional?.games?.[game].currentStreak) {
+        response.optional.games[game].currentStreak = 0;
       }
-      updateUserStatistic(appState.user, result);
+      updateUserStatistics(appState.user, result);
     }
   }
   if (game === 'audioChallenge') {
     countStreak('audioChallenge', answer, currentDate, response);
     if (isFinished) {
       countStreak('sprint', answer, currentDate, response);
-      const result = getBestStreak(currentDate, response);
-      if (response.optional?.games?.game.currentStreak) {
-        response.optional.games.game.currentStreak = 0;
+      const result = getBestStreak(game, currentDate, response);
+      if (response.optional?.games?.[game].currentStreak) {
+        response.optional.games[game].currentStreak = 0;
       }
-      updateUserStatistic(appState.user, result);
+      updateUserStatistics(appState.user, result);
     }
   }
 }
 
 async function countGameStatistics(game: string, answer: number, currentDate: string, response: UserStatisticsResponse) {
-  if (response.optional?.games?.game) {
-    if (currentDate === response.optional.games.game.gameLastUpdate) {
+  if (response.optional?.games?.[game]) {
+    if (currentDate === response.optional.games[game].gameLastUpdate) {
       if (answer) {
-        response.optional.games.game.correct++;
-        response.optional.games.game.gameLastUpdate = currentDate;
+        response.optional.games[game].correct++;
+        response.optional.games[game].gameLastUpdate = currentDate;
       } else {
-        response.optional.games.game.wrong++;
-        response.optional.games.game.gameLastUpdate = currentDate;
+        response.optional.games[game].wrong++;
+        response.optional.games[game].gameLastUpdate = currentDate;
       }
-    } else if (currentDate !== response.optional.games.game.gameLastUpdate) {
+    } else if (currentDate !== response.optional.games[game].gameLastUpdate) {
       if (answer) {
-        response.optional.games.game.correct = 1;
-        response.optional.games.game.wrong = 0;
-        response.optional.games.game.gameLastUpdate = currentDate;
+        response.optional.games[game].correct = 1;
+        response.optional.games[game].wrong = 0;
+        response.optional.games[game].gameLastUpdate = currentDate;
       } else {
-        response.optional.games.game.wrong = 1;
-        response.optional.games.game.correct = 0;
-        response.optional.games.game.gameLastUpdate = currentDate;
+        response.optional.games[game].wrong = 1;
+        response.optional.games[game].correct = 0;
+        response.optional.games[game].gameLastUpdate = currentDate;
       }
     }
   } else if (!response.optional) {
     if (answer) {
       response.optional = {};
       response.optional.games = {};
-      response.optional.games.game.correct = 1;
-      response.optional.games.game.wrong = 0;
-      response.optional.games.game.gameLastUpdate = currentDate;
+      Object.defineProperty(response.optional.games, `${game}`, {
+        value: {},
+      });
+      response.optional.games[game].correct = 1;
+      response.optional.games[game].wrong = 0;
+      response.optional.games[game].gameLastUpdate = currentDate;
     } else {
       response.optional = {};
       response.optional.games = {};
-      response.optional.games.game.wrong = 1;
-      response.optional.games.game.correct = 0;
-      response.optional.games.game.gameLastUpdate = currentDate;
+      Object.defineProperty(response.optional.games, `${game}`, {
+        value: {},
+      });
+      response.optional.games[game].wrong = 1;
+      response.optional.games[game].correct = 0;
+      response.optional.games[game].gameLastUpdate = currentDate;
     }
   } else if (!response.optional.games) {
     if (answer) {
       response.optional.games = {};
-      response.optional.games.game.correct = 1;
-      response.optional.games.game.wrong = 0;
-      response.optional.games.game.gameLastUpdate = currentDate;
-    } else {
-      response.optional.games = {};
-      response.optional.games.game.wrong = 1;
-      response.optional.games.game.correct = 0;
-      response.optional.games.game.gameLastUpdate = currentDate;
-    }
-  } else if (!response.optional.games.game) {
-    if (answer) {
-      Object.defineProperty(response.optional.games, 'game', {
+      Object.defineProperty(response.optional.games, `${game}`, {
         value: {},
       });
-      Object.defineProperty(response.optional.games.game, 'correct', {
+      response.optional.games[game].correct = 1;
+      response.optional.games[game].wrong = 0;
+      response.optional.games[game].gameLastUpdate = currentDate;
+    } else {
+      response.optional.games = {};
+      Object.defineProperty(response.optional.games, `${game}`, {
+        value: {},
+      });
+      response.optional.games[game].wrong = 1;
+      response.optional.games[game].correct = 0;
+      response.optional.games[game].gameLastUpdate = currentDate;
+    }
+  } else if (!response.optional.games[game]) {
+    if (answer) {
+      Object.defineProperty(response.optional.games, `${game}`, {
+        value: {},
+      });
+      Object.defineProperty(response.optional.games[game], 'correct', {
         value: 1,
       });
-      Object.defineProperty(response.optional.games.game, 'wrong', {
+      Object.defineProperty(response.optional.games[game], 'wrong', {
         value: 0,
       });
-      Object.defineProperty(response.optional.games.game, 'gameLastUpdate', {
+      Object.defineProperty(response.optional.games[game], 'gameLastUpdate', {
         value: currentDate,
       });
     } else {
-      Object.defineProperty(response.optional.games, 'game', {
+      Object.defineProperty(response.optional.games, `${game}`, {
         value: {},
       });
-      Object.defineProperty(response.optional.games.game, 'correct', {
+      Object.defineProperty(response.optional.games[game], 'correct', {
         value: 0,
       });
-      Object.defineProperty(response.optional.games.game, 'wrong', {
+      Object.defineProperty(response.optional.games[game], 'wrong', {
         value: 1,
       });
-      Object.defineProperty(response.optional.games.game, 'gameLastUpdate', {
+      Object.defineProperty(response.optional.games[game], 'gameLastUpdate', {
         value: currentDate,
       });
     }
@@ -318,22 +330,21 @@ async function countGameStatistics(game: string, answer: number, currentDate: st
   if (response.optional?.games) {
     result.optional.games = response.optional.games;
   }
-
-  return result;
+  // eslint-disable-next-line no-debugger
+  debugger;
+  updateUserStatistics(appState.user, result);
 }
 
 export async function updateGameStatistics(game: string, answer: number) {
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
-  const response = await getUserStatistic(appState.user);
+  const response = await getUserStatistics(appState.user);
   if (game === 'sprint') {
-    const result = await countGameStatistics(game, answer, currentDate, response);
-    updateUserStatistic(appState.user, result);
+    await countGameStatistics(game, answer, currentDate, response);
   }
   if (game === 'audioChallenge') {
-    const result = await countGameStatistics(game, answer, currentDate, response);
-    updateUserStatistic(appState.user, result);
+    await countGameStatistics(game, answer, currentDate, response);
   }
 }
 

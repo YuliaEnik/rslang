@@ -155,7 +155,7 @@ export async function getUserWordsForGame(userState: UserState | null, req?: {
   return result;
 }
 
-export async function getUserStatistic(userState: UserState | null): Promise<UserStatisticsResponse> {
+export async function getUserStatistics(userState: UserState | null): Promise<UserStatisticsResponse> {
   if (!userState) throw Error('User state is null. Cannot get user statistics.');
 
   const url = `${API_ENDPOINT}/users/${userState.userId}/statistics`;
@@ -164,7 +164,7 @@ export async function getUserStatistic(userState: UserState | null): Promise<Use
   return result;
 }
 
-export async function updateUserStatistic(userState: UserState | null, body: UserStatistics): Promise<UserStatisticsResponse> {
+export async function updateUserStatistics(userState: UserState | null, body: UserStatistics): Promise<UserStatisticsResponse> {
   if (!userState) throw Error('User state is null. Cannot get user statistics.');
 
   const url = `${API_ENDPOINT}/users/${userState.userId}/statistics`;
