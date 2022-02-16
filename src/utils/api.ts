@@ -3,7 +3,7 @@ import { logOut } from '../components/nav';
 import { saveUserToLocalStorage } from '../services/auth/login';
 import { API_ENDPOINT } from './constants';
 import {
-  UserWord, ResponseStatus, UserState, Word, AggregateResponse,
+  UserWord, ResponseStatus, UserState, Word, AggregateResponse, UserStatistics, UserStatisticsResponse, UserStatisticsOptional,
 } from './types';
 
 function buildGetParams(params?: { [key: string]: string | number }) {
@@ -34,7 +34,7 @@ async function refreshUserToken(userState: UserState): Promise<void> {
   saveUserToLocalStorage(userState);
 }
 
-async function fetchForUser(url: string, userState: UserState, body?: UserWord, method = 'GET') {
+async function fetchForUser(url: string, userState: UserState, body?: UserWord | UserStatistics, method = 'GET') {
   let response = await fetch(url,
     {
       method,
@@ -130,7 +130,8 @@ export async function updateUserWord(userState: UserState | null, wordId: string
 }
 
 export async function getAggregatedWords(
-  userState: UserState | null, req?: { group?: number, page?: number, filter?: string }
+  userState: UserState | null,
+  req?: { group?: number, page?: number, filter?: string },
 ) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
 
@@ -150,6 +151,24 @@ export async function getUserWordsForGame(userState: UserState | null, req?: {
   if (!userState) throw Error('User state is null. Cannot get user words.');
   const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}`;
   const response = await fetchForUser(url, userState);
+  const result = await response.json();
+  return result;
+}
+
+export async function getUserStatistics(userState: UserState | null): Promise<UserStatisticsResponse> {
+  if (!userState) throw Error('User state is null. Cannot get user statistics.');
+
+  const url = `${API_ENDPOINT}/users/${userState.userId}/statistics`;
+  const response = await fetchForUser(url, userState);
+  const result = await response.json();
+  return result;
+}
+
+export async function updateUserStatistics(userState: UserState | null, body: UserStatistics): Promise<UserStatisticsResponse> {
+  if (!userState) throw Error('User state is null. Cannot get user statistics.');
+
+  const url = `${API_ENDPOINT}/users/${userState.userId}/statistics`;
+  const response = await fetchForUser(url, userState, body, 'PUT');
   const result = await response.json();
   return result;
 }

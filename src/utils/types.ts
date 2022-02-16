@@ -1,4 +1,5 @@
 export interface Word {
+  _id?: string;
   id: string;
   group: number;
   page: number;
@@ -18,17 +19,63 @@ export interface Word {
 }
 
 export interface UserWord {
+  [key: string]: string | UserWordOptional | undefined;
   difficulty?: string;
-  optional?: {
-    isLearned?: true | null;
-    date?: string;
-    games?: {
-      sprint?: {
-        correct: number;
-        wrong: number;
-      }
-    }
-  }
+  optional?: UserWordOptional;
+}
+
+export interface UserWordOptional {
+  isLearned?: true | null;
+  wordLastUpdate?: string;
+  games?: {
+    sprint?: GameStatistics;
+    audioChallenge?: GameStatistics;
+  };
+}
+
+export interface GameStatistics {
+  correct: number;
+  wrong: number;
+}
+
+export interface UserWordResponse {
+  [key: string]: string | UserWordOptional | undefined;
+  id: string,
+  wordId: string;
+  difficulty?: string;
+  optional?: UserWordOptional;
+}
+
+export interface UserStatistics {
+  [key: string]: UserStatisticsOptional | number | undefined;
+  learnedWords: number;
+  optional?: UserStatisticsOptional;
+}
+
+export interface UserStatisticsResponse {
+  [key: string]: UserStatisticsOptional | number | string | undefined;
+  id: string;
+  learnedWords: number;
+  optional?: UserStatisticsOptional;
+}
+
+export interface UserStatisticsOptional {
+  newWords?: number;
+  newWordsLastUpdate?: string;
+  games?: GamesStat;
+}
+
+export interface GamesStat {
+  [key: string]: GameStat;
+}
+
+export interface GameStat {
+  bestStreak: number;
+  currentStreak: number;
+  streakLastUpdate: string;
+  correct: number;
+  wrong: number;
+  gameLastUpdate: string;
 }
 
 export interface StateSprint {

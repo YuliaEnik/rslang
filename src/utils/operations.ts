@@ -1,6 +1,15 @@
 import { appState } from '../app';
-import { createUserWord, getAggregatedWords, getWord, getWords, updateUserWord } from './api';
-import { UserState, UserWord, Word, WordFromAggregated } from './types';
+import {
+  createUserWord,
+  getAggregatedWords,
+  getWords,
+  updateUserWord,
+} from './api';
+import {
+  UserState,
+  Word,
+  WordFromAggregated,
+} from './types';
 
 function convertWordFromAggregated(wordFromAggregated: WordFromAggregated): Word {
   return {
@@ -35,17 +44,10 @@ export function removeWordFromDifficult(wordId: string) {
   return updateUserWord(appState.user, wordId, { difficulty: 'default' });
 }
 
-export async function addGameResult(userState: UserState | null, wordId: string, body: UserWord) {
-  const result = await getWord(userState, wordId);
-  if (!result.ok) {
-    createUserWord(appState.user, wordId, body);
-  } else if (result.ok) {
-    updateUserWord(appState.user, wordId, body);
-  }
-}
-
 export async function getWordsForRendering(
-  userState: UserState | null, req?: { group: number, page?: number }): Promise<Word[]> {
+  userState: UserState | null,
+  req?: { group: number, page?: number },
+): Promise<Word[]> {
   if (!userState?.userId) {
     const result = await getWords(req);
     return result;
