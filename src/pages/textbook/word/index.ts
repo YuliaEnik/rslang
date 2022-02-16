@@ -3,7 +3,9 @@ import { appState } from '../../../app';
 import { loadUserFromLocalStorage } from '../../../services/auth/login';
 import { createUserWord, getAggregatedWords, getUserWords } from '../../../utils/api';
 import { API_ENDPOINT } from '../../../utils/constants';
-import { addWordToDifficultList, removeWordFromDifficult } from '../../../utils/operations';
+import {
+  addWordToDifficultList, addWordToLearned, removeWordFromDifficult, removeWordFromLearned,
+} from '../../../utils/operations';
 import { AppState, UserState, Word } from '../../../utils/types';
 import { createElement, getElement } from '../../../utils/utils';
 import html from './index.html';
@@ -29,6 +31,35 @@ function stopAudio(node: NodeListOf<Element>) {
     const audio = element as HTMLAudioElement;
     audio.pause();
   });
+}
+
+function clickOnDiffOrLearnedButton(
+  button: HTMLButtonElement,
+  difficultOption: string,
+  messageAdd: string,
+  messageRemove: string,
+  word: Word,
+  addFunction: (word: Word) => Promise<unknown>,
+  removeFunction: (word: Word) => Promise<unknown>,
+) {
+  button.addEventListener('click', () => {
+    if (word.userWord?.difficulty !== difficultOption) {
+      addFunction(word).then(() => {
+        button.classList.add('active');
+        alert(messageAdd);
+        window.location.reload();
+      });
+    } else {
+      removeFunction(word).then(() => {
+        button.classList.remove('active');
+        alert(messageRemove);
+        window.location.reload();
+      });
+    }
+  });
+  if (word.userWord?.difficulty === difficultOption) {
+    button.classList.add('active');
+  }
 }
 
 export function renderWord(params: { word: Word, onclick?: () => void }, userState: UserState | null): HTMLDivElement {
@@ -106,33 +137,25 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
 
   if (userState?.userId) {
     const diffBtn = template.querySelector('.btn--difficult') as HTMLButtonElement;
-    diffBtn.addEventListener('click', () => {
-      if (word.userWord?.difficulty !== 'difficult') {
-        addWordToDifficultList(word).then(() => {
-          diffBtn.classList.add('active');
-          alert('Word added to difficult')
-        });
-      } else {
-        removeWordFromDifficult(word.id).then(() => {
-          diffBtn.classList.remove('active');
-          alert('Word removed from difficult')
-          window.location.reload();
-        });
-      }
-      // getUserWords(appState.user).then(async (wordsData) => {
-      //   const result = await wordsData.json();
-      //   console.log(result);
-      // });
-      getAggregatedWords(appState.user, {
-        group: appState.groupState.group,
-        page: appState.groupState.pageNumber,
-      }).then(async (wordsData) => {
-        console.log(wordsData);
-      });
-    });
-    if (word.userWord?.difficulty === 'difficult') {
-      diffBtn.classList.add('active');
-    }
+    const learnedBtn = template.querySelector('.btn--studied') as HTMLButtonElement;
+    clickOnDiffOrLearnedButton(
+      diffBtn,
+      'difficult',
+      'Word added to difficult',
+      'Word removed from difficult',
+      word,
+      addWordToDifficultList,
+      (w) => removeWordFromDifficult(w.id),
+    );
+    clickOnDiffOrLearnedButton(
+      learnedBtn,
+      'learned',
+      'Word added to learned',
+      'Word removed from learned',
+      word,
+      addWordToLearned,
+      (w) => removeWordFromLearned(w.id),
+    );
   }
 
   return template.children[0] as HTMLDivElement;
