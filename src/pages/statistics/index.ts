@@ -111,7 +111,7 @@ export const buildStatisticsPage = (stat: UserCalculatedStat): HTMLElement => {
   renderElement(learnedImgContainer, learnedItem);
   const learnedQuantity = createElement('span', { class: 'statistics__item-quantity' }, `${stat.learnedWords}`);
   renderElement(learnedQuantity, learnedItem);
-  const LearnedDesc = createElement('span', { class: 'statistics__item-desc' }, 'words is learned');
+  const LearnedDesc = createElement('span', { class: 'statistics__item-desc' }, 'Words are learned');
   renderElement(LearnedDesc, learnedItem);
   renderElement(learnedItem, statOverallList);
 
@@ -149,7 +149,6 @@ export const buildStatisticsPage = (stat: UserCalculatedStat): HTMLElement => {
       `${stat.streak[index]}`,
     );
     statItemstreak.append(statItemstreakAmount);
-    statItemstreak.append('.');
     renderElement(statItemstreak, statList);
 
     renderElement(statList, gameItem);
