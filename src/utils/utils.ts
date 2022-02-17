@@ -37,14 +37,17 @@ export const createHTMLelement = (
   return elem;
 };
 
-export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideMenu = false, hideFooter = false): HTMLElement => {
+export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideMenu: boolean, hideFooter: boolean): HTMLElement => {
   const result = createElement('div', { class: 'main-container' });
 
   if (!hideMenu) {
     renderElement(buildSideBar(context), result);
   }
 
-  const main = createElement('main', { class: 'main' });
+  const main = createElement(
+    'main',
+    { class: `main ${hideMenu ? 'hidden-menu' : ''} ${hideFooter ? 'hidden-footer' : ''}` },
+  );
 
   const mainTitle = createElement('h1', { class: 'visually-hidden' }, 'Learn English with RS Lang application');
   renderElement(mainTitle, main);
@@ -59,8 +62,8 @@ export const buildLayout = (pageElement: HTMLElement, context: Match | undefined
   return result;
 };
 
-export const renderPage = (buildPageElement: HTMLElement, context: Match | undefined): void => {
-  const layout = buildLayout(buildPageElement, context);
+export const renderPage = (buildPageElement: HTMLElement, context: Match | undefined, hideMenu = false, hideFooter = false): void => {
+  const layout = buildLayout(buildPageElement, context, hideMenu, hideFooter);
   document.body.innerHTML = '';
   document.body.appendChild(layout);
 };

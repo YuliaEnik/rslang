@@ -2,7 +2,7 @@
   height: 2rem;
   width: 2rem;
   position: absolute;
-  top:3rem;
+  top: 6.5rem;
   right: 3rem;
   background-repeat: no-repeat;
   background-position: center;
@@ -14,8 +14,8 @@
 }
 
 .screen-open {
-  background-image: url(./../../assets/svg/full_screen.svg);
+  background-image: url(./../../assets/svg/fullscreen.svg);
 }
 .screen-close {
-  background-image: url(./../../assets/svg/close.svg);
+  background-image: url(./../../assets/svg/fullscreen-out.svg);
 }
