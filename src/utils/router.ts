@@ -49,7 +49,7 @@ router
   })
   .on('/statistics', async (context) => {
     const userStatistics = await getUserStatistics(appState.user);
-    const result = await calculateStat(userStatistics);
+    const result = calculateStat(userStatistics);
     renderPage(buildStatisticsPage(result), context);
   })
   .on('/developers', (context) => {

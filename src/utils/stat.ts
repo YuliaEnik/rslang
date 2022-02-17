@@ -32,7 +32,8 @@ function initiateStatisctics(wordLastUpdate: string, answer: number, game: strin
 }
 
 export async function updateNewWords(currentDate: string, game: string) {
-  const currentUserStat: UserStatisticsResponse = await getUserStatistics(appState.user);
+  const currentUserStat: UserStatisticsResponse = await getUserStatistics(appState.user)
+  || {} as UserStatisticsResponse;
 
   if (currentUserStat.optional?.games?.[game].newWordsGame
     && currentUserStat.optional?.games?.[game].newWordsGameLastUpdate) {
@@ -248,7 +249,7 @@ export async function updateGameStatistics(game: string, answer: number, isFinis
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
-  const currentUserStat = await getUserStatistics(appState.user);
+  const currentUserStat = await getUserStatistics(appState.user) || {} as UserStatisticsResponse;
 
   const userStatsGames = await calculateGameStatistics(game, answer, currentDate, currentUserStat);
   const userStatesWithStreak = await countStreak(game, answer, currentDate, userStatsGames);
