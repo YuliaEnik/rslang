@@ -46,13 +46,13 @@ function clickOnDiffOrLearnedButton(
     if (word.userWord?.difficulty !== difficultOption) {
       addFunction(word).then(() => {
         button.classList.add('active');
-        alert(messageAdd);
+        // alert(messageAdd);
         window.location.reload();
       });
     } else {
       removeFunction(word).then(() => {
         button.classList.remove('active');
-        alert(messageRemove);
+        // alert(messageRemove);
         window.location.reload();
       });
     }
@@ -72,8 +72,8 @@ export function renderWord(
 ): HTMLDivElement {
   const template = document.createElement('div');
   template.innerHTML = html;
-
   const wordElement = template.querySelector('.word__popup') as HTMLElement;
+  wordElement.classList.add(`level-${appState.groupState.group}`);
   wordElement?.addEventListener('click', () => {
     params.onclick?.();
   });
@@ -174,13 +174,15 @@ export function renderWord(
     //   const result = await wordsData.json();
     //   console.log(result);
     // });
-    getAggregatedWords(appState.user, {
-      group: appState.groupState.group,
-      page: appState.groupState.pageNumber,
-    }).then(async (wordsData) => {
-      console.log(wordsData);
-    });
+    // getAggregatedWords(appState.user, {
+    //   group: appState.groupState.group,
+    //   page: appState.groupState.pageNumber,
+    // }).then(async (wordsData) => {
+    //   console.log(wordsData);
+    // });
   }
+
+  // add active class to word card
 
   return template.children[0] as HTMLDivElement;
 }

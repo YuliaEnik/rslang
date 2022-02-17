@@ -47,8 +47,26 @@
     z-index: 6;
     transition: all 0.5s ease-in-out;
   }
-  &.a2 .word__phrase--bubble {
+  &.level-0 .word__phrase--bubble {
+    background-color: $color-a1;
+  }
+  &.level-1 .word__phrase--bubble {
     background-color: $color-a2;
+  }
+  &.level-2 .word__phrase--bubble {
+    background-color: $color-b1;
+  }
+  &.level-3 .word__phrase--bubble {
+    background-color: $color-b2;
+  }
+  &.level-4 .word__phrase--bubble {
+    background-color: $color-c1;
+  }
+  &.level-5 .word__phrase--bubble {
+    background-color: $color-c2;
+  }
+  &.level-6 .word__phrase--bubble {
+    background-color: $color-difficult;
   }
 }
 
