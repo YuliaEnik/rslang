@@ -66,7 +66,7 @@ export function renderWord(
   params: {
     word: Word,
     onclick?: () => void,
-    onDiffOrLearnedClick?: () => void
+    onDiffOrLearnedClick?: () => void,
   },
   userState: UserState | null,
 ): HTMLDivElement {
@@ -103,6 +103,8 @@ export function renderWord(
   const audioElWord = template.querySelector('.audio-word') as HTMLAudioElement;
   const audioElMeaning = template.querySelector('.audio-meaning') as HTMLAudioElement;
   const audioElExample = template.querySelector('.audio-example') as HTMLAudioElement;
+  const sprintCorrect = template.querySelector('.sprint-correct') as HTMLParagraphElement;
+  const sprintWrong = template.querySelector('.sprint-wrong') as HTMLParagraphElement;
 
   wordEngEl.textContent = engWord;
   transcriptionEl.textContent = transcription;
@@ -174,15 +176,27 @@ export function renderWord(
     //   const result = await wordsData.json();
     //   console.log(result);
     // });
-    // getAggregatedWords(appState.user, {
-    //   group: appState.groupState.group,
-    //   page: appState.groupState.pageNumber,
-    // }).then(async (wordsData) => {
-    //   console.log(wordsData);
-    // });
   }
 
-  // add active class to word card
+  // add game statistic
+
+  const correctGameAnswSprint = String(word.userWord?.optional?.games?.sprint?.correct);
+  const wrongGameAnswSprint = String(word.userWord?.optional?.games?.sprint?.correct);
+  if (!correctGameAnswSprint) {
+    sprintCorrect.innerText = '0';
+  } else {
+    sprintCorrect.innerText = `${correctGameAnswSprint}`;
+  }
+
+  function checkIfAnsw(gameName: string, htmlEl: HTMLElement) {
+    const correctAnsw = `word.userWord?.optional?.games?.${gameName}?.correct`;
+    if (correctAnsw) {
+      htmlEl.innerText = '0';
+    } else {
+      htmlEl.innerText = correctAnsw;
+    }
+  }
 
   return template.children[0] as HTMLDivElement;
 }
+
