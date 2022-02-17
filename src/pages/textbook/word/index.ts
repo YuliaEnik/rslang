@@ -72,8 +72,8 @@ export function renderWord(
 ): HTMLDivElement {
   const template = document.createElement('div');
   template.innerHTML = html;
-
   const wordElement = template.querySelector('.word__popup') as HTMLElement;
+  wordElement.classList.add(`level-${appState.groupState.group}`);
   wordElement?.addEventListener('click', () => {
     params.onclick?.();
   });
@@ -181,6 +181,8 @@ export function renderWord(
     //   console.log(wordsData);
     // });
   }
+
+  // add active class to word card
 
   return template.children[0] as HTMLDivElement;
 }
