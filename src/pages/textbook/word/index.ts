@@ -46,13 +46,13 @@ function clickOnDiffOrLearnedButton(
     if (word.userWord?.difficulty !== difficultOption) {
       addFunction(word).then(() => {
         button.classList.add('active');
-        alert(messageAdd);
+        // alert(messageAdd);
         window.location.reload();
       });
     } else {
       removeFunction(word).then(() => {
         button.classList.remove('active');
-        alert(messageRemove);
+        // alert(messageRemove);
         window.location.reload();
       });
     }
@@ -174,12 +174,12 @@ export function renderWord(
     //   const result = await wordsData.json();
     //   console.log(result);
     // });
-    getAggregatedWords(appState.user, {
-      group: appState.groupState.group,
-      page: appState.groupState.pageNumber,
-    }).then(async (wordsData) => {
-      console.log(wordsData);
-    });
+    // getAggregatedWords(appState.user, {
+    //   group: appState.groupState.group,
+    //   page: appState.groupState.pageNumber,
+    // }).then(async (wordsData) => {
+    //   console.log(wordsData);
+    // });
   }
 
   return template.children[0] as HTMLDivElement;
