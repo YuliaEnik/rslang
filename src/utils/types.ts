@@ -96,6 +96,10 @@ export interface UserCalculatedStat {
   newWords: string;
   procent: string;
   learnedWords: string;
+  newWordsGame: [
+    sprintNewWords: number,
+    audioChallengeNewWords: number,
+  ];
   streak: [
     sprintStreak: string,
     audioChallengeStreak: string,

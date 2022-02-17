@@ -17,8 +17,12 @@ const games: Games[] = [
 ];
 
 export async function calculateStat(userStatistics: UserStatisticsResponse) {
-  const newWords = userStatistics.optional?.newWords ? `${userStatistics.optional.newWords}` : '0';
   const learnedWords = userStatistics.learnedWords ? `${userStatistics.learnedWords}` : '0';
+
+  const sprintNewWords = userStatistics.optional?.games?.sprint?.newWordsGame || 0;
+  const audioChallengeNewWords = userStatistics.optional?.games?.audioChallenge?.newWordsGame || 0;
+
+  const newWords = `${sprintNewWords + audioChallengeNewWords}`;
 
   const sprintCorrectAnswers = userStatistics.optional?.games?.sprint?.correct || 0;
   const sprintWrongAnswers = userStatistics.optional?.games?.sprint?.wrong || 0;
@@ -45,6 +49,10 @@ export async function calculateStat(userStatistics: UserStatisticsResponse) {
     newWords,
     procent,
     learnedWords,
+    newWordsGame: [
+      sprintNewWords,
+      audioChallengeNewWords,
+    ],
     streak: [
       sprintStreak,
       audioChallengeStreak,
@@ -126,7 +134,7 @@ export const buildStatisticsPage = (stat: UserCalculatedStat): HTMLElement => {
     const statList = createElement('ul', { class: 'statistics__item-list' });
     const statItemQty = createElement('li', { class: 'statistics__item-item' });
     statItemQty.append('Learned ');
-    const statItemQtyAmount = createElement('span', { class: 'statistics__item--qty' }, `${stat.learnedWords}`);
+    const statItemQtyAmount = createElement('span', { class: 'statistics__item--qty' }, `${stat.newWordsGame[index]}`);
     statItemQty.append(statItemQtyAmount);
     statItemQty.append(' words');
     renderElement(statItemQty, statList);
