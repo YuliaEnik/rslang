@@ -76,6 +76,8 @@ export interface GameStat {
   correct: number;
   wrong: number;
   gameLastUpdate: string;
+  newWordsGame: number;
+  newWordsGameLastUpdate: string;
 }
 
 export interface StateSprint {
