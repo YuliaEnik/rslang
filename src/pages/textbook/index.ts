@@ -49,7 +49,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     pageSelector.value = String(currentPage + 1);
     template.querySelector(`.level-${id}`)?.classList.add('active');
     getWordsForRendering(appState.user, { group, page: currentPage }).then((wordsData) => {
-      console.log(wordsData);
+      // console.log(wordsData);
       wordsData.forEach((wordEl) => {
         words?.appendChild(
           renderWord(
@@ -121,7 +121,7 @@ export function buildDictionaryPage(): HTMLDivElement {
       filter: JSON.stringify({ 'userWord.difficulty': 'difficult' }),
     }).then(async (wordsData) => {
       const convertedWords = wordsData[0].paginatedResults.map((el) => convertWordFromAggregated(el));
-      console.log(wordsData);
+      // console.log(wordsData);
       convertedWords.forEach((el) => {
         const renderEl = renderWord({ word: el }, appState.user);
         renderEl.querySelector('.btn--difficult')?.classList.add('active');
@@ -151,7 +151,7 @@ export function buildDictionaryPage(): HTMLDivElement {
       page: appState.groupState.pageNumber,
     }).then(async (wordsData) => {
       const checkDefaultOpt = wordsData[0].paginatedResults.every((el) => el.userWord?.difficulty === 'learned');
-      console.log(checkDefaultOpt);
+      // console.log(checkDefaultOpt);
       if (checkDefaultOpt && wordsData[0].paginatedResults.length !== 0) {
         showMessageAllLearned();
         stylePageElements();

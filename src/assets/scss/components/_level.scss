@@ -21,8 +21,32 @@
   &:not(:last-child) {
     border-right: 2px solid $color-lightgrey;
   }
-  &.active {
+  &.level-0.active {
     background-color: $color-a1;
+    border: none;
+  }
+  &.level-1.active {
+    background-color: $color-a2;
+    border: none;
+  }
+  &.level-2.active {
+    background-color: $color-b1;
+    border: none;
+  }
+  &.level-3.active {
+    background-color: $color-b2;
+    border: none;
+  }
+  &.level-4.active {
+    background-color: $color-c1;
+    border: none;
+  }
+  &.level-5.active {
+    background-color: $color-c2;
+    border: none;
+  }
+  &.level-6.active {
+    background-color: $color-difficult;
     border: none;
   }
 }
