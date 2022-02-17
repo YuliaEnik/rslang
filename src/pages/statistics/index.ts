@@ -135,7 +135,7 @@ export const buildStatisticsPage = (stat: UserCalculatedStat): HTMLElement => {
 
     const statList = createElement('ul', { class: 'statistics__item-list' });
     const statItemQty = createElement('li', { class: 'statistics__item-item' });
-    statItemQty.append('Learned ');
+    statItemQty.append('Trained new ');
     const statItemQtyAmount = createElement('span', { class: 'statistics__item--qty' }, `${stat.newWordsGame[index]}`);
     statItemQty.append(statItemQtyAmount);
     statItemQty.append(' words');
