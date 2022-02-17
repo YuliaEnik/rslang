@@ -121,7 +121,9 @@ export function buildDictionaryPage(): HTMLDivElement {
       filter: JSON.stringify({ 'userWord.difficulty': 'difficult' }),
     }).then(async (wordsData) => {
       const convertedWords = wordsData[0].paginatedResults.map((el) => convertWordFromAggregated(el));
-      // console.log(wordsData);
+      if (wordsData[0].paginatedResults.length === 0) {
+        words.innerHTML = 'No words have been added yet';
+      }
       convertedWords.forEach((el) => {
         const renderEl = renderWord({ word: el }, appState.user);
         renderEl.querySelector('.btn--difficult')?.classList.add('active');
