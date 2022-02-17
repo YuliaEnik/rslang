@@ -92,6 +92,20 @@ export interface StateSprint {
   points: number;
 }
 
+export interface UserCalculatedStat {
+  newWords: string;
+  procent: string;
+  learnedWords: string;
+  streak: [
+    sprintStreak: string,
+    audioChallengeStreak: string,
+  ];
+  procentGames: [
+    sprintProcent: string,
+    audioChallengeProcent: string,
+  ];
+}
+
 export interface StateTextContentEn {
   btnTrue: string;
   btnFalse: string;

@@ -1,17 +1,63 @@
+import { UserCalculatedStat, UserStatisticsResponse } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
 
-const games = [
+interface Games {
+  [key: string]: string;
+}
+
+const games: Games[] = [
   {
     type: 'sprint',
     title: 'Sprint',
   },
   {
-    type: 'audio',
+    type: 'audioChallenge',
     title: 'Audio Challenge',
   },
 ];
 
-export const buildStatisticsPage = (): HTMLElement => {
+export async function calculateStat(userStatistics: UserStatisticsResponse) {
+  const newWords = userStatistics.optional?.newWords ? `${userStatistics.optional.newWords}` : '0';
+  const learnedWords = userStatistics.learnedWords ? `${userStatistics.learnedWords}` : '0';
+
+  const sprintCorrectAnswers = userStatistics.optional?.games?.sprint?.correct || 0;
+  const sprintWrongAnswers = userStatistics.optional?.games?.sprint?.wrong || 0;
+  const sprintProcent = sprintCorrectAnswers
+    ? `${Math.ceil((sprintCorrectAnswers / (sprintCorrectAnswers + sprintWrongAnswers)) * 100)}%` : '0%';
+
+  const sprintStreak = userStatistics.optional?.games?.sprint?.bestStreak
+    ? `${userStatistics.optional.games.sprint.bestStreak}` : '0';
+
+  const audioChallengeCorrectAnswers = userStatistics.optional?.games?.audioChallenge?.correct || 0;
+  const audioChallengeWrongAnswers = userStatistics.optional?.games?.audioChallenge?.wrong || 0;
+  const audioChallengeProcent = audioChallengeCorrectAnswers
+    ? `${Math.ceil((audioChallengeCorrectAnswers / (audioChallengeCorrectAnswers + audioChallengeWrongAnswers)) * 100)}%` : '0%';
+
+  const audioChallengeStreak = userStatistics.optional?.games?.audioChallenge?.bestStreak
+    ? `${userStatistics.optional.games.audioChallenge.bestStreak}` : '0';
+
+  const correctAnswers = sprintCorrectAnswers + audioChallengeCorrectAnswers;
+  const wrongAnswers = sprintWrongAnswers + audioChallengeWrongAnswers;
+  const procent = correctAnswers
+    ? `${Math.ceil((correctAnswers / (correctAnswers + wrongAnswers)) * 100)}%` : '0%';
+
+  const result: UserCalculatedStat = {
+    newWords,
+    procent,
+    learnedWords,
+    streak: [
+      sprintStreak,
+      audioChallengeStreak,
+    ],
+    procentGames: [
+      sprintProcent,
+      audioChallengeProcent,
+    ],
+  };
+  return result;
+}
+
+export const buildStatisticsPage = (stat: UserCalculatedStat): HTMLElement => {
   const result = createElement('section', { class: 'section statistics' });
   const sectionTitle = createElement('h2', { class: 'section__title' }, 'Statistics');
   renderElement(sectionTitle, result);
@@ -30,14 +76,14 @@ export const buildStatisticsPage = (): HTMLElement => {
   const newWordsItem = createElement('li', { class: 'statistics__item statistics__item--new-words' });
   const newWordsImgContainer = createElement('div', { class: 'statistics__item-image' });
   const newWordsImg = createElement('img', {
-    src: 'svg/is-learned.svg',
+    src: 'svg/new-words.svg',
     class: '',
   });
   renderElement(newWordsImg, newWordsImgContainer);
   renderElement(newWordsImgContainer, newWordsItem);
-  const newsWordQuantity = createElement('span', { class: 'statistics__item-quantity' }, '178');
+  const newsWordQuantity = createElement('span', { class: 'statistics__item-quantity' }, `${stat.newWords}`);
   renderElement(newsWordQuantity, newWordsItem);
-  const newsWordDesc = createElement('span', { class: 'statistics__item-desc' }, 'Learned new words');
+  const newsWordDesc = createElement('span', { class: 'statistics__item-desc' }, 'New words');
   renderElement(newsWordDesc, newWordsItem);
   renderElement(newWordsItem, statOverallList);
 
@@ -49,7 +95,7 @@ export const buildStatisticsPage = (): HTMLElement => {
   });
   renderElement(correctImg, correctImgContainer);
   renderElement(correctImgContainer, correctItem);
-  const correctQuantity = createElement('span', { class: 'statistics__item-quantity' }, '78%');
+  const correctQuantity = createElement('span', { class: 'statistics__item-quantity' }, `${stat.procent}`);
   renderElement(correctQuantity, correctItem);
   const correctDesc = createElement('span', { class: 'statistics__item-desc' }, 'Correct answers');
   renderElement(correctDesc, correctItem);
@@ -58,21 +104,21 @@ export const buildStatisticsPage = (): HTMLElement => {
   const learnedItem = createElement('li', { class: 'statistics__item statistics__item--learned' });
   const learnedImgContainer = createElement('div', { class: 'statistics__item-image' });
   const learnedImg = createElement('img', {
-    src: 'svg/stat-correct.svg',
+    src: 'svg/is-learned.svg',
     class: '',
   });
   renderElement(learnedImg, learnedImgContainer);
   renderElement(learnedImgContainer, learnedItem);
-  const learnedQuantity = createElement('span', { class: 'statistics__item-quantity' }, '78%');
+  const learnedQuantity = createElement('span', { class: 'statistics__item-quantity' }, `${stat.learnedWords}`);
   renderElement(learnedQuantity, learnedItem);
-  const LearnedDesc = createElement('span', { class: 'statistics__item-desc' }, 'Correct answers');
+  const LearnedDesc = createElement('span', { class: 'statistics__item-desc' }, 'Words are learned');
   renderElement(LearnedDesc, learnedItem);
   renderElement(learnedItem, statOverallList);
 
   renderElement(statOverallList, result);
 
   const statGamesList = createElement('ul', { class: 'statistics__list statistics__list--games' });
-  games.forEach((game) => {
+  games.forEach((game, index) => {
     const gameItem = createElement('li', { class: 'statistics__item statistics__item--game', 'data-game': game.type });
     const gameTitle = createElement('p', { class: 'statistics__item-title' }, game.title);
     renderElement(gameTitle, gameItem);
@@ -80,23 +126,29 @@ export const buildStatisticsPage = (): HTMLElement => {
     const statList = createElement('ul', { class: 'statistics__item-list' });
     const statItemQty = createElement('li', { class: 'statistics__item-item' });
     statItemQty.append('Learned ');
-    const statItemQtyAmount = createElement('span', { class: 'statistics__item--qty' }, '140');
+    const statItemQtyAmount = createElement('span', { class: 'statistics__item--qty' }, `${stat.learnedWords}`);
     statItemQty.append(statItemQtyAmount);
     statItemQty.append(' words');
     renderElement(statItemQty, statList);
 
     const statItemPercent = createElement('li', { class: 'statistics__item-item' });
     statItemPercent.append('Correct answers: ');
-    const statItemPercentAmount = createElement('span', { class: 'statistics__item--percent' }, '40');
+    const statItemPercentAmount = createElement(
+      'span',
+      { class: 'statistics__item--percent' },
+      `${stat.procentGames[index]}`,
+    );
     statItemPercent.append(statItemPercentAmount);
-    statItemPercent.append(' %');
     renderElement(statItemPercent, statList);
 
     const statItemstreak = createElement('li', { class: 'statistics__item-item' });
     statItemstreak.append('Streak of correct answers: ');
-    const statItemstreakAmount = createElement('span', { class: 'statistics__item--percent' }, '4');
+    const statItemstreakAmount = createElement(
+      'span',
+      { class: 'statistics__item--streak' },
+      `${stat.streak[index]}`,
+    );
     statItemstreak.append(statItemstreakAmount);
-    statItemstreak.append('.');
     renderElement(statItemstreak, statList);
 
     renderElement(statList, gameItem);
