@@ -76,6 +76,8 @@ export interface GameStat {
   correct: number;
   wrong: number;
   gameLastUpdate: string;
+  newWordsGame: number;
+  newWordsGameLastUpdate: string;
 }
 
 export interface StateSprint {
@@ -94,6 +96,10 @@ export interface UserCalculatedStat {
   newWords: string;
   procent: string;
   learnedWords: string;
+  newWordsGame: [
+    sprintNewWords: number,
+    audioChallengeNewWords: number,
+  ];
   streak: [
     sprintStreak: string,
     audioChallengeStreak: string,

@@ -15,7 +15,7 @@ import {
   UserWord, UserWordResponse,
 } from './types';
 
-function initiateStatisctics(wordLastUpdate: string, answer: number): UserWord {
+function initiateStatisctics(wordLastUpdate: string, answer: number, game: string): UserWord {
   const body: UserWord = {
     optional: {
       wordLastUpdate,
@@ -31,38 +31,37 @@ function initiateStatisctics(wordLastUpdate: string, answer: number): UserWord {
   return body;
 }
 
-export async function updateNewWords() {
-  const date = new Date();
-  const dateString = date.toISOString();
-  const currentDate = dateString.substring(0, dateString.indexOf('T'));
+export async function updateNewWords(currentDate: string, game: string) {
+  const currentUserStat: UserStatisticsResponse = await getUserStatistics(appState.user);
 
-  const currentUserStatistics = await getUserStatistics(appState.user);
-
-  if (currentUserStatistics.optional?.newWordsLastUpdate && currentUserStatistics.optional?.newWords) {
-    if (currentDate !== currentUserStatistics.optional.newWordsLastUpdate) {
-      currentUserStatistics.optional.newWordsLastUpdate = currentDate;
-      currentUserStatistics.optional.newWords = 1;
+  if (currentUserStat.optional?.games?.[game].newWordsGame
+    && currentUserStat.optional?.games?.[game].newWordsGameLastUpdate) {
+    if (currentDate !== currentUserStat.optional.games?.[game].newWordsGameLastUpdate) {
+      currentUserStat.optional.games[game].newWordsGameLastUpdate = currentDate;
+      currentUserStat.optional.games[game].newWordsGame = 1;
     }
-    if (currentDate === currentUserStatistics.optional.newWordsLastUpdate) {
-      currentUserStatistics.optional.newWords++;
+    if (currentDate === currentUserStat.optional?.games?.[game].newWordsGameLastUpdate) {
+      currentUserStat.optional.games[game].newWordsGame++;
     }
   } else {
-    currentUserStatistics.optional = currentUserStatistics.optional || {};
-    currentUserStatistics.optional.newWordsLastUpdate = currentDate;
-    currentUserStatistics.optional.newWords = 1;
+    currentUserStat.optional = currentUserStat.optional || {};
+    currentUserStat.optional.games = currentUserStat.optional.games || {} as GamesStat;
+
+    const gameStat = currentUserStat.optional.games[game] || {} as GameStat;
+    gameStat.newWordsGame = 1;
+    gameStat.newWordsGameLastUpdate = currentDate;
+
+    currentUserStat.optional.games[game] = gameStat;
   }
 
   const userStatistics: UserStatistics = {
-    learnedWords: currentUserStatistics.learnedWords,
-    optional: currentUserStatistics.optional,
+    learnedWords: currentUserStat.learnedWords,
+    optional: currentUserStat.optional,
   };
   await updateUserStatistics(appState.user, userStatistics);
 }
 
-export async function updateWordStatistics(body: UserWordResponse, answer: number): Promise<UserWord> {
-  const date = new Date();
-  const dateString = date.toISOString().substring(0, date.toISOString().indexOf('T'));
-
+export async function updateWordStatistics(body: UserWordResponse, answer: number, game: string, currentDate: string): Promise<UserWord> {
   const content = Object.keys(body).reduce((object: UserWord, property: string) => {
     if (property !== 'id' && property !== 'wordId') {
       object[property] = body[property];
@@ -71,10 +70,10 @@ export async function updateWordStatistics(body: UserWordResponse, answer: numbe
   }, {});
 
   if (content.optional) {
-    content.optional.wordLastUpdate = dateString;
+    content.optional.wordLastUpdate = currentDate;
   } else if (!content.optional) {
     content.optional = {};
-    content.optional.wordLastUpdate = dateString;
+    content.optional.wordLastUpdate = currentDate;
   }
 
   if (answer === 1) {
@@ -82,7 +81,7 @@ export async function updateWordStatistics(body: UserWordResponse, answer: numbe
       content.optional.games.sprint.correct++;
     }
     if (!content.optional.games) {
-      await updateNewWords();
+      await updateNewWords(currentDate, game);
       content.optional.games = {};
       content.optional.games.sprint = {
         correct: 1,
@@ -94,7 +93,7 @@ export async function updateWordStatistics(body: UserWordResponse, answer: numbe
       content.optional.games.sprint.wrong++;
     }
     if (!content.optional.games) {
-      await updateNewWords();
+      await updateNewWords(currentDate, game);
       content.optional.games = {};
       content.optional.games.sprint = {
         correct: 0,
@@ -105,19 +104,19 @@ export async function updateWordStatistics(body: UserWordResponse, answer: numbe
   return content;
 }
 
-export async function addGameResult(userState: UserState | null, wordId: string, answer: number) {
+export async function addGameResult(userState: UserState | null, wordId: string, answer: number, game: string) {
   const result = await getWord(userState, wordId);
 
   const date = new Date();
-  const wordLastUpdate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
+  const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
   if (!result.ok) {
-    const body = initiateStatisctics(wordLastUpdate, answer);
-    await updateNewWords();
+    const body = initiateStatisctics(currentDate, answer, game);
+    await updateNewWords(currentDate, game);
     await createUserWord(appState.user, wordId, body);
   } else if (result.ok) {
     const content = await result.json();
-    const body = await updateWordStatistics(content, answer);
+    const body = await updateWordStatistics(content, answer, game, currentDate);
     await updateUserWord(appState.user, wordId, body);
   }
   return true;
@@ -272,7 +271,7 @@ export async function getAnswer(
   answer: number,
   isFinished: boolean,
 ): Promise<void> {
-  const isAdded = await addGameResult(userState, wordId, answer);
+  const isAdded = await addGameResult(userState, wordId, answer, game);
   if (isAdded) {
     await updateGameStatistics(game, answer, isFinished);
   }
