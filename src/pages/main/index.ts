@@ -1,7 +1,7 @@
-import { createElement, renderElement } from '../../utils/utils';
+import { createElement, createEl, renderElement } from '../../utils/utils';
 
-export const buildMainPage = (): HTMLElement => {
-  const result = createElement('section', { class: 'main-page' });
+export const buildMainPage = () => {
+  const result = createElement('section', { class: 'main-page main-page-section' });
   const header = createElement('header', { class: 'main__header' });
   const btnSingIn = createElement('a', { class: 'btn btn--sign', 'data-navigo': '', href: '/login' });
   const btnSingInText = createElement('span', { class: 'btn__text' }, 'Sign in');
@@ -11,10 +11,20 @@ export const buildMainPage = (): HTMLElement => {
   const slideGreeting = createElement('section', { class: 'section greeting' });
   const slideGreetingTitle = createElement('h2', {
     class: 'section__title--main section__title',
-  },
-  'Start your learning journey today!');
+  }, 'Start your learning journey today!');
   renderElement(slideGreetingTitle, slideGreeting);
   renderElement(slideGreetingTitle, slideGreeting);
   renderElement(slideGreeting, result);
-  return result;
+
+  return [result, createEl('section', {
+    children: [
+      createEl('h2', {
+        classes: 'section__title--main section__title',
+        elementConfiguration: (h2) => {
+          h2.innerText = 'How it works';
+        },
+      }),
+    ],
+    classes: 'section about main-page-section',
+  })];
 };
