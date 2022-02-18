@@ -105,6 +105,8 @@ export function renderWord(
   const audioElExample = template.querySelector('.audio-example') as HTMLAudioElement;
   const sprintCorrect = template.querySelector('.sprint-correct') as HTMLParagraphElement;
   const sprintWrong = template.querySelector('.sprint-wrong') as HTMLParagraphElement;
+  const audioChallengeCorrect = template.querySelector('.audio-challenge-correct') as HTMLParagraphElement;
+  const audioChallengeWrong = template.querySelector('.audio-challenge-wrong') as HTMLParagraphElement;
 
   wordEngEl.textContent = engWord;
   transcriptionEl.textContent = transcription;
@@ -178,25 +180,27 @@ export function renderWord(
     // });
   }
 
-  // add game statistic
+  // update game statistic elements
 
-  const correctGameAnswSprint = String(word.userWord?.optional?.games?.sprint?.correct);
-  const wrongGameAnswSprint = String(word.userWord?.optional?.games?.sprint?.correct);
-  if (!correctGameAnswSprint) {
-    sprintCorrect.innerText = '0';
-  } else {
-    sprintCorrect.innerText = `${correctGameAnswSprint}`;
-  }
-
-  function checkIfAnsw(gameName: string, htmlEl: HTMLElement) {
-    const correctAnsw = `word.userWord?.optional?.games?.${gameName}?.correct`;
-    if (correctAnsw) {
+  function setTheText(
+    value: number | undefined,
+    htmlEl: HTMLParagraphElement,
+  ) {
+    if (!value) {
       htmlEl.innerText = '0';
     } else {
-      htmlEl.innerText = correctAnsw;
+      htmlEl.innerText = String(value);
     }
   }
 
+  const correctGameAnswerSprint = word.userWord?.optional?.games?.sprint?.correct;
+  const wrongGameAnswerSprint = word.userWord?.optional?.games?.sprint?.wrong;
+  const correctGameAnswerAudioChallenge = word.userWord?.optional?.games?.audioChallenge?.correct;
+  const wrongGameAnswerAudioChallenge = word.userWord?.optional?.games?.audioChallenge?.wrong;
+  setTheText(correctGameAnswerSprint, sprintCorrect);
+  setTheText(wrongGameAnswerSprint, sprintWrong);
+  setTheText(correctGameAnswerAudioChallenge, audioChallengeCorrect);
+  setTheText(wrongGameAnswerAudioChallenge, audioChallengeWrong);
+
   return template.children[0] as HTMLDivElement;
 }
-
