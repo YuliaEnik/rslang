@@ -8,7 +8,6 @@ export function fullscreen(elem:HTMLElement, el:HTMLElement) {
   }
   if (document.fullscreenElement) {
     setTimeout(() => document.exitFullscreen(), 0);
-
     el.classList.remove('screen-close');
     el.classList.add('screen-open');
   }

@@ -1,4 +1,9 @@
-import { Page, StateTextContentEn, StateSprint } from './types';
+import {
+  Page,
+  StateTextContentEn,
+  StateSprint,
+  StateAudioG,
+} from './types';
 
 export const API_ENDPOINT = 'http://localhost:3000';
 
@@ -18,6 +23,14 @@ export const stateSprint: StateSprint = {
   isTrueTranslate: null,
   game_time: 60,
   points: 10,
+};
+
+export const stateAudioG:StateAudioG = {
+  curIndex: 0,
+  answsArray: [],
+  questionsArray: [],
+  score: 0,
+  maxAnsw: 5,
 };
 
 export const pages: Page[] = [

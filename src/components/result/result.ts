@@ -1,14 +1,14 @@
 import './result.scss';
-import { StateSprint } from '../../utils/types';
-import { stateTextContentEn } from '../../utils/constants';
-
+import { StateSprint, Word, StateAudioG } from '../../utils/types';
+import { stateSprint, API_ENDPOINT } from '../../utils/constants';
 import { createHTMLelement, getElement } from '../../utils/utils';
-import { viewGame } from '../../pages/games/game';
 
-export const createResult = (state:StateSprint):HTMLElement => {
+const createResult = (state:StateSprint | StateAudioG):HTMLElement => {
   const parent = getElement('.game-wrapper-content');
   const sprintWrapper = getElement('.sprint-wrapper') as HTMLElement;
   sprintWrapper?.remove();
+  const audioWrapper = getElement('.audio-game-wrapper') as HTMLElement;
+  audioWrapper?.remove();
   const resultWrapper = createHTMLelement('div', { class: 'result-wrapper' }, parent);
   const resultContent = createHTMLelement('div', { class: 'result-content' }, resultWrapper);
   const titleWrap = createHTMLelement('div', { class: 'result-title-wrap' }, resultContent);
@@ -16,7 +16,12 @@ export const createResult = (state:StateSprint):HTMLElement => {
   const wordsWrap = createHTMLelement('div', { class: 'result-content res-words-wrap display-none' }, resultContent);
   state.questionsArray.forEach((el) => {
     const wrap = createHTMLelement('div', { class: 'result-horizontal-wrap' }, wordsWrap);
-    createHTMLelement('div', { class: 'res-sound' }, wrap);
+    const sound = createHTMLelement('div', { class: 'res-sound' }, wrap);
+    const volume = new Audio();
+    volume.src = `${API_ENDPOINT}/${el.audio}`;
+    sound.addEventListener('click', () => {
+      volume.play();
+    });
     createHTMLelement('div', { class: 'result-cell' }, wrap, `${el.word}`);
     createHTMLelement('div', { class: 'result-cell' }, wrap, `${el.wordTranslate}`);
     if (el.correctAnswer === 0) {
@@ -27,12 +32,14 @@ export const createResult = (state:StateSprint):HTMLElement => {
   });
   const resultWrap = createHTMLelement('div', { class: 'result-content res-result-wrap' }, resultContent);
   const dilogWrap = createHTMLelement('div', { class: 'dialog-wrap' }, resultWrap);
-  const dilogHello = createHTMLelement('div', { class: 'dialog-cell dialog-hello' }, dilogWrap, 'Nicely done! Keep up to speed!');
-  const dilogScore = createHTMLelement('div', { class: 'dialog-cell dialog-score' }, dilogWrap, `Your score is ${state.score}!`);
-  const dilogChees = createHTMLelement('div', { class: 'dialog-cell dialog-chees' }, dilogWrap, 'Cheers!');
+  createHTMLelement('div', { class: 'dialog-cell dialog-hello' }, dilogWrap, 'Nicely done! Keep up to speed!');
+  if (state.score) {
+    createHTMLelement('div', { class: 'dialog-cell dialog-score' }, dilogWrap, `Your score is ${state.score}!`);
+  }
+  createHTMLelement('div', { class: 'dialog-cell dialog-chees' }, dilogWrap, 'Cheers!');
   const butWrap = createHTMLelement('div', { class: 'result-horizontal-wrap' }, resultContent);
-  const btnRestart = createHTMLelement('div', { class: 'res-btn' }, butWrap, 'Play again');
-  const bntExit = createHTMLelement('div', { class: ' res-btn' }, butWrap, 'Go to Dictionary');
+  createHTMLelement('div', { class: 'res-btn' }, butWrap, 'Play again');
+  createHTMLelement('div', { class: ' res-btn' }, butWrap, 'Go to Dictionary');
   const resResult = createHTMLelement('div', { class: 'result-title res-result active' }, titleWrap, 'result');
   resWords.addEventListener('click', () => {
     wordsWrap.classList.remove('display-none');
@@ -47,4 +54,16 @@ export const createResult = (state:StateSprint):HTMLElement => {
     resWords.classList.remove('active');
   });
   return resultWrapper;
+};
+
+const isEnd = (data:Word[]):boolean => {
+  if (stateSprint.curIndex === data.length - 1) {
+    return true;
+  }
+  return false;
+};
+
+export {
+  createResult,
+  isEnd,
 };

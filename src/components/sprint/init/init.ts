@@ -1,4 +1,5 @@
 import { Word } from '../../../utils/types';
+import { createRandomAnswerFalse } from '../../../utils/utils';
 import { stateSprint } from '../../../utils/constants';
 import { createSmilePic, removePic, createAngryPic } from './pictures/pictures';
 
@@ -31,22 +32,13 @@ const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, par
   stateSprint.questionsArray.push(data[stateSprint.curIndex]);
 };
 
-const updateCurIndex = () => {
+const updateCurIndex = ():void => {
   stateSprint.curIndex += 1;
 };
 
 const isTrueTranslate = ():number => Math.floor(Math.random() * 2);
 
-const createRandomAnswerFalse = (data: Word[], currentIndex: number): number => {
-  const getRandomTranslateWord = ():number => Math.floor(Math.random() * data.length);
-  let k = getRandomTranslateWord();
-  while (k === currentIndex) {
-    k = getRandomTranslateWord();
-  }
-  return k;
-};
-
-const setWordRu = (data: Word[], wordRu: HTMLElement, currentIndex:number) => {
+const setWordRu = (data: Word[], wordRu: HTMLElement, currentIndex:number):void => {
   stateSprint.isTrueTranslate = isTrueTranslate();
   if (stateSprint.isTrueTranslate === stateSprint.falseAnsw) {
     wordRu.textContent = data[createRandomAnswerFalse(data, stateSprint.curIndex)].wordTranslate;
@@ -65,16 +57,8 @@ const setWords = (data: Word[], wordEn: HTMLElement, wordRu:HTMLElement) => {
   setWordRu(data, wordRu, stateSprint.curIndex);
 };
 
-const isEnd = (data: Word[]):boolean => {
-  if (stateSprint.curIndex === data.length - 1) {
-    return true;
-  }
-  return false;
-};
-
 export {
   checkAnswer,
   updateCurIndex,
   setWords,
-  isEnd,
 };

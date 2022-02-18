@@ -5,6 +5,7 @@ import { buildStatisticsPage } from '../pages/statistics';
 import { buildDictionaryPage } from '../pages/textbook';
 import { renderPage } from './utils';
 import { viewGame } from '../pages/games/game';
+import { audioChalange } from '../pages/audio-game/audio-game';
 import { stateTextContentEn } from './constants';
 import { buildSignUpPage } from '../pages/signup';
 import { appState, data } from '../app';
@@ -28,7 +29,7 @@ router
   })
   .on('/games', async (context) => {
     data.words = await getWords();
-    renderPage(viewGame(stateTextContentEn), context);
+    renderPage(audioChalange(), context);
   })
   .on('/games/sprint', (context) => {
     renderPage(viewGame(stateTextContentEn), context);
