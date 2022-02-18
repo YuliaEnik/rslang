@@ -9,26 +9,184 @@ import {
 import {
   GamesStat,
   GameStat,
+  GameStatistics,
   UserState,
   UserStatistics,
   UserStatisticsResponse,
-  UserWord, UserWordResponse,
+  UserWord, UserWordAction, UserWordOptional, UserWordOptionalGames, UserWordResponse, Word,
 } from './types';
 
-function initiateStatisctics(wordLastUpdate: string, answer: number, game: string): UserWord {
-  const body: UserWord = {
-    optional: {
-      wordLastUpdate,
-      games: {
-        sprint: {
-          correct: answer ? 1 : 0,
-          wrong: answer ? 0 : 1,
-        },
-      },
-    },
-  };
+function updateAnsweredCorrectly(word: UserWord, currentDate: string): UserWord {
+  if (word.difficulty === 'default' && word.optional.correctAnswers < 2) {
+    word.optional.correctAnswers++;
+    word.optional.correctAnswersLastUpdate = currentDate;
+    return word;
+  }
+  if (word.difficulty === 'default' && word.optional.correctAnswers === 2) {
+    word.optional.correctAnswers++;
+    word.optional.correctAnswersLastUpdate = currentDate;
+    word.difficulty = 'studied';
+    // todo: update statistics
+    return word;
+  }
+  if (word.difficulty === 'difficult' && word.optional.correctAnswers < 4) {
+    word.optional.correctAnswers++;
+    word.optional.correctAnswersLastUpdate = currentDate;
+    return word;
+  }
+  if (word.difficulty === 'difficult' && word.optional.correctAnswers === 4) {
+    word.optional.correctAnswers++;
+    word.optional.correctAnswersLastUpdate = currentDate;
+    word.difficulty = 'studied';
+    // todo: update statistics
+    return word;
+  }
+  return word;
+}
 
-  return body;
+function updateAnsweredWrongly(word: UserWord, currentDate: string) {
+  if (word.difficulty === 'default' && word.optional.correctAnswers <= 2) {
+    word.optional.correctAnswers = 0;
+    word.optional.correctAnswersLastUpdate = currentDate;
+    return word;
+  }
+  if (word.difficulty === 'difficult' && word.optional.correctAnswers <= 4) {
+    word.optional.correctAnswers = 0;
+    word.optional.correctAnswersLastUpdate = currentDate;
+    return word;
+  }
+  if (word.difficulty === 'studied') {
+    word.difficulty = 'default';
+    word.optional.correctAnswers = 0;
+    word.optional.correctAnswersLastUpdate = currentDate;
+  }
+  return word;
+}
+
+function updateMarkedDifficult(word: UserWord, currentDate: string) {
+  if (word.difficulty === 'default') {
+    word.difficulty = 'difficult';
+    word.optional.correctAnswers = 0;
+    word.optional.correctAnswersLastUpdate = currentDate;
+    return word;
+  }
+  if (word.difficulty === 'studied') {
+    word.difficulty = 'difficult';
+    word.optional.correctAnswers = 0;
+    word.optional.correctAnswersLastUpdate = currentDate;
+    return word;
+  }
+  return word;
+}
+
+function updateRemovedDifficult(word: UserWord, currentDate: string): UserWord {
+  if (word.optional.correctAnswers > 3) {
+    word.difficulty = 'studied';
+    word.optional.correctAnswersLastUpdate = currentDate;
+  }
+  word.difficulty = 'default';
+  word.optional.correctAnswersLastUpdate = currentDate;
+  return word;
+}
+
+function updateMarkedStudied(word: UserWord, currentDate: string): UserWord {
+  if (word.difficulty === 'default') {
+    word.difficulty = 'studied';
+    word.optional.correctAnswers = 3;
+    word.optional.correctAnswersLastUpdate = currentDate;
+    // todo: update statistics
+    return word;
+  }
+  if (word.difficulty === 'difficult') {
+    word.difficulty = 'studied';
+    word.optional.correctAnswers = 5;
+    word.optional.correctAnswersLastUpdate = currentDate;
+    // todo: update statistics
+    return word;
+  }
+  return word;
+}
+
+function updateRemovedStudied(word: UserWord, currentDate: string): UserWord {
+  word.difficulty = 'default';
+  word.optional.correctAnswers = 0;
+  word.optional.correctAnswersLastUpdate = currentDate;
+  return word;
+}
+
+export function updateWordStatus(
+  userWord: UserWord,
+  currentDate:
+  string,
+  userWordAction: UserWordAction,
+  answer?: number,
+) {
+  userWord.difficulty = userWord.difficulty || 'default';
+  userWord.optional = userWord.optional || {} as UserWordOptional;
+  userWord.optional.correctAnswers = userWord.optional.correctAnswers || 0;
+  userWord.optional.correctAnswersLastUpdate = currentDate;
+
+  switch (userWordAction) {
+    case UserWordAction.ANSWERED_CORRECTLY: {
+      const userWordsResponse = updateAnsweredCorrectly(userWord, currentDate);
+      const result = {
+        difficulty: userWordsResponse.difficulty,
+        optional: userWordsResponse.optional,
+      };
+      return result;
+    }
+    case UserWordAction.ANSWERED_WRONGLY:
+      return updateAnsweredWrongly(userWord, currentDate);
+    case UserWordAction.MARKED_DIFFICULT: {
+      const userWordsResponse = updateMarkedDifficult(userWord, currentDate);
+      const result = {
+        difficulty: userWordsResponse.difficulty,
+        optional: userWordsResponse.optional,
+      };
+      return result;
+    }
+    case UserWordAction.REMOVED_DIFFICULT: {
+      const userWordsResponse = updateRemovedDifficult(userWord, currentDate);
+      const result = {
+        difficulty: userWordsResponse.difficulty,
+        optional: userWordsResponse.optional,
+      };
+      return result;
+    }
+    case UserWordAction.MARKED_STUDIED: {
+      const userWordsResponse = updateMarkedStudied(userWord, currentDate);
+      const result = {
+        difficulty: userWordsResponse.difficulty,
+        optional: userWordsResponse.optional,
+      };
+      return result;
+    }
+    case UserWordAction.REMOVED_STUDIED: {
+      const userWordsResponse = updateRemovedStudied(userWord, currentDate);
+      const result = {
+        difficulty: userWordsResponse.difficulty,
+        optional: userWordsResponse.optional,
+      };
+      return result;
+    }
+    default:
+      console.warn(`Unexpected userWordAction '${userWordAction}'`);
+      return userWord;
+  }
+}
+
+function initiateStatisctics(wordLastUpdate: string, answer: number, game: string, currentDate: string): UserWord {
+  const userWord = {} as UserWord;
+  userWord.difficulty = 'default';
+  userWord.optional = {} as UserWordOptional;
+  userWord.optional.correctAnswers = answer || 0;
+  userWord.optional.correctAnswersLastUpdate = currentDate;
+  userWord.optional.games = {} as UserWordOptionalGames;
+  userWord.optional.games[game] = {} as GameStatistics;
+  userWord.optional.games[game].correct = answer || 0;
+  userWord.optional.games[game].wrong = answer || 1;
+
+  return userWord;
 }
 
 export async function updateNewWords(currentDate: string, game: string) {
@@ -62,24 +220,30 @@ export async function updateNewWords(currentDate: string, game: string) {
   await updateUserStatistics(appState.user, userStatistics);
 }
 
-export async function updateWordStatistics(body: UserWordResponse, answer: number, game: string, currentDate: string): Promise<UserWord> {
-  const content = Object.keys(body).reduce((object: UserWord, property: string) => {
+export async function updateWordStatistics(
+  userWordResponse: UserWordResponse,
+  answer: number,
+  game: string,
+  currentDate: string,
+): Promise<UserWord> {
+  const content = Object.keys(userWordResponse).reduce((object: UserWord, property: string) => {
     if (property !== 'id' && property !== 'wordId') {
-      object[property] = body[property];
+      object[property] = userWordResponse[property];
     }
     return object;
-  }, {});
+  }, {} as UserWord);
 
   if (content.optional) {
     content.optional.wordLastUpdate = currentDate;
   } else if (!content.optional) {
-    content.optional = {};
+    content.optional = {} as UserWordOptional;
     content.optional.wordLastUpdate = currentDate;
   }
 
   if (answer === 1) {
-    if (content.optional.games?.sprint) {
-      content.optional.games.sprint.correct++;
+    updateWordStatus(content, currentDate, UserWordAction.ANSWERED_CORRECTLY);
+    if (content.optional?.games?.[game].correct) {
+      content.optional.games[game].correct++;
     }
     if (!content.optional.games) {
       await updateNewWords(currentDate, game);
@@ -90,6 +254,7 @@ export async function updateWordStatistics(body: UserWordResponse, answer: numbe
       };
     }
   } else if (answer === 0) {
+    updateWordStatus(content, currentDate, UserWordAction.ANSWERED_WRONGLY);
     if (content.optional.games?.sprint) {
       content.optional.games.sprint.wrong++;
     }
@@ -112,13 +277,13 @@ export async function addGameResult(userState: UserState | null, wordId: string,
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
 
   if (!result.ok) {
-    const body = initiateStatisctics(currentDate, answer, game);
+    const bodyUserWord = initiateStatisctics(currentDate, answer, game, currentDate);
     await updateNewWords(currentDate, game);
-    await createUserWord(appState.user, wordId, body);
+    await createUserWord(appState.user, wordId, bodyUserWord);
   } else if (result.ok) {
     const content = await result.json();
-    const body = await updateWordStatistics(content, answer, game, currentDate);
-    await updateUserWord(appState.user, wordId, body);
+    const bodyUserWord = await updateWordStatistics(content, answer, game, currentDate);
+    await updateUserWord(appState.user, wordId, bodyUserWord);
   }
   return true;
 }

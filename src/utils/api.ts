@@ -2,7 +2,13 @@ import { logOut } from '../components/nav';
 import { saveUserToLocalStorage } from '../services/auth/login';
 import { API_ENDPOINT } from './constants';
 import {
-  UserWord, ResponseStatus, UserState, Word, AggregateResponse, UserStatistics, UserStatisticsResponse, UserStatisticsOptional,
+  UserWord,
+  ResponseStatus,
+  UserState,
+  Word,
+  AggregateResponse,
+  UserStatistics,
+  UserStatisticsResponse,
 } from './types';
 
 function buildGetParams(params?: { [key: string]: string | number }) {
@@ -89,6 +95,7 @@ export async function getWord(userState: UserState | null, wordId: string) {
 
   const url = `${API_ENDPOINT}/users/${userState.userId}/words/${wordId}`;
   const result = await fetchForUser(url, userState);
+  console.log(result);
   return result;
 }
 
@@ -124,7 +131,9 @@ export async function updateUserWord(userState: UserState | null, wordId: string
   if (!result.ok) {
     throw new Error('Cannot update word');
   }
-
+  console.log(result);
+  // eslint-disable-next-line no-debugger
+  // debugger;
   return result;
 }
 

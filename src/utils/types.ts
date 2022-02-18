@@ -18,19 +18,30 @@ export interface Word {
   userWord?: UserWord;
 }
 
+export enum UserWordAction {
+  ANSWERED_CORRECTLY,
+  ANSWERED_WRONGLY,
+  MARKED_DIFFICULT,
+  MARKED_STUDIED,
+  REMOVED_DIFFICULT,
+  REMOVED_STUDIED,
+}
+
 export interface UserWord {
-  [key: string]: string | UserWordOptional | undefined;
-  difficulty?: string;
-  optional?: UserWordOptional;
+  [key: string]: string | number | UserWordOptional | undefined;
+  difficulty: string;
+  optional: UserWordOptional;
 }
 
 export interface UserWordOptional {
-  isLearned?: true | null;
-  wordLastUpdate?: string;
-  games?: {
-    sprint?: GameStatistics;
-    audioChallenge?: GameStatistics;
-  };
+  correctAnswers: number;
+  correctAnswersLastUpdate: string;
+  wordLastUpdate: string;
+  games: UserWordOptionalGames;
+}
+
+export interface UserWordOptionalGames {
+  [key: string]: GameStatistics;
 }
 
 export interface GameStatistics {
@@ -56,6 +67,7 @@ export interface UserStatisticsResponse {
   [key: string]: UserStatisticsOptional | number | string | undefined;
   id: string;
   learnedWords: number;
+  learnedWordslastUpdate: string;
   optional?: UserStatisticsOptional;
 }
 
