@@ -46,6 +46,10 @@ body {
   }
 }
 
+.about {
+  height: calc(100vh - 50px);
+}
+
 .subtitle {
   color: $color-grey;
   @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-bold);
@@ -127,7 +131,7 @@ body {
 
 .stat__game {
   color: $color-dark;
-  @include font($size: 1.4rem, $height: 2rem,  $weight: $weight-semibold);
+  @include font($size: 1.4rem, $height: 2rem, $weight: $weight-semibold);
 }
 
 .stat__result {
