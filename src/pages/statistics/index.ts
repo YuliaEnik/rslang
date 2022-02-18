@@ -1,3 +1,4 @@
+import { UsageState } from 'webpack';
 import { UserCalculatedStat, UserStatisticsResponse } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
 

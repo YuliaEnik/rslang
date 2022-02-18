@@ -1,6 +1,6 @@
 import { UsageState } from 'webpack';
 import { appState } from '../../app';
-import { getAggregatedWords, getUserWords, getWords } from '../../utils/api';
+import { getAggregatedWords, getUserStatistics, getUserWords, getWords } from '../../utils/api';
 import { convertWordFromAggregated, getWordsForRendering } from '../../utils/operations';
 import { router } from '../../utils/router';
 import {
@@ -137,7 +137,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     renderDifficultPage();
   });
 
-  // check if all words learned / dufficult
+  // check if all words learned/difficult
 
   function showMessageAllLearned() {
     gamesEl.innerHTML = 'YOU LEARNED ALL WORDS FROM THIS PAGE';
@@ -152,6 +152,7 @@ export function buildDictionaryPage(): HTMLDivElement {
       group: appState.groupState.group,
       page: appState.groupState.pageNumber,
     }).then(async (wordsData) => {
+      // console.log(wordsData[0].paginatedResults);
       const checkDefaultOpt = wordsData[0].paginatedResults.every((el) => el.userWord?.difficulty === 'learned');
       // console.log(checkDefaultOpt);
       if (checkDefaultOpt && wordsData[0].paginatedResults.length !== 0) {
