@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { logOut } from '../components/nav';
 import { saveUserToLocalStorage } from '../services/auth/login';
 import { API_ENDPOINT } from './constants';
@@ -155,11 +154,15 @@ export async function getUserWordsForGame(userState: UserState | null, req?: {
   return result;
 }
 
-export async function getUserStatistics(userState: UserState | null): Promise<UserStatisticsResponse> {
+export async function getUserStatistics(userState: UserState | null): Promise<UserStatisticsResponse | null> {
   if (!userState) throw Error('User state is null. Cannot get user statistics.');
 
   const url = `${API_ENDPOINT}/users/${userState.userId}/statistics`;
   const response = await fetchForUser(url, userState);
+
+  if (!response.ok) {
+    return null;
+  }
   const result = await response.json();
   return result;
 }

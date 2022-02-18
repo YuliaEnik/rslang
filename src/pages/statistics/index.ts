@@ -17,7 +17,9 @@ const games: Games[] = [
   },
 ];
 
-export async function calculateStat(userStatistics: UserStatisticsResponse) {
+export function calculateStat(input: UserStatisticsResponse | null) {
+  const userStatistics = input || {} as UserStatisticsResponse;
+
   const learnedWords = userStatistics.learnedWords ? `${userStatistics.learnedWords}` : '0';
 
   const sprintNewWords = userStatistics.optional?.games?.sprint?.newWordsGame || 0;

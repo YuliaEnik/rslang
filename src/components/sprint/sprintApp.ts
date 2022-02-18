@@ -1,6 +1,6 @@
 import './sprint.scss';
 import { createHTMLelement } from '../../utils/utils';
-import { Word, StateTextContentEn } from '../../utils/types';
+import { StateTextContentEn } from '../../utils/types';
 import {
   checkAnswer,
   updateCurIndex,

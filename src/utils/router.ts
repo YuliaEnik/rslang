@@ -10,6 +10,7 @@ import { buildSignUpPage } from '../pages/signup';
 import { appState, data } from '../app';
 import { buildLogInPage } from '../pages/login';
 import { getUserStatistics, getWords } from './api';
+import { buildGameStartPage } from '../pages/games';
 
 function updateDictionaryPageAppState(context: Match | undefined) {
   appState.groupState.group = context?.data && context.data[1] ? parseInt(context.data[1], 10) - 1 : 0;
@@ -31,16 +32,24 @@ router
     updateDictionaryPageAppState(context);
     renderPage(buildDictionaryPage(), context);
   })
-  .on('/games', async (context) => {
-    data.words = await getWords();
-    renderPage(viewGame(stateTextContentEn), context);
+  .on('/sprint', async (context) => {
+    renderPage(buildGameStartPage('sprint'), context, true, true);
+    // data.words = await getWords();
+    // renderPage(viewGame(stateTextContentEn), context);
   })
-  .on('/games/sprint', (context) => {
-    renderPage(viewGame(stateTextContentEn), context);
+  .on('/sprint/play', (context) => {
+    renderPage(viewGame('sprint', stateTextContentEn), context, true, true);
+  })
+  .on('/audioChallenge', async (context) => {
+    renderPage(buildGameStartPage('audioChallenge'), context, true, true);
+  })
+  .on('/audioChallenge/play', async (context) => {
+    alert('Game audioChallenge is under contruction');
+    // renderPage(viewGame('audioChallenge', stateTextContentEn), context, true, true);
   })
   .on('/statistics', async (context) => {
     const userStatistics = await getUserStatistics(appState.user);
-    const result = await calculateStat(userStatistics);
+    const result = calculateStat(userStatistics);
     renderPage(buildStatisticsPage(result), context);
   })
   .on('/developers', (context) => {
