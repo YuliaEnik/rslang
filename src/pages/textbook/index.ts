@@ -1,12 +1,8 @@
-import { UsageState } from 'webpack';
 import { appState } from '../../app';
-import { getAggregatedWords, getUserStatistics, getUserWords, getWords } from '../../utils/api';
+import { getAggregatedWords } from '../../utils/api';
 import { convertWordFromAggregated, getWordsForRendering } from '../../utils/operations';
 import { router } from '../../utils/router';
-import {
-  UserState, UserWord, Word, WordFromAggregated,
-} from '../../utils/types';
-import { createElement, render, renderElement } from '../../utils/utils';
+import { UserState } from '../../utils/types';
 import { playGame } from './games';
 import html from './index.html';
 import './style.scss';
@@ -26,7 +22,7 @@ export function buildDictionaryPage(): HTMLDivElement {
   template.innerHTML = html;
   const levelButtons = template.querySelectorAll('.level__item');
   const words = template.querySelector('.words__list') as HTMLElement;
-  const wordCard = template.querySelector('.word__popup') as HTMLElement;
+  const gamesEl = template.querySelector('.games') as HTMLDivElement;
 
   // add options to select
 
@@ -44,7 +40,50 @@ export function buildDictionaryPage(): HTMLDivElement {
     // wordCard.classList.add('active');
   }
 
-  function renderWordsList(id: number, page: number) {
+  function renderDifficultPage() {
+    words.innerHTML = '';
+    appState.groupState.group = 6;
+    template.querySelector('.level-6')?.classList.add('active');
+    getAggregatedWords(appState.user, {
+      page: appState.groupState.pageNumber || 0,
+      filter: JSON.stringify({ 'userWord.difficulty': 'difficult' }),
+    }).then(async (wordsData) => {
+      const convertedWords = wordsData[0].paginatedResults.map((el) => convertWordFromAggregated(el));
+      if (wordsData[0].paginatedResults.length === 0) {
+        words.innerHTML = 'No words have been added yet';
+      }
+      convertedWords.forEach((el) => {
+        const renderEl = renderWord({ word: el }, appState.user);
+        renderEl.querySelector('.btn--difficult')?.classList.add('active');
+        words?.appendChild(renderEl);
+      });
+    });
+  }
+
+  function showMessageAllLearned() {
+    gamesEl.innerHTML = 'YOU LEARNED ALL WORDS FROM THIS PAGE';
+  }
+
+  function stylePageElements() {
+    pageSelector.style.color = '#605bff';
+  }
+
+  function checkIfPageLearned() {
+    getAggregatedWords(appState.user, {
+      group: appState.groupState.group,
+      page: appState.groupState.pageNumber,
+    }).then(async (wordsData) => {
+      // console.log(wordsData[0].paginatedResults);
+      const checkDefaultOpt = wordsData[0].paginatedResults.every((el) => el.userWord?.difficulty === 'learned');
+      // console.log(checkDefaultOpt);
+      if (checkDefaultOpt && wordsData[0].paginatedResults.length !== 0) {
+        showMessageAllLearned();
+        stylePageElements();
+      }
+    });
+  }
+
+  function renderWordsList(id: number) {
     words.innerHTML = '';
     pageSelector.value = String(currentPage + 1);
     template.querySelector(`.level-${id}`)?.classList.add('active');
@@ -65,7 +104,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     });
   }
   if (group < 6) {
-    renderWordsList(group, currentPage);
+    renderWordsList(group);
   } else {
     group = 6;
     renderDifficultPage();
@@ -107,60 +146,12 @@ export function buildDictionaryPage(): HTMLDivElement {
 
   // for authorized user
 
-  const gamesEl = template.querySelector('.games') as HTMLDivElement;
   applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
-
-  // page with difficult words
-
-  function renderDifficultPage() {
-    words.innerHTML = '';
-    appState.groupState.group = 6;
-    template.querySelector('.level-6')?.classList.add('active');
-    getAggregatedWords(appState.user, {
-      page: appState.groupState.pageNumber || 0,
-      filter: JSON.stringify({ 'userWord.difficulty': 'difficult' }),
-    }).then(async (wordsData) => {
-      const convertedWords = wordsData[0].paginatedResults.map((el) => convertWordFromAggregated(el));
-      if (wordsData[0].paginatedResults.length === 0) {
-        words.innerHTML = 'No words have been added yet';
-      }
-      convertedWords.forEach((el) => {
-        const renderEl = renderWord({ word: el }, appState.user);
-        renderEl.querySelector('.btn--difficult')?.classList.add('active');
-        words?.appendChild(renderEl);
-      });
-    });
-  }
 
   const diffBtn = template.querySelector('.difficult') as HTMLButtonElement;
   diffBtn.addEventListener('click', () => {
     renderDifficultPage();
   });
-
-  // check if all words learned/difficult
-
-  function showMessageAllLearned() {
-    gamesEl.innerHTML = 'YOU LEARNED ALL WORDS FROM THIS PAGE';
-  }
-
-  function stylePageElements() {
-    pageSelector.style.color = '#605bff';
-  }
-
-  function checkIfPageLearned() {
-    getAggregatedWords(appState.user, {
-      group: appState.groupState.group,
-      page: appState.groupState.pageNumber,
-    }).then(async (wordsData) => {
-      // console.log(wordsData[0].paginatedResults);
-      const checkDefaultOpt = wordsData[0].paginatedResults.every((el) => el.userWord?.difficulty === 'learned');
-      // console.log(checkDefaultOpt);
-      if (checkDefaultOpt && wordsData[0].paginatedResults.length !== 0) {
-        showMessageAllLearned();
-        stylePageElements();
-      }
-    });
-  }
 
   checkIfPageLearned();
 
