@@ -38,14 +38,17 @@ export const createHTMLelement = (
   return elem;
 };
 
-export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideMenu = false, hideFooter = false): HTMLElement => {
+export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideMenu: boolean, hideFooter: boolean): HTMLElement => {
   const result = createElement('div', { class: 'main-container' });
 
   if (!hideMenu) {
     renderElement(buildSideBar(context), result);
   }
 
-  const main = createElement('main', { class: 'main' });
+  const main = createElement(
+    'main',
+    { class: `main ${hideMenu ? 'hidden-menu' : ''} ${hideFooter ? 'hidden-footer' : ''}` },
+  );
 
   const mainTitle = createElement('h1', { class: 'visually-hidden' }, 'Learn English with RS Lang application');
   renderElement(mainTitle, main);
@@ -60,8 +63,8 @@ export const buildLayout = (pageElement: HTMLElement, context: Match | undefined
   return result;
 };
 
-export const renderPage = (buildPageElement: HTMLElement, context: Match | undefined): void => {
-  const layout = buildLayout(buildPageElement, context);
+export const renderPage = (buildPageElement: HTMLElement, context: Match | undefined, hideMenu = false, hideFooter = false): void => {
+  const layout = buildLayout(buildPageElement, context, hideMenu, hideFooter);
   document.body.innerHTML = '';
   document.body.appendChild(layout);
 };
@@ -79,4 +82,29 @@ export const createRandomAnswerFalse = (data: Word[], currentIndex: number): num
 
 export function shuffle(array:string[]):void {
   array.sort(() => Math.random() - 0.5);
+}
+
+export function renderEl<T extends keyof HTMLElementTagNameMap>(tagName: T, config?: {
+  elementConfiguration?: (input: HTMLElementTagNameMap[T]) => void,
+  children?: HTMLElement[],
+  attrs?: Partial<HTMLElementTagNameMap[T]>,
+  classes?: string,
+}) {
+  const el = document.createElement(tagName);
+  config?.elementConfiguration?.call(null, el);
+  if (config?.children) {
+    config.children.forEach((child) => {
+      el.appendChild(child);
+    });
+  }
+
+  if (config?.attrs) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    Object.keys(config.attrs).forEach((attr) => el.setAttribute(attr, (config.attrs as any)[attr]));
+  }
+
+  if (config?.classes) {
+    config.classes.split(' ').forEach((classEl) => el.classList.add(classEl));
+  }
+  return el;
 }

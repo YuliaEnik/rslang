@@ -1,17 +1,25 @@
 import { appState } from '../../../app';
-import { loadUserFromLocalStorage } from '../../../services/auth/login';
 import { API_ENDPOINT } from '../../../utils/constants';
-import { UserState, Word } from '../../../utils/types';
-import { createElement, getElement } from '../../../utils/utils';
+import {
+  addWordToDifficultList, addWordToLearned, removeWordFromDifficult, removeWordFromLearned,
+} from '../../../utils/operations';
+import { AppState, UserState, Word } from '../../../utils/types';
+import { createElement } from '../../../utils/utils';
 import html from './index.html';
 import './style.scss';
 
-function appendUserButtons(wordElement: HTMLElement, userState: UserState | null) {
-  if (userState?.userId) {
+function appendUserButtons(wordElement: HTMLElement, appState: AppState) {
+  if (appState.user?.userId) {
     const addToStudiedButton = createElement('button', { class: 'btn btn--studied' });
     const addToDifficultButton = createElement('button', { class: 'btn btn--difficult' });
     wordElement.appendChild(addToStudiedButton);
     wordElement.appendChild(addToDifficultButton);
+  }
+}
+
+function showOrHideUserAttr(wordElement: HTMLElement, userState: UserState | null) {
+  if (userState?.userId) {
+    wordElement.classList.remove('hidden');
   }
 }
 
@@ -22,15 +30,50 @@ function stopAudio(node: NodeListOf<Element>) {
   });
 }
 
-export function renderWord(params: { word: Word, onclick?: () => void }, userState: UserState | null): HTMLDivElement {
+function clickOnDiffOrLearnedButton(
+  button: HTMLButtonElement,
+  difficultOption: string,
+  messageAdd: string,
+  messageRemove: string,
+  word: Word,
+  addFunction: (word: Word) => Promise<unknown>,
+  removeFunction: (word: Word) => Promise<unknown>,
+) {
+  button.addEventListener('click', () => {
+    if (word.userWord?.difficulty !== difficultOption) {
+      addFunction(word).then(() => {
+        button.classList.add('active');
+        // alert(messageAdd);
+        window.location.reload();
+      });
+    } else {
+      removeFunction(word).then(() => {
+        button.classList.remove('active');
+        // alert(messageRemove);
+        window.location.reload();
+      });
+    }
+  });
+  if (word.userWord?.difficulty === difficultOption) {
+    button.classList.add('active');
+  }
+}
+
+export function renderWord(
+  params: {
+    word: Word,
+    onclick?: () => void,
+    onDiffOrLearnedClick?: () => void,
+  },
+  userState: UserState | null,
+): HTMLDivElement {
   const template = document.createElement('div');
   template.innerHTML = html;
-
   const wordElement = template.querySelector('.word__popup') as HTMLElement;
+  wordElement.classList.add(`level-${appState.groupState.group}`);
   wordElement?.addEventListener('click', () => {
     params.onclick?.();
   });
-
   const { word } = params;
   const engWord = word.word;
   const { transcription } = word;
@@ -57,6 +100,10 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
   const audioElWord = template.querySelector('.audio-word') as HTMLAudioElement;
   const audioElMeaning = template.querySelector('.audio-meaning') as HTMLAudioElement;
   const audioElExample = template.querySelector('.audio-example') as HTMLAudioElement;
+  const sprintCorrect = template.querySelector('.sprint-correct') as HTMLParagraphElement;
+  const sprintWrong = template.querySelector('.sprint-wrong') as HTMLParagraphElement;
+  const audioChallengeCorrect = template.querySelector('.audio-challenge-correct') as HTMLParagraphElement;
+  const audioChallengeWrong = template.querySelector('.audio-challenge-wrong') as HTMLParagraphElement;
 
   wordEngEl.textContent = engWord;
   transcriptionEl.textContent = transcription;
@@ -92,7 +139,65 @@ export function renderWord(params: { word: Word, onclick?: () => void }, userSta
   });
 
   const cardColumn = template.querySelector('.column__header') as HTMLHeadElement;
-  appendUserButtons(cardColumn, appState.user);
+  const wordStat = template.querySelector('.word_stat') as HTMLElement;
+
+  appendUserButtons(cardColumn, appState);
+  showOrHideUserAttr(wordStat, appState.user);
+
+  if (userState?.userId) {
+    const diffBtn = template.querySelector('.btn--difficult') as HTMLButtonElement;
+    const learnedBtn = template.querySelector('.btn--studied') as HTMLButtonElement;
+    diffBtn.addEventListener('click', () => {
+      params.onDiffOrLearnedClick?.();
+    });
+    learnedBtn.addEventListener('click', () => {
+      params.onDiffOrLearnedClick?.();
+    });
+    clickOnDiffOrLearnedButton(
+      diffBtn,
+      'difficult',
+      'Word added to difficult',
+      'Word removed from difficult',
+      word,
+      addWordToDifficultList,
+      (w) => removeWordFromDifficult(w.id),
+    );
+    clickOnDiffOrLearnedButton(
+      learnedBtn,
+      'learned',
+      'Word added to learned',
+      'Word removed from learned',
+      word,
+      addWordToLearned,
+      (w) => removeWordFromLearned(w.id),
+    );
+    // getUserWords(appState.user).then(async (wordsData) => {
+    //   const result = await wordsData.json();
+    //   console.log(result);
+    // });
+  }
+
+  // update game statistic elements
+
+  function setTheText(
+    value: number | undefined,
+    htmlEl: HTMLParagraphElement,
+  ) {
+    if (!value) {
+      htmlEl.innerText = '0';
+    } else {
+      htmlEl.innerText = String(value);
+    }
+  }
+
+  const correctGameAnswerSprint = word.userWord?.optional?.games?.sprint?.correct;
+  const wrongGameAnswerSprint = word.userWord?.optional?.games?.sprint?.wrong;
+  const correctGameAnswerAudioChallenge = word.userWord?.optional?.games?.audioChallenge?.correct;
+  const wrongGameAnswerAudioChallenge = word.userWord?.optional?.games?.audioChallenge?.wrong;
+  setTheText(correctGameAnswerSprint, sprintCorrect);
+  setTheText(wrongGameAnswerSprint, sprintWrong);
+  setTheText(correctGameAnswerAudioChallenge, audioChallengeCorrect);
+  setTheText(wrongGameAnswerAudioChallenge, audioChallengeWrong);
 
   return template.children[0] as HTMLDivElement;
 }

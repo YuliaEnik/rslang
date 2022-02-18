@@ -7,9 +7,19 @@ import { createElement, renderElement } from '../../utils/utils';
 import './style.scss';
 
 const buildActiveClass = (pageLink: string, context: Match | undefined): string => {
-  if (!context || !context.url) {
+  if (!context) {
     return '';
   }
+
+  if (context.route.name === 'Main' && pageLink === '/') {
+    return ' active';
+  }
+
+  if (pageLink.includes('dictionary')) {
+    const currentUrl = `/${context.url}`;
+    return currentUrl.includes('dictionary') ? ' active' : '';
+  }
+
   const currentUrl = `/${context.url}`;
   return currentUrl === pageLink ? ' active' : '';
 };

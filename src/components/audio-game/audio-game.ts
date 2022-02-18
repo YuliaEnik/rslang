@@ -1,8 +1,7 @@
 import './audio-game.scss';
 import { data } from '../../app';
-import { fullscreen } from '../../components/full-screen/full-screen';
 import { getElement, createHTMLelement } from '../../utils/utils';
-import { createResult } from '../../components/result/result';
+import { createResult } from '../result/result';
 import {
   stateAudioG,
   setData,
@@ -18,17 +17,11 @@ import {
   createMessageCorgi,
 } from './init/init';
 
-const audioChalange = ():HTMLElement => {
+const audioChallenge = (parent:HTMLElement):HTMLElement => {
   stateAudioG.questionsArray.length = 0;
   const BTNS:HTMLElement[] = [];
-  const parent = getElement('div');
-  const gameSection = createHTMLelement('section', { id: 'game-section', class: 'game-section' }, parent);
-  const gameWrapper = createHTMLelement('div', { class: 'game-wrapper-content' }, gameSection);
-  const fullScreen = createHTMLelement('div', { class: 'full-screen screen-open' }, gameWrapper);
-  fullScreen.addEventListener('click', () => {
-    fullscreen(gameSection, fullScreen);
-  });
-  const gameContent = createHTMLelement('div', { class: 'audio-game-wrapper' }, gameWrapper);
+  const gameContent = createHTMLelement('div', { class: 'audio-game-wrapper' }, parent);
+  parent.classList.add('game-wrapper-content-audio');
   const picsWrap = createHTMLelement('div', { class: 'horiz-wrap' }, gameContent);
   const volumePic = createHTMLelement('div', { class: 'audio-volume-wrap' }, picsWrap);
   const volume = new Audio();
@@ -70,9 +63,9 @@ const audioChalange = ():HTMLElement => {
 
   checkLengthData(data.words, corgi, answWrap, volume, nextBTN);
   setData(data.words, BTNS, volume);
-  return gameSection;
+  return gameContent;
 };
 
 export {
-  audioChalange,
+  audioChallenge,
 };

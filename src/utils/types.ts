@@ -1,4 +1,5 @@
 export interface Word {
+  _id?: string;
   id: string;
   group: number;
   page: number;
@@ -13,15 +14,70 @@ export interface Word {
   textExampleTranslate: string;
   textMeaningTranslate: string;
   wordTranslate: string;
-  correctAnswer: number | undefined | null;
+  correctAnswer?: number;
   userWord?: UserWord;
 }
 
 export interface UserWord {
-  difficulty: string;
-  optional: {
-    isLearned: true | null;
-  }
+  [key: string]: string | UserWordOptional | undefined;
+  difficulty?: string;
+  optional?: UserWordOptional;
+}
+
+export interface UserWordOptional {
+  isLearned?: true | null;
+  wordLastUpdate?: string;
+  games?: {
+    sprint?: GameStatistics;
+    audioChallenge?: GameStatistics;
+  };
+}
+
+export interface GameStatistics {
+  correct: number;
+  wrong: number;
+}
+
+export interface UserWordResponse {
+  [key: string]: string | UserWordOptional | undefined;
+  id: string,
+  wordId: string;
+  difficulty?: string;
+  optional?: UserWordOptional;
+}
+
+export interface UserStatistics {
+  [key: string]: UserStatisticsOptional | number | undefined;
+  learnedWords: number;
+  optional?: UserStatisticsOptional;
+}
+
+export interface UserStatisticsResponse {
+  [key: string]: UserStatisticsOptional | number | string | undefined;
+  id: string;
+  learnedWords: number;
+  optional?: UserStatisticsOptional;
+}
+
+export interface UserStatisticsOptional {
+  newWords?: number;
+  newWordsLastUpdate?: string;
+  games?: GamesStat;
+}
+
+export interface GamesStat {
+  [key: string]: GameStat;
+}
+
+export interface GameStat {
+  bestStreak: number;
+  currentStreak: number;
+  streakLastUpdate: string;
+  correct: number;
+  wrong: number;
+  gameLastUpdate: string;
+  newWordsGame: number;
+  newWordsGameLastUpdate: string;
 }
 
 export interface StateSprint {
@@ -43,28 +99,28 @@ export interface StateAudioG {
   questionsArray: Word[];
   maxAnsw: number;
 }
+export interface UserCalculatedStat {
+  newWords: string;
+  procent: string;
+  learnedWords: string;
+  newWordsGame: [
+    sprintNewWords: number,
+    audioChallengeNewWords: number,
+  ];
+  streak: [
+    sprintStreak: string,
+    audioChallengeStreak: string,
+  ];
+  procentGames: [
+    sprintProcent: string,
+    audioChallengeProcent: string,
+  ];
+}
 
 export interface StateTextContentEn {
   btnTrue: string;
   btnFalse: string;
   exit: string;
-}
-
-export interface IData {
-  id: string;
-  group: number;
-  page: number;
-  word: string;
-  image: string;
-  audio: string;
-  audioMeaning: string;
-  audioExample: string;
-  textMeaning: string;
-  textExample: string;
-  transcription: string;
-  wordTranslate: string;
-  textMeaningTranslate: string;
-  textExampleTranslate: string;
 }
 
 export interface Page {
@@ -135,4 +191,30 @@ export interface UserLogIn {
 
 export interface Data {
   words: Word[];
+}
+
+export interface AggregateResponse {
+  paginatedResults: WordFromAggregated[];
+  totalCount: TotalCount[];
+}
+export interface WordFromAggregated {
+  _id: string;
+  group: number;
+  page: number;
+  word: string;
+  image: string;
+  audio: string;
+  audioMeaning: string;
+  audioExample: string;
+  textMeaning: string;
+  textExample: string;
+  transcription: string;
+  textExampleTranslate: string;
+  textMeaningTranslate: string;
+  wordTranslate: string;
+  userWord?: UserWord;
+}
+
+export interface TotalCount {
+  count: number;
 }

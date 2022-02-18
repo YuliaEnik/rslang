@@ -1,9 +1,14 @@
 import { Word, StateAudioG } from '../../../utils/types';
-import { createRandomAnswerFalse, shuffle, createHTMLelement, getElement } from '../../../utils/utils';
+import {
+  createRandomAnswerFalse,
+  shuffle,
+  createHTMLelement,
+  getElement,
+} from '../../../utils/utils';
 import { API_ENDPOINT, stateAudioG } from '../../../utils/constants';
 
 const countIncorAnsws = 4;
-
+// eslint-disable-next-line
 // @ts-ignore
 const setData = (data:Word[], btnAnsws:HTMLElement[], volume:audio):void => {
   stateAudioG.answsArray.length = 0;
@@ -28,7 +33,7 @@ const checkAnswer = (el:Event, data:Word[], BTNS:HTMLElement[]):void => {
   const userAnswearText = (el.target as HTMLElement).textContent;
   const userAnswer = userAnswearText?.slice(3);
   // click answer btn
-  if ((el.target as HTMLElement).classList.contains("unKnow-btn")) {
+  if ((el.target as HTMLElement).classList.contains('unKnow-btn')) {
     data[stateAudioG.curIndex].correctAnswer = 0;
   }
   // correct answer
@@ -103,7 +108,7 @@ const toggleNextAnswBTN = (nextBTN:HTMLElement, unKnowBTN:HTMLElement) => {
 };
 
 const createMessageCorgi = (data:Word[], corgiParent:HTMLElement) => {
-  let message = getElement('.audio-corgi_message') as HTMLElement;
+  const message = getElement('.audio-corgi_message') as HTMLElement;
   if (message) {
     message.remove();
   }
@@ -112,7 +117,7 @@ const createMessageCorgi = (data:Word[], corgiParent:HTMLElement) => {
   } else {
     createHTMLelement('div', { class: 'audio-corgi_message' }, corgiParent, 'Incorrect!');
   }
-}
+};
 
 const disabledBTNS = (BTNS:HTMLElement[]):void => {
   BTNS.forEach((el) => {
@@ -125,7 +130,6 @@ const unDisabledBTNS = (BTNS:HTMLElement[]):void => {
     el.removeAttribute('disabled');
   });
 };
-
 
 export {
   setData,

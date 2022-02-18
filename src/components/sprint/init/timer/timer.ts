@@ -1,7 +1,7 @@
 import './timer.scss';
 import { createResult } from '../../../result/result';
 import { stateSprint } from '../../../../utils/constants';
-
+// eslint-disable-next-line
 export let timer: NodeJS.Timeout;
 
 export function countdown(parent:HTMLElement) {
@@ -11,6 +11,7 @@ export function countdown(parent:HTMLElement) {
     clearTimeout(timer);
     createResult(stateSprint);
   } else {
+    // eslint-disable-next-line
     // @ts-ignore
     timer = setTimeout(countdown, 1000, parent);
   }

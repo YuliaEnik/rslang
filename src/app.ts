@@ -1,6 +1,6 @@
 import { loadUserFromLocalStorage } from './services/auth/login';
 import { router } from './utils/router';
-import { AppState, Data, Word } from './utils/types';
+import { AppState, Data } from './utils/types';
 
 export const appState: AppState = {
   user: null,

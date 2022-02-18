@@ -1,25 +1,40 @@
-import { createElement, renderElement } from '../../utils/utils';
+import { createElement, renderEl, renderElement } from '../../utils/utils';
 import './style.scss';
 
 const developers = [
   {
     github: 'yenik',
-    url: 'url',
+    url: 'https://github.com/YuliaEnik',
   },
   {
     github: 'ylepner',
-    url: 'url',
+    url: 'https://github.com/ylepner',
   },
   {
     github: 'mserykh',
-    url: 'url',
+    url: 'https://github.com/mserykh',
   },
 ];
 
 export const buildFooter = (): HTMLElement => {
   const result = createElement('footer', { class: 'footer' });
-  const footerLogo = createElement('img',
-    { class: 'logo-rss', src: 'svg/rs-school.svg', alt: 'Rolling Scopes School' });
+  // const footerLogo = createElement('img',
+  //   { class: 'logo-rss', src: 'svg/rs-school.svg', alt: 'Rolling Scopes School' });
+  const footerLogo = renderEl('a', {
+    children: [
+      renderEl('img', {
+        attrs: {
+          src: 'svg/rs-school.svg',
+          alt: 'Rolling Scopes School',
+        },
+        classes: 'logo-rss',
+      }),
+    ],
+    attrs: {
+      href: 'https://rs.school/js/',
+      target: '_blank',
+    },
+  });
   renderElement(footerLogo, result);
   const developersContainer = createElement('div', { class: 'developers' });
   const heart = createElement('span', { class: 'heart' });
@@ -29,9 +44,13 @@ export const buildFooter = (): HTMLElement => {
   developersTitle.append(' by:');
   renderElement(developersTitle, developersContainer);
   const developersList = createElement('ul', { class: 'developers__list' });
-  developers.forEach((developer : { github: string; url: string }) => {
+  developers.forEach((developer) => {
     const developerItem = createElement('li', { class: 'developers__item' });
-    const link = createElement('a', { class: 'developers__link', href: '' }, developer.github);
+    const link = createElement('a', {
+      class: 'developers__link',
+      href: developer.url,
+      target: '_blank',
+    }, developer.github);
     renderElement(link, developerItem);
     renderElement(developerItem, developersList);
   });

@@ -16,6 +16,8 @@ export const sprint = async (
   stateTextContentEn:StateTextContentEn,
   busParent: HTMLElement,
 ): Promise<HTMLElement> => {
+  clearTimeout(timer);
+  stateSprint.game_time = 60;
   stateSprint.questionsArray.length = 0;
   const arrayBtnEl:HTMLElement[] = [];
   busParent.classList.add('bus');
