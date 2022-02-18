@@ -137,7 +137,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     renderDifficultPage();
   });
 
-  // check if all words learned / dufficult
+  // check if all words learned/difficult
 
   function showMessageAllLearned() {
     gamesEl.innerHTML = 'YOU LEARNED ALL WORDS FROM THIS PAGE';

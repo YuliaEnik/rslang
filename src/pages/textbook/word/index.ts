@@ -1,13 +1,10 @@
-import { WebpackOptionsValidationError } from 'webpack';
 import { appState } from '../../../app';
-import { loadUserFromLocalStorage } from '../../../services/auth/login';
-import { createUserWord, getAggregatedWords, getUserWords } from '../../../utils/api';
 import { API_ENDPOINT } from '../../../utils/constants';
 import {
   addWordToDifficultList, addWordToLearned, removeWordFromDifficult, removeWordFromLearned,
 } from '../../../utils/operations';
 import { AppState, UserState, Word } from '../../../utils/types';
-import { createElement, getElement } from '../../../utils/utils';
+import { createElement } from '../../../utils/utils';
 import html from './index.html';
 import './style.scss';
 
