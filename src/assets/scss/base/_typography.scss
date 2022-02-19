@@ -102,7 +102,7 @@ body {
 .word__popup {
   & .word__eng {
     color: $color-primary;
-    @include font($size: 2rem, $height: 2.6rem, $weight: $weight-bold);
+    @include font($size: 2.6rem, $height: 3rem, $weight: $weight-bold);
   }
   & .word__translation {
     color: $color-dark;

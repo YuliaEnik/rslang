@@ -5,7 +5,6 @@ import { buildStatisticsPage, calculateStat } from '../pages/statistics';
 import { buildDictionaryPage } from '../pages/textbook';
 import { renderPage } from './utils';
 import { viewGame } from '../pages/games/game';
-import { audioChallenge } from '../components/audio-game/audio-game';
 import { stateTextContentEn } from './constants';
 import { buildSignUpPage } from '../pages/signup';
 import { appState, data } from '../app';
@@ -18,7 +17,19 @@ function updateDictionaryPageAppState(context: Match | undefined) {
   appState.groupState.pageNumber = context?.params ? parseInt(context.params.page, 10) - 1 : 0;
 }
 
-export const router: Navigo = new Navigo('/');
+class CustomNavigo extends Navigo {
+  reload(): void {
+    const match = this.current ? this.current[0] : {} as Match;
+
+    const route = `${match.url}?${match.queryString}#${match.hashString}`;
+
+    match.queryString = Number(new Date()).toString();
+
+    this.navigate(route);
+  }
+}
+
+export const router = new CustomNavigo('/');
 
 router
   .on({

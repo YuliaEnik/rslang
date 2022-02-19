@@ -1,5 +1,4 @@
-import { UsageState } from 'webpack';
-import { UserCalculatedStat, UserStatisticsResponse } from '../../utils/types';
+import { UserCalculatedStat, UserStatistics } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
 
 interface Games {
@@ -17,10 +16,12 @@ const games: Games[] = [
   },
 ];
 
-export function calculateStat(input: UserStatisticsResponse | null) {
-  const userStatistics = input || {} as UserStatisticsResponse;
+export function calculateStat(input: UserStatistics | null) {
+  const userStatistics = input || {} as UserStatistics;
 
-  const learnedWords = userStatistics.learnedWords ? `${userStatistics.learnedWords}` : '0';
+  const learnedWords = userStatistics.learnedWords
+    ? `${userStatistics.learnedWords}`
+    : '0';
 
   const sprintNewWords = userStatistics.optional?.games?.sprint?.newWordsGame || 0;
   const audioChallengeNewWords = userStatistics.optional?.games?.audioChallenge?.newWordsGame || 0;
@@ -30,7 +31,8 @@ export function calculateStat(input: UserStatisticsResponse | null) {
   const sprintCorrectAnswers = userStatistics.optional?.games?.sprint?.correct || 0;
   const sprintWrongAnswers = userStatistics.optional?.games?.sprint?.wrong || 0;
   const sprintProcent = sprintCorrectAnswers
-    ? `${Math.ceil((sprintCorrectAnswers / (sprintCorrectAnswers + sprintWrongAnswers)) * 100)}%` : '0%';
+    ? `${Math.ceil((sprintCorrectAnswers / (sprintCorrectAnswers + sprintWrongAnswers)) * 100)}%`
+    : '0%';
 
   const sprintStreak = userStatistics.optional?.games?.sprint?.bestStreak
     ? `${userStatistics.optional.games.sprint.bestStreak}` : '0';
@@ -38,15 +40,18 @@ export function calculateStat(input: UserStatisticsResponse | null) {
   const audioChallengeCorrectAnswers = userStatistics.optional?.games?.audioChallenge?.correct || 0;
   const audioChallengeWrongAnswers = userStatistics.optional?.games?.audioChallenge?.wrong || 0;
   const audioChallengeProcent = audioChallengeCorrectAnswers
-    ? `${Math.ceil((audioChallengeCorrectAnswers / (audioChallengeCorrectAnswers + audioChallengeWrongAnswers)) * 100)}%` : '0%';
+    ? `${Math.ceil((audioChallengeCorrectAnswers / (audioChallengeCorrectAnswers + audioChallengeWrongAnswers)) * 100)}%`
+    : '0%';
 
   const audioChallengeStreak = userStatistics.optional?.games?.audioChallenge?.bestStreak
-    ? `${userStatistics.optional.games.audioChallenge.bestStreak}` : '0';
+    ? `${userStatistics.optional.games.audioChallenge.bestStreak}`
+    : '0';
 
   const correctAnswers = sprintCorrectAnswers + audioChallengeCorrectAnswers;
   const wrongAnswers = sprintWrongAnswers + audioChallengeWrongAnswers;
   const procent = correctAnswers
-    ? `${Math.ceil((correctAnswers / (correctAnswers + wrongAnswers)) * 100)}%` : '0%';
+    ? `${Math.ceil((correctAnswers / (correctAnswers + wrongAnswers)) * 100)}%`
+    : '0%';
 
   const result: UserCalculatedStat = {
     newWords,
@@ -136,7 +141,7 @@ export const buildStatisticsPage = (stat: UserCalculatedStat): HTMLElement => {
 
     const statList = createElement('ul', { class: 'statistics__item-list' });
     const statItemQty = createElement('li', { class: 'statistics__item-item' });
-    statItemQty.append('Learned ');
+    statItemQty.append('Trained new ');
     const statItemQtyAmount = createElement('span', { class: 'statistics__item--qty' }, `${stat.newWordsGame[index]}`);
     statItemQty.append(statItemQtyAmount);
     statItemQty.append(' words');

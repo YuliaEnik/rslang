@@ -40,7 +40,9 @@ export function buildDictionaryPage(): HTMLDivElement {
     // wordCard.classList.add('active');
   }
 
-  function renderDifficultPage() {
+  applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
+
+  async function renderDifficultPage() {
     words.innerHTML = '';
     appState.groupState.group = 6;
     template.querySelector('.level-6')?.classList.add('active');
@@ -52,10 +54,10 @@ export function buildDictionaryPage(): HTMLDivElement {
       if (wordsData[0].paginatedResults.length === 0) {
         words.innerHTML = 'No words have been added yet';
       }
-      convertedWords.forEach((el) => {
+      convertedWords.forEach(async (el) => {
         const renderEl = renderWord({ word: el }, appState.user);
-        renderEl.querySelector('.btn--difficult')?.classList.add('active');
-        words?.appendChild(renderEl);
+        (await renderEl).querySelector('.btn--difficult')?.classList.add('active');
+        words?.appendChild(await renderEl);
       });
     });
   }
@@ -73,8 +75,7 @@ export function buildDictionaryPage(): HTMLDivElement {
       group: appState.groupState.group,
       page: appState.groupState.pageNumber,
     }).then(async (wordsData) => {
-      // console.log(wordsData[0].paginatedResults);
-      const checkDefaultOpt = wordsData[0].paginatedResults.every((el) => el.userWord?.difficulty === 'learned');
+      const checkDefaultOpt = wordsData[0].paginatedResults.every((el) => el.userWord?.difficulty === 'studied');
       // console.log(checkDefaultOpt);
       if (checkDefaultOpt && wordsData[0].paginatedResults.length !== 0) {
         showMessageAllLearned();
@@ -89,9 +90,9 @@ export function buildDictionaryPage(): HTMLDivElement {
     template.querySelector(`.level-${id}`)?.classList.add('active');
     getWordsForRendering(appState.user, { group, page: currentPage }).then((wordsData) => {
       // console.log(wordsData);
-      wordsData.forEach((wordEl) => {
+      wordsData.forEach(async (wordEl) => {
         words?.appendChild(
-          renderWord(
+          await renderWord(
             {
               word: wordEl,
               onclick: renderCard,
@@ -143,9 +144,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     const gamesButton = template.querySelectorAll('.games__item');
     gamesButton.forEach((gameButton) => gameButton.addEventListener('click', playGame));
   }
-
-  // for authorized user
-
+  // Double call = to delete?
   applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
 
   const diffBtn = template.querySelector('.difficult') as HTMLButtonElement;
