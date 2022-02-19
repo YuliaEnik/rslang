@@ -25,12 +25,12 @@ export const buildMainPage = () => {
           h2.innerText = 'How it works';
         },
       }),
-      createEl('h4', {
-        classes: 'title flex center',
-        elementConfiguration: (h4) => {
-          h4.innerHTML = 'For authorized user';
-        },
-      }),
+      // createEl('h4', {
+      //   classes: 'title flex center',
+      //   elementConfiguration: (h4) => {
+      //     h4.innerHTML = 'For authorized user';
+      //   },
+      // }),
       createEl('div', {
         children: [
           createEl('div', {
