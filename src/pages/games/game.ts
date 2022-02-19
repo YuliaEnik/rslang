@@ -5,9 +5,10 @@ import {
   createElement,
   renderElement,
 } from '../../utils/utils';
+import { createAudio } from './sound/sound';
 import { sprint } from '../../components/sprint/sprintApp';
 import { StateTextContentEn } from '../../utils/types';
-import { fullscreen } from '../../components/full-screen/full-screen';
+import { fullscreen } from './full-screen/full-screen';
 import { audioChallenge } from '../../components/audio-game/audio-game';
 
 export const viewGame = (game: string, stateTextContentEn: StateTextContentEn):HTMLElement => {
@@ -20,6 +21,8 @@ export const viewGame = (game: string, stateTextContentEn: StateTextContentEn):H
   fullScreen.addEventListener('click', () => {
     fullscreen(gameSection, fullScreen);
   });
+  const soundBtn = createHTMLelement('div', { class: 'sound sound-on' }, gameWrapper);
+  createAudio(soundBtn);
   const gameContent = createHTMLelement('div', { class: 'game-wrapper-content' }, gameWrapper);
   if (game === 'sprint') {
     sprint(gameContent, stateTextContentEn, gameWrapper);
