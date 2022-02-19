@@ -1,4 +1,5 @@
 import { appState, data } from '../../app';
+import { getDictionaryPage } from '../../components/result/result';
 import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
 import { createElement, random, renderElement } from '../../utils/utils';
@@ -67,7 +68,7 @@ export function buildGameStartPage(game: string) {
   const section = createElement('section', { class: 'section__game' });
 
   const gameButtons = createElement('div', { class: 'game__buttons' });
-  const gameClose = createElement('a', { class: 'btn btn--close', href: '/dictionary/1?page=1' });
+  const gameClose = createElement('a', { class: 'btn btn--close', href: `/dictionary/${getDictionaryPage()}` });
   renderElement(gameClose, gameButtons);
 
   const gameFullScreen = createElement('button', { class: 'btn btn--fullscreen' });

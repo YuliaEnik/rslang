@@ -10,12 +10,17 @@ import { sprint } from '../../components/sprint/sprintApp';
 import { StateTextContentEn } from '../../utils/types';
 import { fullscreen } from './full-screen/full-screen';
 import { audioChallenge } from '../../components/audio-game/audio-game';
+import { getDictionaryPage } from '../../components/result/result';
 
 export const viewGame = (game: string, stateTextContentEn: StateTextContentEn):HTMLElement => {
   const parent = getElement('div');
   const gameSection = createHTMLelement('section', { id: 'game-section', class: 'game-section' }, parent);
   const gameWrapper = createHTMLelement('div', { class: 'game-wrapper' }, gameSection);
-  const gameClose = createElement('a', { class: 'btn btn--close btn--game-close', href: '/dictionary/1?page=1' });
+  const gameClose = createElement(
+    'a',
+    { class: 'btn btn--close btn--game-close', href: `/dictionary/${getDictionaryPage()}` },
+  );
+  gameClose.addEventListener('click', () => window.history.back());
   renderElement(gameClose, gameWrapper);
   const fullScreen = createHTMLelement('div', { class: 'full-screen screen-open' }, gameWrapper);
   fullScreen.addEventListener('click', () => {

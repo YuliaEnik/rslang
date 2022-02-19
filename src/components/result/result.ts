@@ -19,7 +19,7 @@ function getGameRoute() {
   return '';
 }
 
-function getDictionaryPage() {
+export function getDictionaryPage() {
   const group = appState.groupState.group < 6 ? appState.groupState.group + 1 : 'difficult';
   const page = appState.groupState.group < 6 ? appState.groupState.pageNumber + 1 : '';
   const queryString = typeof page === 'number' ? `?page=${page}` : page;
