@@ -7,7 +7,7 @@ const createSmilePic = (parent:HTMLElement):HTMLElement => {
     angryWrap.remove();
   }
   const elem = createHTMLelement('div', { class: 'answerPic' }, parent);
-  elem.style.backgroundImage = 'url(1.png)';
+  elem.style.backgroundImage = `url(img/smile/${random(7)}.jpeg)`;
   return elem;
 };
 

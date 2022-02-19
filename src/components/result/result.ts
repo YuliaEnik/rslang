@@ -38,8 +38,8 @@ const createResult = (state:StateSprint | StateAudioG):HTMLElement => {
   }
   createHTMLelement('div', { class: 'dialog-cell dialog-chees' }, dilogWrap, 'Cheers!');
   const butWrap = createHTMLelement('div', { class: 'result-horizontal-wrap' }, resultContent);
-  createHTMLelement('div', { class: 'res-btn' }, butWrap, 'Play again');
-  createHTMLelement('div', { class: ' res-btn' }, butWrap, 'Go to Dictionary');
+  const restart = createHTMLelement('button', { class: 'res-btn' }, butWrap, 'Play again');
+  const goDiction = createHTMLelement('button', { class: ' res-btn' }, butWrap, 'Go to Dictionary');
   const resResult = createHTMLelement('div', { class: 'result-title res-result active' }, titleWrap, 'result');
   resWords.addEventListener('click', () => {
     wordsWrap.classList.remove('display-none');
