@@ -23,7 +23,6 @@ const setData = (data:Word[], btnAnsws:HTMLElement[], volume:audio):void => {
     stateAudioG.answsArray.push(value);
   }
   shuffle(stateAudioG.answsArray);
-
   btnAnsws.forEach((el, i) => {
     el.textContent = `${i + 1}. ${stateAudioG.answsArray[i]}`;
   });

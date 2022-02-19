@@ -10,12 +10,17 @@ import { createResult, isEnd } from '../result/result';
 import { stateSprint } from '../../utils/constants';
 import { countdown, timer } from './init/timer/timer';
 import { data } from '../../app';
+import { router } from '../../utils/router';
 
 export const sprint = async (
   parent:HTMLElement,
   stateTextContentEn:StateTextContentEn,
   busParent: HTMLElement,
-): Promise<HTMLElement> => {
+): Promise<HTMLElement | null> => {
+  if (data.words.length === 0) {
+    router.navigate('/sprint');
+    return null;
+  }
   clearTimeout(timer);
   stateSprint.game_time = 60;
   stateSprint.questionsArray.length = 0;

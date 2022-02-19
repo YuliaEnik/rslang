@@ -1,7 +1,5 @@
 import { data } from '../../app';
-import { sprint } from '../../components/sprint/sprintApp';
 import { getWords } from '../../utils/api';
-import { stateTextContentEn } from '../../utils/constants';
 import { router } from '../../utils/router';
 import { createElement, random, renderElement } from '../../utils/utils';
 
