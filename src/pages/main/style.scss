@@ -1,0 +1,35 @@
+.description-container {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 10vh;
+}
+
+.description-item {
+  border: 1px solid white;
+  border-radius: 10px;
+  width: 20%;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+}
+
+.flex {
+  display: flex;
+}
+
+.center {
+  justify-content: center;
+}
+
+img {
+  width: 50%;
+}
+
+.description-item-title {
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
