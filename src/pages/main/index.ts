@@ -1,7 +1,5 @@
-import { createElement, createEl, renderElement } from '../../utils/utils';
 import './style.scss';
 import html from './index.html';
-import { Template } from 'webpack';
 
 export const buildMainPage = () => {
   const template = document.createElement('div');
