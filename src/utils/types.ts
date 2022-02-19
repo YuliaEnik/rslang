@@ -65,11 +65,11 @@ export interface UpdateUserWordStatisticsResult {
 export interface UserStatistics {
   [key: string]: UserStatisticsOptional | number | string | undefined;
   learnedWords: number;
-  learnedWordsLastUpdate: string;
   optional?: UserStatisticsOptional;
 }
 
 export interface UserStatisticsOptional {
+  learnedWordsLastUpdate?: string;
   newWords?: number;
   newWordsLastUpdate?: string;
   games?: GamesStat;

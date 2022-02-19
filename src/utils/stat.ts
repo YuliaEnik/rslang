@@ -18,6 +18,8 @@ import {
   UserWordOptionalGames,
   UpdateUserWordStatisticsResult,
   UpdateUserWordStatusResult,
+  UserStatisticsOptional,
+  Word,
 } from './types';
 
 function calculateAnsweredCorrectly(userWord: UserWord, currentDate: string): UpdateUserWordStatusResult {
@@ -233,21 +235,23 @@ function calculateLearnedWords(
   currentDate: string,
   userStatistics: UserStatistics,
   updateUserWordStatisticsResult: UpdateUserWordStatisticsResult,
+  wordCorrectAnswerLastUpdate: string,
 ) {
   if (updateUserWordStatisticsResult.justBecameStudied) {
-    if (userStatistics.learnedWordsLastUpdate === currentDate) {
+    if (userStatistics.optional?.learnedWordsLastUpdate === currentDate) {
       userStatistics.learnedWords++;
     } else {
       userStatistics.learnedWords = 1;
     }
-
-    userStatistics.learnedWordsLastUpdate = currentDate;
+    userStatistics.optional = userStatistics.optional || {} as UserStatisticsOptional;
+    userStatistics.optional.learnedWordsLastUpdate = currentDate;
   }
 
   if (updateUserWordStatisticsResult.justRemovedFromStudied) {
-    if (userStatistics.learnedWordsLastUpdate === currentDate) {
+    if (wordCorrectAnswerLastUpdate === currentDate) {
       userStatistics.learnedWords--;
-      userStatistics.learnedWordsLastUpdate = currentDate;
+      userStatistics.optional = userStatistics.optional ? userStatistics.optional : {} as UserStatisticsOptional;
+      userStatistics.optional.learnedWordsLastUpdate = currentDate;
     }
   }
 
@@ -416,9 +420,9 @@ export async function updateUserWordStatistics(
   };
 }
 
-export async function updateStatistics(
+export async function updateStatisticsFromGames(
   userState: UserState | null,
-  wordId: string,
+  word: Word,
   game: string,
   answer: number,
 ): Promise<void> {
@@ -433,7 +437,7 @@ export async function updateStatistics(
 
   const updateUserWordStatisticsResult = await updateUserWordStatistics(
     userState,
-    wordId,
+    word.id,
     userWordAction,
     game,
     currentDate,
@@ -441,9 +445,185 @@ export async function updateStatistics(
   if (updateUserWordStatisticsResult.isUserWordNew) {
     userStatistics = calculateNewWords(userStatistics, currentDate, game);
   }
+  const userWord = word.userWord || {} as UserWord;
+  userWord.optional = userWord.optional || {} as UserWordOptional;
+  userWord.optional.correctAnswers = userWord.optional.correctAnswers || 0;
+  userWord.optional.correctAnswersLastUpdate = userWord.optional.correctAnswersLastUpdate || currentDate;
+  const correctAnswersLastUpdateword = userWord.optional.correctAnswersLastUpdate;
 
-  userStatistics = calculateLearnedWords(currentDate, userStatistics, updateUserWordStatisticsResult);
+  userStatistics = calculateLearnedWords(currentDate,
+    userStatistics,
+    updateUserWordStatisticsResult,
+    correctAnswersLastUpdateword);
+
   userStatistics = calculateUserStatistics(userStatistics, game, userWordAction);
 
   await saveUserStatistics(appState.user, userStatistics);
+}
+
+export async function updateStatisticsFromTextbook(
+  userState: UserState | null,
+  currentDate: string,
+  updateUserWordStatisticsResult: UpdateUserWordStatisticsResult,
+  word: Word,
+) {
+  if (!userState) throw Error('User state is null. Cannot update statistics.');
+
+  let userStatistics = await getUserStatistics(userState) || {} as UserStatistics;
+  userStatistics.learnedWords = userStatistics.learnedWords || 0;
+
+  const userWord = word.userWord || {} as UserWord;
+  userWord.optional = userWord.optional || {} as UserWordOptional;
+  userWord.optional.correctAnswers = userWord.optional.correctAnswers || 0;
+  userWord.optional.correctAnswersLastUpdate = userWord.optional.correctAnswersLastUpdate || currentDate;
+  const correctAnswersLastUpdateword = userWord.optional.correctAnswersLastUpdate;
+  userStatistics = calculateLearnedWords(
+    currentDate,
+    userStatistics,
+    updateUserWordStatisticsResult,
+    correctAnswersLastUpdateword,
+  );
+
+  await saveUserStatistics(userState, userStatistics);
+}
+
+export async function addWordToLearned(word: Word) {
+  const date = new Date();
+  const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
+  const result = await getUserWord(appState.user, word.id);
+  if (!result) {
+    const bodyUserWord = {} as UserWord;
+    const updateUserWordStatusResult = calculateWordStatus(bodyUserWord, currentDate, UserWordAction.MADE_STUDIED);
+    const response = await createUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
+    await updateStatisticsFromTextbook(
+      appState.user,
+      currentDate,
+      {
+        isUserWordNew: false,
+        justBecameStudied: true,
+        justRemovedFromStudied: false,
+      },
+      word,
+    );
+    return response;
+  }
+  const updateUserWordStatusResult = calculateWordStatus(result, currentDate, UserWordAction.MADE_STUDIED);
+  const response = await saveUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
+  await updateStatisticsFromTextbook(
+    appState.user,
+    currentDate,
+    {
+      isUserWordNew: false,
+      justBecameStudied: true,
+      justRemovedFromStudied: false,
+    },
+    word,
+  );
+  return response;
+}
+
+export async function removeWordFromLearned(word: Word) {
+  const date = new Date();
+  const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
+  const result = await getUserWord(appState.user, word.id);
+  if (!result) {
+    const bodyUserWord = {} as UserWord;
+    const updateUserWordStatusResult = calculateWordStatus(bodyUserWord, currentDate, UserWordAction.MADE_NOT_STUDIED);
+    const response = await createUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
+    await updateStatisticsFromTextbook(
+      appState.user,
+      currentDate,
+      {
+        isUserWordNew: false,
+        justBecameStudied: false,
+        justRemovedFromStudied: true,
+      },
+      word,
+    );
+    return response;
+  }
+  const updateUserWordStatusResult = calculateWordStatus(result, currentDate, UserWordAction.MADE_NOT_STUDIED);
+  const response = await saveUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
+  await updateStatisticsFromTextbook(
+    appState.user,
+    currentDate,
+    {
+      isUserWordNew: false,
+      justBecameStudied: false,
+      justRemovedFromStudied: true,
+    },
+    word,
+  );
+  return response;
+}
+
+export async function addWordToDifficult(word: Word) {
+  const date = new Date();
+  const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
+  const result = await getUserWord(appState.user, word.id);
+  if (!result) {
+    const bodyUserWord = {} as UserWord;
+    const updateUserWordStatusResult = calculateWordStatus(bodyUserWord, currentDate, UserWordAction.MADE_DIFFICULT);
+    const response = await createUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
+    await updateStatisticsFromTextbook(
+      appState.user,
+      currentDate, {
+        isUserWordNew: false,
+        justBecameStudied: updateUserWordStatusResult.justBecameStudied,
+        justRemovedFromStudied: updateUserWordStatusResult.justRemovedFromStudied,
+      },
+      word,
+    );
+    return response;
+  }
+  const updateUserWordStatusResult = calculateWordStatus(result, currentDate, UserWordAction.MADE_DIFFICULT);
+  const response = await saveUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
+  await updateStatisticsFromTextbook(
+    appState.user,
+    currentDate, {
+      isUserWordNew: false,
+      justBecameStudied: updateUserWordStatusResult.justBecameStudied,
+      justRemovedFromStudied: updateUserWordStatusResult.justRemovedFromStudied,
+    },
+    word,
+  );
+  return response;
+}
+
+export async function removeWordFromDifficult(word: Word) {
+  const date = new Date();
+  const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
+  const result = await getUserWord(appState.user, word.id);
+  if (!result) {
+    const bodyUserWord = {} as UserWord;
+    const updateUserWordStatusResult = calculateWordStatus(
+      bodyUserWord,
+      currentDate,
+      UserWordAction.MADE_NOT_DIFFICULT,
+    );
+    const response = await createUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
+    await updateStatisticsFromTextbook(
+      appState.user,
+      currentDate, {
+        isUserWordNew: false,
+        justBecameStudied: updateUserWordStatusResult.justBecameStudied,
+        justRemovedFromStudied: updateUserWordStatusResult.justRemovedFromStudied,
+      },
+      word,
+    );
+    return response;
+  }
+  const updateUserWordStatusResult = calculateWordStatus(result, currentDate, UserWordAction.MADE_NOT_DIFFICULT);
+  const response = await saveUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
+  await updateStatisticsFromTextbook(
+    appState.user,
+    currentDate,
+    {
+      isUserWordNew: false,
+      justBecameStudied: updateUserWordStatusResult.justBecameStudied,
+      justRemovedFromStudied: updateUserWordStatusResult.justRemovedFromStudied,
+    },
+    word,
+  );
+  return response;
 }

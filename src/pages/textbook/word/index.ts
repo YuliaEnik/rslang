@@ -1,11 +1,11 @@
 import { appState } from '../../../app';
 import { API_ENDPOINT } from '../../../utils/constants';
 import {
-  addWordToDifficultList,
+  addWordToDifficult,
   addWordToLearned,
   removeWordFromDifficult,
   removeWordFromLearned,
-} from '../../../utils/operations';
+} from '../../../utils/stat';
 import { router } from '../../../utils/router';
 import { UserState, Word } from '../../../utils/types';
 import { createElement } from '../../../utils/utils';
@@ -40,16 +40,16 @@ function clickOnDiffOrLearnedButton(
   messageAdd: string,
   messageRemove: string,
   word: Word,
-  addFunction: (word: Word) => void,
-  removeFunction: (word: Word) => void,
+  addHandler: (word: Word) => void,
+  removeHandler: (word: Word) => void,
 ) {
   button.addEventListener('click', () => {
     if (word.userWord?.difficulty !== difficultOption) {
-      addFunction(word);
+      addHandler(word);
       button.classList.add('active');
       router.reload();
     } else {
-      removeFunction(word);
+      removeHandler(word);
       button.classList.remove('active');
       router.reload();
     }
@@ -156,8 +156,8 @@ export async function renderWord(
       'Word added to difficult',
       'Word removed from difficult',
       word,
-      addWordToDifficultList,
-      (w) => removeWordFromDifficult(w),
+      addWordToDifficult,
+      removeWordFromDifficult,
     );
     clickOnDiffOrLearnedButton(
       learnedBtn,
@@ -166,7 +166,7 @@ export async function renderWord(
       'Word removed from learned',
       word,
       addWordToLearned,
-      (w) => removeWordFromLearned(w),
+      removeWordFromLearned,
     );
     // getUserWords(appState.user).then(async (wordsData) => {
     //   const result = await wordsData.json();

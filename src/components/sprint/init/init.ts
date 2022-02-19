@@ -2,7 +2,7 @@ import { Word } from '../../../utils/types';
 import { stateSprint } from '../../../utils/constants';
 import { createSmilePic, removePic, createAngryPic } from './pictures/pictures';
 import { appState } from '../../../app';
-import { updateStatistics } from '../../../utils/stat';
+import { updateStatisticsFromGames } from '../../../utils/stat';
 
 const createScore = (scoreWrap:HTMLElement) => {
   scoreWrap.textContent = '';
@@ -40,9 +40,15 @@ const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, par
   stateSprint.questionsArray.push(data[stateSprint.curIndex]);
 
   if (data[stateSprint.curIndex].correctAnswer === 0 || data[stateSprint.curIndex].correctAnswer === 1) {
-    updateStatistics(appState.user,
+    // eslint-disable-next-line no-underscore-dangle
+    if (data[stateSprint.curIndex]?._id) {
       // eslint-disable-next-line no-underscore-dangle
-      data[stateSprint.curIndex]._id || data[stateSprint.curIndex].id,
+      const id = data[stateSprint.curIndex]._id as string;
+      data[stateSprint.curIndex].id = id;
+    }
+    updateStatisticsFromGames(appState.user,
+      // eslint-disable-next-line no-underscore-dangle
+      data[stateSprint.curIndex],
       'sprint',
       (data[stateSprint.curIndex].correctAnswer as number));
   }
