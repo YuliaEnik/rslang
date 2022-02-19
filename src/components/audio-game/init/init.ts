@@ -1,4 +1,5 @@
 import { Word, StateAudioG } from '../../../utils/types';
+import { playSound, right, wrong } from '../../../pages/games/sound/sound';
 import {
   createRandomAnswerFalse,
   shuffle,
@@ -40,9 +41,11 @@ const checkAnswer = (el:Event, data:Word[], BTNS:HTMLElement[]):void => {
   if (userAnswer === rightAnswer) {
     data[stateAudioG.curIndex].correctAnswer = 1;
     (el.target as HTMLElement).classList.add('correct');
+    playSound(right);
   } else {
   // incorrect answer
     data[stateAudioG.curIndex].correctAnswer = 0;
+    playSound(wrong);
     (el.target as HTMLElement).classList.add('incorrect');
     BTNS.forEach((item) => {
       if ((item.textContent)?.slice(3) === rightAnswer) {

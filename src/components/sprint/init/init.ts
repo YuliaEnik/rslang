@@ -1,5 +1,6 @@
 import { Word } from '../../../utils/types';
 import { createRandomAnswerFalse } from '../../../utils/utils';
+import { playSound, right, wrong } from '../../../pages/games/sound/sound';
 import { stateSprint } from '../../../utils/constants';
 import { createSmilePic, removePic, createAngryPic } from './pictures/pictures';
 import { appState } from '../../../app';
@@ -23,9 +24,11 @@ const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, par
   // correct Answer
   if (btnAnsw === stateSprint.isTrueTranslate) {
     data[stateSprint.curIndex].correctAnswer = 1;
+    playSound(right);
     createScore(scoreWrap);
     createSmilePic(parentPic);
     stateSprint.countCorrectAnsw++;
+
     if (stateSprint.countCorrectAnsw === 4) {
       removePic(parentPic);
       stateSprint.points *= 2;
@@ -34,6 +37,7 @@ const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, par
   } else {
     // incorrect
     data[stateSprint.curIndex].correctAnswer = 0;
+    playSound(wrong);
     createAngryPic(parentPic);
     stateSprint.countCorrectAnsw = 0;
     stateSprint.points = 10;
