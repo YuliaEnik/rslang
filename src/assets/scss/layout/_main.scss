@@ -22,12 +22,19 @@
     transition: background 0.3s ease;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background:  $color-secondary;
+    background: $color-secondary;
   }
 }
 
-.main-page {
+.main-page-section {
   padding: 30px;
   height: calc(100vh - 50px);
+}
+
+.main-page-section.main-page {
   background-color: $color-primary;
+}
+
+.main-page-section.about {
+  background-color: $color-secondary;
 }

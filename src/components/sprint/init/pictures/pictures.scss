@@ -1,21 +1,20 @@
-
 .answ-pic-wrap {
-  height: 7rem;
-  width: 24rem;
+  height: 9rem;
+  width: 30rem;
   display: flex;
   align-items: center;
   gap: 2rem;
 }
 
 .answerPic {
-  height: 7rem;
-  width: 7rem;
+  height: 9rem;
+  width: 9rem;
   border-radius: 50%;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  //border: solid 1px rgb(243, 207, 5);
-  //box-shadow: 0 0 5px 5px rgba(206, 193, 8, .5);
+  border: solid 3px rgb(243, 207, 5);
+  //box-shadow:15px 21px 12px 14px rgba(240,235,15,0.61);
 }
 
 .angryWrap {
@@ -26,6 +25,6 @@
   justify-content: center;
 }
 
-/* .angryPic {
-  box-shadow: 0 0 5px 5px rgba(187, 63, 13, .5);
-} */
+.angryPic {
+  border: solid 3px rgb(250, 95, 57);
+}

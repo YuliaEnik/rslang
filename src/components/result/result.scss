@@ -177,12 +177,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  background-color: #605BFF;
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(96, 91, 255, 1);
   font-family: Nunito;
   font-style: normal;
   font-weight: 800;
   font-size: 14px;
   line-height: 19px;
   border-radius: 5px;
+  cursor: pointer;
+  transition: .5s;
+  &:hover {
+    background-color: rgba(96, 91, 255, .6);
+  }
 }
