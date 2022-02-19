@@ -1,0 +1,143 @@
+.game-wrapper-content-audio {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color:#7C7B98;
+}
+
+.audio-game-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.horiz-wrap {
+  height: 27rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3rem;
+  gap: 0.5rem;
+}
+
+.audio-corgi {
+  height: 14rem;
+  width: 15rem;
+  display: flex;
+  align-self: flex-end;
+  background-image: url(./../../../public/img/royal-corgi.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  order: 3;
+  &_message {
+    width: 8rem;
+    padding: .8rem 0;
+    height: max-content;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    color: black;
+    background-color: rgb(255, 255, 255, .8);
+    border-radius: 10px 10px 0px 10px;
+  }
+}
+
+.audio-answ-wrap {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  color: white;
+  gap: .3rem;
+}
+
+.audio-answ-btn {
+  height: 4rem;
+  width: 15rem;
+  margin: 1rem 0 4rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  transition: .6s;
+  color: white;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.2);
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+  &.incorrect {
+    text-decoration: line-through;
+  }
+  &.correct {
+    background-color: rgba(181, 241, 176, .6);
+  }
+  &.right {
+    background-color: rgba(255, 214, 107, .6);
+  }
+}
+
+.next-answ-btn {
+  height: 3rem;
+  width: 10rem;
+  border-radius: 5px;
+  background-color: #FFD66B;
+  cursor: pointer;
+  transition: .6s;
+  &:hover {
+    background-color: rgba(255, 214, 107, .5);;
+  }
+}
+
+.audio-volume-wrap {
+  display: flex;
+  align-self: flex-end;
+  margin-bottom: 2rem;
+  height: 7rem;
+  width: 7rem;
+  background-image: url(./../../../public/svg/sound-audio-game.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+  transition: .6s;
+  order: 1;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.correct-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  order: 2;
+}
+
+.correct-word {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 42px;
+  text-align: center;
+  color: #FF8F6B;
+}
+
+.correct-img {
+  width: 16rem;
+  height: 16rem;
+  border: solid 1px #FFD66B;;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.hidden {
+  display: none;
+}

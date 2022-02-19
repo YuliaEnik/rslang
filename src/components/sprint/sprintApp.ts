@@ -5,11 +5,10 @@ import {
   checkAnswer,
   updateCurIndex,
   setWords,
-  isEnd,
 } from './init/init';
-import { createResult } from '../result/result';
+import { createResult, isEnd } from '../result/result';
 import { stateSprint } from '../../utils/constants';
-import { countdown, timer1 } from './init/timer/timer';
+import { countdown, timer } from './init/timer/timer';
 import { data } from '../../app';
 
 export const sprint = async (
@@ -17,13 +16,16 @@ export const sprint = async (
   stateTextContentEn:StateTextContentEn,
   busParent: HTMLElement,
 ): Promise<HTMLElement> => {
+  clearTimeout(timer);
+  stateSprint.game_time = 60;
+  stateSprint.questionsArray.length = 0;
   const arrayBtnEl:HTMLElement[] = [];
   busParent.classList.add('bus');
   const sprintWrapper = createHTMLelement('div', { class: 'sprint-wrapper' }, parent);
   const soundBtn = createHTMLelement('div', { class: 'sound sound-on' }, parent);
   const sprintContent = createHTMLelement('div', { class: 'sprint-content' }, sprintWrapper);
   const timerScoreWrap = createHTMLelement('div', { class: 'horizontal-wrap' }, sprintContent);
-  const timer = createHTMLelement('div', { class: 'timer' }, timerScoreWrap);
+  const timerWrap = createHTMLelement('div', { class: 'timer' }, timerScoreWrap);
   const scoreWrap = createHTMLelement('div', { class: 'score' }, timerScoreWrap, `${stateSprint.score}`);
   const answerPicturesWrap = createHTMLelement('div', { class: 'answ-pic-wrap' }, sprintContent);
   const wordWrapEn = createHTMLelement('h2', { class: 'sprintWordEn' }, sprintContent);
@@ -42,7 +44,7 @@ export const sprint = async (
       checkAnswer(data.words, el, scoreWrap, answerPicturesWrap);
       if (isEnd(data.words)) {
         createResult(stateSprint);
-        clearTimeout(timer1);
+        clearTimeout(timer);
         busParent.style.animationPlayState = 'paused';
         return;
       }
@@ -51,6 +53,6 @@ export const sprint = async (
     });
   });
   setWords(data.words, wordWrapEn, wordWrapRu);
-  countdown(timer);
+  countdown(timerWrap);
   return sprintWrapper;
 };

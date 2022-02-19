@@ -1,13 +1,14 @@
 import './pictures.scss';
 import { createHTMLelement, getElement, random } from '../../../../utils/utils';
 
-const createSmilePic = (parent:HTMLElement) => {
+const createSmilePic = (parent:HTMLElement):HTMLElement => {
   const angryWrap = getElement('.angryWrap') as HTMLElement;
   if (angryWrap) {
     angryWrap.remove();
   }
   const elem = createHTMLelement('div', { class: 'answerPic' }, parent);
   elem.style.backgroundImage = 'url(1.png)';
+  return elem;
 };
 
 const createAngryPic = (parent:HTMLElement) => {

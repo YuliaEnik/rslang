@@ -92,6 +92,13 @@ export interface StateSprint {
   points: number;
 }
 
+export interface StateAudioG {
+  curIndex: number;
+  score?: number;
+  answsArray:string[];
+  questionsArray: Word[];
+  maxAnsw: number;
+}
 export interface UserCalculatedStat {
   newWords: string;
   procent: string;
