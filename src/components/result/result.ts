@@ -2,6 +2,21 @@ import './result.scss';
 import { StateSprint, Word, StateAudioG } from '../../utils/types';
 import { stateSprint, API_ENDPOINT } from '../../utils/constants';
 import { createHTMLelement, getElement } from '../../utils/utils';
+import { router } from '../../utils/router';
+
+function getGameAttemptNumber() {
+  let attemptNumber = Number(router.current?.[0]?.params?.attempt) || 1;
+  attemptNumber++;
+  return attemptNumber;
+}
+
+function getGameRoute() {
+  if (router.current?.[0]?.url) {
+    const gameRoute = router.current[0].url;
+    return gameRoute;
+  }
+  return '';
+}
 
 const createResult = (state:StateSprint | StateAudioG):HTMLElement => {
   const parent = getElement('.game-wrapper-content');
@@ -38,8 +53,9 @@ const createResult = (state:StateSprint | StateAudioG):HTMLElement => {
   }
   createHTMLelement('div', { class: 'dialog-cell dialog-chees' }, dilogWrap, 'Cheers!');
   const butWrap = createHTMLelement('div', { class: 'result-horizontal-wrap' }, resultContent);
-  createHTMLelement('div', { class: 'res-btn' }, butWrap, 'Play again');
-  createHTMLelement('div', { class: ' res-btn' }, butWrap, 'Go to Dictionary');
+  const playAgainButton = createHTMLelement('button', { class: 'res-btn' }, butWrap, 'Play again');
+  playAgainButton.addEventListener('click', () => router.navigate(`/${getGameRoute()}?attempt=${getGameAttemptNumber()}`));
+  createHTMLelement('a', { class: ' res-btn' }, butWrap, 'Go to Dictionary');
   const resResult = createHTMLelement('div', { class: 'result-title res-result active' }, titleWrap, 'result');
   resWords.addEventListener('click', () => {
     wordsWrap.classList.remove('display-none');

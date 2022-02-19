@@ -36,7 +36,6 @@ const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, par
     stateSprint.points = 10;
   }
   stateSprint.questionsArray.push(data[stateSprint.curIndex]);
-
   if (data[stateSprint.curIndex].correctAnswer === 0 || data[stateSprint.curIndex].correctAnswer === 1) {
     // eslint-disable-next-line no-underscore-dangle
     if (data[stateSprint.curIndex]?._id) {

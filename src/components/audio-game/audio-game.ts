@@ -23,6 +23,14 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
     router.navigate('/audioChallenge');
     return null;
   }
+
+  if (data.words.length === 1) {
+    alert('You cannot play with only 1 word');
+    router.reload();
+    return null;
+  }
+
+  stateAudioG.curIndex = 0;
   stateAudioG.questionsArray.length = 0;
   const BTNS:HTMLElement[] = [];
   const gameContent = createHTMLelement('div', { class: 'audio-game-wrapper' }, parent);
