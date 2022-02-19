@@ -17,7 +17,19 @@ function updateDictionaryPageAppState(context: Match | undefined) {
   appState.groupState.pageNumber = context?.params ? parseInt(context.params.page, 10) - 1 : 0;
 }
 
-export const router: Navigo = new Navigo('/');
+class CustomNavigo extends Navigo {
+  reload(): void {
+    const match = this.current ? this.current[0] : {} as Match;
+
+    const route = `${match.url}?${match.queryString}#${match.hashString}`;
+
+    match.queryString = Number(new Date()).toString();
+
+    this.navigate(route);
+  }
+}
+
+export const router = new CustomNavigo('/');
 
 router
   .on({
@@ -32,6 +44,10 @@ router
     updateDictionaryPageAppState(context);
     renderPage(buildDictionaryPage(), context);
   })
+  /* .on('/games', async (context) => {
+    data.words = await getWords();
+    renderPage(audioChalange(gameContent), context);
+  }) */
   .on('/sprint', async (context) => {
     renderPage(buildGameStartPage('sprint'), context, true, true);
     // data.words = await getWords();
@@ -44,8 +60,7 @@ router
     renderPage(buildGameStartPage('audioChallenge'), context, true, true);
   })
   .on('/audioChallenge/play', async (context) => {
-    alert('Game audioChallenge is under contruction');
-    // renderPage(viewGame('audioChallenge', stateTextContentEn), context, true, true);
+    renderPage(viewGame('audioChallenge', stateTextContentEn), context, true, true);
   })
   .on('/statistics', async (context) => {
     const userStatistics = await getUserStatistics(appState.user);

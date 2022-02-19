@@ -2,12 +2,15 @@ import { appState } from '../app';
 import {
   createUserWord,
   getAggregatedWords,
+  getUserWord,
   getWords,
-  updateUserWord,
+  saveUserWord,
 } from './api';
+import { calculateWordStatus, updateStatisticsFromTextbook } from './stat';
 import {
   UserState,
   UserWord,
+  UserWordAction,
   Word,
   WordFromAggregated,
 } from './types';
@@ -34,21 +37,6 @@ export function convertWordFromAggregated(wordFromAggregated: WordFromAggregated
   };
 }
 
-export function createOrUpdateWord(word: Word, userWord: UserWord) {
-  if (word.userWord) {
-    return updateUserWord(appState.user, word.id, userWord);
-  }
-  return createUserWord(appState.user, word.id, userWord);
-}
-
-export function addWordToDifficultList(word: Word) {
-  return createOrUpdateWord(word, { difficulty: 'difficult' });
-}
-
-export function removeWordFromDifficult(wordId: string) {
-  return updateUserWord(appState.user, wordId, { difficulty: 'default' });
-}
-
 export async function getWordsForRendering(
   userState: UserState | null,
   req?: { group: number, page?: number },
@@ -60,12 +48,4 @@ export async function getWordsForRendering(
   const result = await getAggregatedWords(userState, req);
   const convertedWords = result[0].paginatedResults.map((el) => convertWordFromAggregated(el));
   return convertedWords;
-}
-
-export function addWordToLearned(word: Word) {
-  return createOrUpdateWord(word, { difficulty: 'learned' });
-}
-
-export function removeWordFromLearned(wordId: string) {
-  return updateUserWord(appState.user, wordId, { difficulty: 'default' });
 }

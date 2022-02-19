@@ -1,18 +1,5 @@
-// export function buildGame = (game: string):HTMLElement => {
-//   const parent = getElement('div');
-//   const gameSection = createHTMLelement('section', { id: 'game-section', class: 'game-section' }, parent);
-//   const gameWrapper = createHTMLelement('div', { class: 'game-wrapper' }, gameSection);
-//   const fullScreen = createHTMLelement('div', { class: 'full-screen screen-open' }, gameWrapper);
-//   fullScreen.addEventListener('click', () => {
-//     fullscreen(gameSection, fullScreen);
-//   });
-//   const gameContent = createHTMLelement('div', { class: 'game-wrapper-content' }, gameWrapper);
-//   return gameSection;
-
 import { data } from '../../app';
-import { sprint } from '../../components/sprint/sprintApp';
 import { getWords } from '../../utils/api';
-import { stateTextContentEn } from '../../utils/constants';
 import { router } from '../../utils/router';
 import { createElement, random, renderElement } from '../../utils/utils';
 
