@@ -1,6 +1,10 @@
-import { createElement } from '../../utils/utils';
+import './style.scss';
+import html from './index.html';
 
 export const buildDevelopersPage = (): HTMLElement => {
-  const result = createElement('h1', { class: 'title' }, 'Developers');
-  return result;
+  const template = document.createElement('div');
+  template.innerHTML = html;
+  template.classList.add('dev-page');
+
+  return template;
 };
