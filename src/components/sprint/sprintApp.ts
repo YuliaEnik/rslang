@@ -21,7 +21,15 @@ export const sprint = async (
     router.navigate('/sprint');
     return null;
   }
+
+  if (data.words.length === 1) {
+    alert('You cannot play with only 1 word');
+    router.reload();
+    return null;
+  }
+
   clearTimeout(timer);
+  stateSprint.curIndex = 0;
   stateSprint.game_time = 60;
   stateSprint.questionsArray.length = 0;
   const arrayBtnEl:HTMLElement[] = [];

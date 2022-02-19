@@ -63,7 +63,7 @@ async function getWordsForGame(game: string) {
       }
     }
   }
-  console.log(data.words);
+
   if (game === 'sprint') {
     router.navigate('/sprint/play');
   } else if (game === 'audioChallenge') {
@@ -75,6 +75,7 @@ export async function playGame(event: Event): Promise<void> {
   const target = (event.target as HTMLElement).closest('.games__item');
   if (target) {
     const game = target.getAttribute('data-game') as string;
+    data.words = [];
     getWordsForGame(game);
   }
 }
