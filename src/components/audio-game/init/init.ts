@@ -6,6 +6,8 @@ import {
   getElement,
 } from '../../../utils/utils';
 import { API_ENDPOINT, stateAudioG } from '../../../utils/constants';
+import { updateStatisticsFromGames } from '../../../utils/stat';
+import { appState } from '../../../app';
 
 const countIncorAnsws = 4;
 // eslint-disable-next-line
@@ -51,6 +53,20 @@ const checkAnswer = (el:Event, data:Word[], BTNS:HTMLElement[]):void => {
     });
   }
   stateAudioG.questionsArray.push(data[stateAudioG.curIndex]);
+
+  if (data[stateAudioG.curIndex].correctAnswer === 0 || data[stateAudioG.curIndex].correctAnswer === 1) {
+    // eslint-disable-next-line no-underscore-dangle
+    if (data[stateAudioG.curIndex]?._id) {
+      // eslint-disable-next-line no-underscore-dangle
+      const id = data[stateAudioG.curIndex]._id as string;
+      data[stateAudioG.curIndex].id = id;
+    }
+    updateStatisticsFromGames(appState.user,
+      // eslint-disable-next-line no-underscore-dangle
+      data[stateAudioG.curIndex],
+      'audioChallenge',
+      (data[stateAudioG.curIndex].correctAnswer as number));
+  }
 };
 
 const updateCurIndex = ():void => {

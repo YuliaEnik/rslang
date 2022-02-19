@@ -18,48 +18,58 @@ export interface Word {
   userWord?: UserWord;
 }
 
+export enum UserWordAction {
+  UNKNOWN = 0,
+  ANSWERED_CORRECTLY,
+  ANSWERED_WRONGLY,
+  MADE_DIFFICULT,
+  MADE_STUDIED,
+  MADE_NOT_DIFFICULT,
+  MADE_NOT_STUDIED,
+}
+
 export interface UserWord {
-  [key: string]: string | UserWordOptional | undefined;
-  difficulty?: string;
-  optional?: UserWordOptional;
+  [key: string]: string | number | UserWordOptional | undefined;
+  difficulty: string;
+  optional: UserWordOptional;
 }
 
 export interface UserWordOptional {
-  isLearned?: true | null;
-  wordLastUpdate?: string;
-  games?: {
-    sprint?: GameStatistics;
-    audioChallenge?: GameStatistics;
-  };
+  correctAnswers: number;
+  correctAnswersLastUpdate: string;
+  wordLastUpdate: string;
+  games: UserWordOptionalGames;
 }
 
-export interface GameStatistics {
+export interface UserWordOptionalGames {
+  [key: string]: WordGameStatistics;
+}
+
+export interface WordGameStatistics {
   correct: number;
   wrong: number;
 }
 
-export interface UserWordResponse {
-  [key: string]: string | UserWordOptional | undefined;
-  id: string,
-  wordId: string;
-  difficulty?: string;
-  optional?: UserWordOptional;
+export interface UpdateUserWordStatusResult {
+  userWord: UserWord;
+  justBecameStudied: boolean;
+  justRemovedFromStudied: boolean;
+}
+
+export interface UpdateUserWordStatisticsResult {
+  isUserWordNew: boolean;
+  justBecameStudied: boolean;
+  justRemovedFromStudied: boolean;
 }
 
 export interface UserStatistics {
-  [key: string]: UserStatisticsOptional | number | undefined;
-  learnedWords: number;
-  optional?: UserStatisticsOptional;
-}
-
-export interface UserStatisticsResponse {
   [key: string]: UserStatisticsOptional | number | string | undefined;
-  id: string;
   learnedWords: number;
   optional?: UserStatisticsOptional;
 }
 
 export interface UserStatisticsOptional {
+  learnedWordsLastUpdate?: string;
   newWords?: number;
   newWordsLastUpdate?: string;
   games?: GamesStat;

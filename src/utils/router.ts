@@ -18,7 +18,19 @@ function updateDictionaryPageAppState(context: Match | undefined) {
   appState.groupState.pageNumber = context?.params ? parseInt(context.params.page, 10) - 1 : 0;
 }
 
-export const router: Navigo = new Navigo('/');
+class CustomNavigo extends Navigo {
+  reload(): void {
+    const match = this.current ? this.current[0] : {} as Match;
+
+    const route = `${match.url}?${match.queryString}#${match.hashString}`;
+
+    match.queryString = Number(new Date()).toString();
+
+    this.navigate(route);
+  }
+}
+
+export const router = new CustomNavigo('/');
 
 router
   .on({

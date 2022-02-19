@@ -2,7 +2,12 @@ import { logOut } from '../components/nav';
 import { saveUserToLocalStorage } from '../services/auth/login';
 import { API_ENDPOINT } from './constants';
 import {
-  UserWord, ResponseStatus, UserState, Word, AggregateResponse, UserStatistics, UserStatisticsResponse, UserStatisticsOptional,
+  UserWord,
+  ResponseStatus,
+  UserState,
+  Word,
+  AggregateResponse,
+  UserStatistics,
 } from './types';
 
 function buildGetParams(params?: { [key: string]: string | number }) {
@@ -84,12 +89,18 @@ export async function getUserWords(userState: UserState | null) {
   return result;
 }
 
-export async function getWord(userState: UserState | null, wordId: string) {
+export async function getUserWord(userState: UserState | null, wordId: string): Promise<UserWord | null> {
   if (!userState) throw Error('User state is null. Cannot get user word.');
 
   const url = `${API_ENDPOINT}/users/${userState.userId}/words/${wordId}`;
-  const result = await fetchForUser(url, userState);
-  return result;
+  const response = await fetchForUser(url, userState);
+  if (response.ok) {
+    const result = await response.json();
+    delete result.id;
+    delete result.wordId;
+    return result as UserWord;
+  }
+  return null;
 }
 
 export async function createUserWord(userState: UserState | null, wordId: string, userWord?: UserWord) {
@@ -110,7 +121,7 @@ export async function createUserWord(userState: UserState | null, wordId: string
   return result;
 }
 
-export async function updateUserWord(userState: UserState | null, wordId: string, userWord?: UserWord) {
+export async function saveUserWord(userState: UserState | null, wordId: string, userWord?: UserWord) {
   if (!userState) throw Error('User state is null. Cannot update word.');
 
   const url = `${API_ENDPOINT}/users/${userState.userId}/words/${wordId}`;
@@ -124,7 +135,9 @@ export async function updateUserWord(userState: UserState | null, wordId: string
   if (!result.ok) {
     throw new Error('Cannot update word');
   }
-
+  console.log(result);
+  // eslint-disable-next-line no-debugger
+  // debugger;
   return result;
 }
 
@@ -154,7 +167,7 @@ export async function getUserWordsForGame(userState: UserState | null, req?: {
   return result;
 }
 
-export async function getUserStatistics(userState: UserState | null): Promise<UserStatisticsResponse | null> {
+export async function getUserStatistics(userState: UserState | null): Promise<UserStatistics | null> {
   if (!userState) throw Error('User state is null. Cannot get user statistics.');
 
   const url = `${API_ENDPOINT}/users/${userState.userId}/statistics`;
@@ -163,14 +176,17 @@ export async function getUserStatistics(userState: UserState | null): Promise<Us
   if (!response.ok) {
     return null;
   }
+
   const result = await response.json();
-  return result;
+  delete result.id;
+  return result as UserStatistics;
 }
 
-export async function updateUserStatistics(userState: UserState | null, body: UserStatistics): Promise<UserStatisticsResponse> {
+export async function saveUserStatistics(userState: UserState | null, body: UserStatistics): Promise<UserStatistics> {
   if (!userState) throw Error('User state is null. Cannot get user statistics.');
   const url = `${API_ENDPOINT}/users/${userState.userId}/statistics`;
   const response = await fetchForUser(url, userState, body, 'PUT');
   const result = await response.json();
+  delete result.id;
   return result;
 }
