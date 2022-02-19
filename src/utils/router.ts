@@ -3,13 +3,13 @@ import { buildDevelopersPage } from '../pages/developers';
 import { buildMainPage } from '../pages/main';
 import { buildStatisticsPage, calculateStat } from '../pages/statistics';
 import { buildDictionaryPage } from '../pages/textbook';
-import { createEl, createHTMLelement, renderPage } from './utils';
+import { renderPage } from './utils';
 import { viewGame } from '../pages/games/game';
 import { stateTextContentEn } from './constants';
 import { buildSignUpPage } from '../pages/signup';
-import { appState, data } from '../app';
+import { appState } from '../app';
 import { buildLogInPage } from '../pages/login';
-import { getUserStatistics, getWords } from './api';
+import { getUserStatistics } from './api';
 import { buildGameStartPage } from '../pages/games';
 
 function updateDictionaryPageAppState(context: Match | undefined) {
@@ -44,14 +44,8 @@ router
     updateDictionaryPageAppState(context);
     renderPage(buildDictionaryPage(), context);
   })
-  /* .on('/games', async (context) => {
-    data.words = await getWords();
-    renderPage(audioChalange(gameContent), context);
-  }) */
   .on('/sprint', async (context) => {
     renderPage(buildGameStartPage('sprint'), context, true, true);
-    // data.words = await getWords();
-    // renderPage(viewGame(stateTextContentEn), context);
   })
   .on('/sprint/play', (context) => {
     renderPage(viewGame('sprint', stateTextContentEn), context, true, true);
