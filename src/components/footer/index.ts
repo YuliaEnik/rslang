@@ -1,4 +1,4 @@
-import { createElement, renderEl, renderElement } from '../../utils/utils';
+import { createElement, createEl, renderElement } from '../../utils/utils';
 import './style.scss';
 
 const developers = [
@@ -20,9 +20,9 @@ export const buildFooter = (): HTMLElement => {
   const result = createElement('footer', { class: 'footer' });
   // const footerLogo = createElement('img',
   //   { class: 'logo-rss', src: 'svg/rs-school.svg', alt: 'Rolling Scopes School' });
-  const footerLogo = renderEl('a', {
+  const footerLogo = createEl('a', {
     children: [
-      renderEl('img', {
+      createEl('img', {
         attrs: {
           src: 'svg/rs-school.svg',
           alt: 'Rolling Scopes School',

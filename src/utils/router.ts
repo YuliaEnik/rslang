@@ -3,7 +3,7 @@ import { buildDevelopersPage } from '../pages/developers';
 import { buildMainPage } from '../pages/main';
 import { buildStatisticsPage, calculateStat } from '../pages/statistics';
 import { buildDictionaryPage } from '../pages/textbook';
-import { renderPage } from './utils';
+import { createEl, createHTMLelement, renderPage } from './utils';
 import { viewGame } from '../pages/games/game';
 import { stateTextContentEn } from './constants';
 import { buildSignUpPage } from '../pages/signup';
