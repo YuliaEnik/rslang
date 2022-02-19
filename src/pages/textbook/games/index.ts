@@ -43,8 +43,8 @@ async function getWordsForGame(game: string) {
 
     if (game === 'sprint') {
       router.navigate('/sprint/play');
-    } else if (game === 'audio') {
-      alert(`Game ${game} is under contruction`);
+    } else if (game === 'audioChallenge') {
+      router.navigate('/audioChallenge/play');
     }
   }
 }
