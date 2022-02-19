@@ -16,8 +16,13 @@ import {
   unDisabledBTNS,
   createMessageCorgi,
 } from './init/init';
+import { router } from '../../utils/router';
 
-const audioChallenge = (parent:HTMLElement):HTMLElement => {
+const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
+  if (data.words.length === 0) {
+    router.navigate('/audioChallenge');
+    return null;
+  }
   stateAudioG.questionsArray.length = 0;
   const BTNS:HTMLElement[] = [];
   const gameContent = createHTMLelement('div', { class: 'audio-game-wrapper' }, parent);

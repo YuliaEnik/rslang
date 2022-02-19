@@ -135,9 +135,7 @@ export async function saveUserWord(userState: UserState | null, wordId: string, 
   if (!result.ok) {
     throw new Error('Cannot update word');
   }
-  console.log(result);
-  // eslint-disable-next-line no-debugger
-  // debugger;
+
   return result;
 }
 

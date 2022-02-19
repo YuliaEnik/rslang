@@ -5,7 +5,6 @@ import { buildStatisticsPage, calculateStat } from '../pages/statistics';
 import { buildDictionaryPage } from '../pages/textbook';
 import { renderPage } from './utils';
 import { viewGame } from '../pages/games/game';
-import { audioChallenge } from '../components/audio-game/audio-game';
 import { stateTextContentEn } from './constants';
 import { buildSignUpPage } from '../pages/signup';
 import { appState, data } from '../app';

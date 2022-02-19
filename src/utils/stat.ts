@@ -279,8 +279,6 @@ function calculateStreak(
   currentDate: string,
   userStatistics: UserStatistics,
 ) {
-  // // eslint-disable-next-line no-debugger
-  // debugger;
   if (userWordAction === UserWordAction.ANSWERED_CORRECTLY) {
     if (userStatistics.optional?.games?.[game]) {
       if (currentDate === userStatistics.optional.games[game].streakLastUpdate) {
