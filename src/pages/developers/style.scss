@@ -1,0 +1,100 @@
+:root {
+  --color-1: #ffd66b;
+  --color-2: #ff8f6b;
+  --color-3: #5b93ff;
+}
+
+.developer-img {
+  width: 30%;
+  border-radius: 50%;
+}
+
+.developer-main {
+  justify-content: space-around;
+}
+
+.card-info {
+  width: 25vw;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.flex {
+  display: flex;
+}
+
+.tasks-container {
+  justify-content: space-around;
+}
+
+.task {
+  background-color: var(--color-2);
+  border-radius: 15px;
+  color: black;
+  font-size: 12px;
+  padding: 5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  line-height: 10px;
+  text-align: center;
+  margin: 0px 5px;
+}
+
+.name {
+  font-size: 2rem;
+  color: var(--color-2);
+  font-weight: 800;
+  padding-right: 20px;
+}
+
+.position {
+  padding: 5px 0;
+  font-weight: 600;
+}
+
+.developer-text {
+  padding-top: 20px;
+  text-align: justify;
+  text-indent: 10px;
+  color: black;
+}
+
+.developers-container {
+  justify-content: space-evenly;
+}
+
+.dev-1 .name {
+  color: var(--color-1);
+}
+
+.dev-1 .task {
+  background-color: var(--color-1);
+}
+
+.dev-2 .name {
+  color: var(--color-2);
+}
+
+.dev-2 .task {
+  background-color: var(--color-2);
+}
+
+.dev-3 .name {
+  color: var(--color-3);
+}
+
+.dev-3 .task {
+  background-color: var(--color-3);
+}
+
+.developers-title {
+  height: 30vh;
+  padding: 10px;
+}
+
+.dev-page {
+  height: calc(100vh - 50px);
+  background-color: #fafafb;
+}
