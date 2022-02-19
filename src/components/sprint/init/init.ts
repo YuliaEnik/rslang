@@ -2,7 +2,7 @@ import { Word } from '../../../utils/types';
 import { stateSprint } from '../../../utils/constants';
 import { createSmilePic, removePic, createAngryPic } from './pictures/pictures';
 import { appState } from '../../../app';
-import { getAnswer } from '../../../utils/stat';
+import { updateStatistics } from '../../../utils/stat';
 
 const createScore = (scoreWrap:HTMLElement) => {
   scoreWrap.textContent = '';
@@ -40,12 +40,11 @@ const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, par
   stateSprint.questionsArray.push(data[stateSprint.curIndex]);
 
   if (data[stateSprint.curIndex].correctAnswer === 0 || data[stateSprint.curIndex].correctAnswer === 1) {
-    getAnswer(appState.user,
+    updateStatistics(appState.user,
       // eslint-disable-next-line no-underscore-dangle
       data[stateSprint.curIndex]._id || data[stateSprint.curIndex].id,
       'sprint',
-      (data[stateSprint.curIndex].correctAnswer as number),
-      isEnd(data));
+      (data[stateSprint.curIndex].correctAnswer as number));
   }
 };
 

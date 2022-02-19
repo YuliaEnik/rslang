@@ -19,12 +19,13 @@ export interface Word {
 }
 
 export enum UserWordAction {
+  UNKNOWN = 0,
   ANSWERED_CORRECTLY,
   ANSWERED_WRONGLY,
-  MARKED_DIFFICULT,
-  MARKED_STUDIED,
-  REMOVED_DIFFICULT,
-  REMOVED_STUDIED,
+  MADE_DIFFICULT,
+  MADE_STUDIED,
+  MADE_NOT_DIFFICULT,
+  MADE_NOT_STUDIED,
 }
 
 export interface UserWord {
@@ -41,33 +42,30 @@ export interface UserWordOptional {
 }
 
 export interface UserWordOptionalGames {
-  [key: string]: GameStatistics;
+  [key: string]: WordGameStatistics;
 }
 
-export interface GameStatistics {
+export interface WordGameStatistics {
   correct: number;
   wrong: number;
 }
 
-export interface UserWordResponse {
-  [key: string]: string | UserWordOptional | undefined;
-  id: string,
-  wordId: string;
-  difficulty?: string;
-  optional?: UserWordOptional;
+export interface UpdateUserWordStatusResult {
+  userWord: UserWord;
+  justBecameStudied: boolean;
+  justRemovedFromStudied: boolean;
+}
+
+export interface UpdateUserWordStatisticsResult {
+  isUserWordNew: boolean;
+  justBecameStudied: boolean;
+  justRemovedFromStudied: boolean;
 }
 
 export interface UserStatistics {
-  [key: string]: UserStatisticsOptional | number | undefined;
-  learnedWords: number;
-  optional?: UserStatisticsOptional;
-}
-
-export interface UserStatisticsResponse {
   [key: string]: UserStatisticsOptional | number | string | undefined;
-  id: string;
   learnedWords: number;
-  learnedWordslastUpdate: string;
+  learnedWordsLastUpdate: string;
   optional?: UserStatisticsOptional;
 }
 

@@ -2,13 +2,12 @@ import { appState } from '../app';
 import {
   createUserWord,
   getAggregatedWords,
-  getWord,
+  getUserWord,
   getWords,
-  updateUserWord,
+  saveUserWord,
 } from './api';
-import { updateWordStatus } from './stat';
+import { calculateWordStatus } from './stat';
 import {
-  ResponseStatus,
   UserState,
   UserWord,
   UserWordAction,
@@ -38,42 +37,33 @@ export function convertWordFromAggregated(wordFromAggregated: WordFromAggregated
   };
 }
 
-export function createOrUpdateWord(word: Word, userWord: UserWord) {
-  if (word.userWord) {
-    return updateUserWord(appState.user, word.id, userWord);
-  }
-  return createUserWord(appState.user, word.id, userWord);
-}
-
 export async function addWordToDifficultList(word: Word) {
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
-  const result = await getWord(appState.user, word.id);
-  if (result.status === ResponseStatus.NOT_FOUND) {
+  const result = await getUserWord(appState.user, word.id);
+  if (!result) {
     const bodyUserWord = {} as UserWord;
-    const updatedBodyUserWord = updateWordStatus(bodyUserWord, currentDate, UserWordAction.MARKED_DIFFICULT);
-    const response = await createUserWord(appState.user, word.id, updatedBodyUserWord);
+    const updateUserWordStatusResult = calculateWordStatus(bodyUserWord, currentDate, UserWordAction.MADE_DIFFICULT);
+    const response = await createUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
     return response;
   }
-  const bodyUserWord = await result.json();
-  const updatedBodyUserWord = updateWordStatus(bodyUserWord, currentDate, UserWordAction.MARKED_DIFFICULT);
-  const response = await updateUserWord(appState.user, word.id, updatedBodyUserWord);
+  const updateUserWordStatusResult = calculateWordStatus(result, currentDate, UserWordAction.MADE_DIFFICULT);
+  const response = await saveUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
   return response;
 }
 
 export async function removeWordFromDifficult(word: Word) {
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
-  const result = await getWord(appState.user, word.id);
-  if (result.status === ResponseStatus.NOT_FOUND) {
+  const result = await getUserWord(appState.user, word.id);
+  if (!result) {
     const bodyUserWord = {} as UserWord;
-    const updatedBodyUserWord = updateWordStatus(bodyUserWord, currentDate, UserWordAction.REMOVED_DIFFICULT);
-    const response = await createUserWord(appState.user, word.id, updatedBodyUserWord);
+    const updateUserWordStatusResult = calculateWordStatus(bodyUserWord, currentDate, UserWordAction.MADE_NOT_DIFFICULT);
+    const response = await createUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
     return response;
   }
-  const bodyUserWord = await result.json();
-  const updatedBodyUserWord = updateWordStatus(bodyUserWord, currentDate, UserWordAction.REMOVED_DIFFICULT);
-  const response = await updateUserWord(appState.user, word.id, updatedBodyUserWord);
+  const updateUserWordStatusResult = calculateWordStatus(result, currentDate, UserWordAction.MADE_NOT_DIFFICULT);
+  const response = await saveUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
   return response;
 }
 
@@ -93,31 +83,29 @@ export async function getWordsForRendering(
 export async function addWordToLearned(word: Word) {
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
-  const result = await getWord(appState.user, word.id);
-  if (result.status === ResponseStatus.NOT_FOUND) {
+  const result = await getUserWord(appState.user, word.id);
+  if (!result) {
     const bodyUserWord = {} as UserWord;
-    const updatedBodyUserWord = updateWordStatus(bodyUserWord, currentDate, UserWordAction.MARKED_STUDIED);
-    const response = await createUserWord(appState.user, word.id, updatedBodyUserWord);
+    const updateUserWordStatusResult = calculateWordStatus(bodyUserWord, currentDate, UserWordAction.MADE_STUDIED);
+    const response = await createUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
     return response;
   }
-  const bodyUserWord = await result.json();
-  const updatedBodyUserWord = updateWordStatus(bodyUserWord, currentDate, UserWordAction.MARKED_STUDIED);
-  const response = await updateUserWord(appState.user, word.id, updatedBodyUserWord);
+  const updateUserWordStatusResult = calculateWordStatus(result, currentDate, UserWordAction.MADE_STUDIED);
+  const response = await saveUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
   return response;
 }
 
 export async function removeWordFromLearned(word: Word) {
   const date = new Date();
   const currentDate = date.toISOString().substring(0, date.toISOString().indexOf('T'));
-  const result = await getWord(appState.user, word.id);
-  if (result.status === ResponseStatus.NOT_FOUND) {
+  const result = await getUserWord(appState.user, word.id);
+  if (!result) {
     const bodyUserWord = {} as UserWord;
-    const updatedBodyUserWord = updateWordStatus(bodyUserWord, currentDate, UserWordAction.REMOVED_STUDIED);
-    const response = await createUserWord(appState.user, word.id, updatedBodyUserWord);
+    const updateUserWordStatusResult = calculateWordStatus(bodyUserWord, currentDate, UserWordAction.MADE_NOT_STUDIED);
+    const response = await createUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
     return response;
   }
-  const bodyUserWord = await result.json();
-  const updatedBodyUserWord = updateWordStatus(bodyUserWord, currentDate, UserWordAction.REMOVED_STUDIED);
-  const response = await updateUserWord(appState.user, word.id, updatedBodyUserWord);
+  const updateUserWordStatusResult = calculateWordStatus(result, currentDate, UserWordAction.MADE_NOT_STUDIED);
+  const response = await saveUserWord(appState.user, word.id, updateUserWordStatusResult.userWord);
   return response;
 }
