@@ -5,6 +5,7 @@ import { buildStatisticsPage, calculateStat } from '../pages/statistics';
 import { buildDictionaryPage } from '../pages/textbook';
 import { renderPage } from './utils';
 import { viewGame } from '../pages/games/game';
+import { audioChallenge } from '../components/audio-game/audio-game';
 import { stateTextContentEn } from './constants';
 import { buildSignUpPage } from '../pages/signup';
 import { appState, data } from '../app';
@@ -44,6 +45,10 @@ router
     updateDictionaryPageAppState(context);
     renderPage(buildDictionaryPage(), context);
   })
+  /* .on('/games', async (context) => {
+    data.words = await getWords();
+    renderPage(audioChalange(gameContent), context);
+  }) */
   .on('/sprint', async (context) => {
     renderPage(buildGameStartPage('sprint'), context, true, true);
     // data.words = await getWords();
@@ -56,8 +61,7 @@ router
     renderPage(buildGameStartPage('audioChallenge'), context, true, true);
   })
   .on('/audioChallenge/play', async (context) => {
-    alert('Game audioChallenge is under contruction');
-    // renderPage(viewGame('audioChallenge', stateTextContentEn), context, true, true);
+    renderPage(viewGame('audioChallenge', stateTextContentEn), context, true, true);
   })
   .on('/statistics', async (context) => {
     const userStatistics = await getUserStatistics(appState.user);

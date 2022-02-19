@@ -64,7 +64,7 @@ export async function renderWord(
   params: {
     word: Word,
     onclick?: () => void,
-    onDiffOrLearnedClick?: () => void
+    onDiffOrLearnedClick?: () => void,
   },
   userState: UserState | null,
 ): Promise<HTMLDivElement> {
@@ -101,6 +101,10 @@ export async function renderWord(
   const audioElWord = template.querySelector('.audio-word') as HTMLAudioElement;
   const audioElMeaning = template.querySelector('.audio-meaning') as HTMLAudioElement;
   const audioElExample = template.querySelector('.audio-example') as HTMLAudioElement;
+  const sprintCorrect = template.querySelector('.sprint-correct') as HTMLParagraphElement;
+  const sprintWrong = template.querySelector('.sprint-wrong') as HTMLParagraphElement;
+  const audioChallengeCorrect = template.querySelector('.audio-challenge-correct') as HTMLParagraphElement;
+  const audioChallengeWrong = template.querySelector('.audio-challenge-wrong') as HTMLParagraphElement;
 
   wordEngEl.textContent = engWord;
   transcriptionEl.textContent = transcription;
@@ -172,15 +176,29 @@ export async function renderWord(
     //   const result = await wordsData.json();
     //   console.log(result);
     // });
-    // getAggregatedWords(appState.user, {
-    //   group: appState.groupState.group,
-    //   page: appState.groupState.pageNumber,
-    // }).then(async (wordsData) => {
-    //   console.log(wordsData);
-    // });
   }
 
-  // add active class to word card
+  // update game statistic elements
+
+  function setTheText(
+    value: number | undefined,
+    htmlEl: HTMLParagraphElement,
+  ) {
+    if (!value) {
+      htmlEl.innerText = '0';
+    } else {
+      htmlEl.innerText = String(value);
+    }
+  }
+
+  const correctGameAnswerSprint = word.userWord?.optional?.games?.sprint?.correct;
+  const wrongGameAnswerSprint = word.userWord?.optional?.games?.sprint?.wrong;
+  const correctGameAnswerAudioChallenge = word.userWord?.optional?.games?.audioChallenge?.correct;
+  const wrongGameAnswerAudioChallenge = word.userWord?.optional?.games?.audioChallenge?.wrong;
+  setTheText(correctGameAnswerSprint, sprintCorrect);
+  setTheText(wrongGameAnswerSprint, sprintWrong);
+  setTheText(correctGameAnswerAudioChallenge, audioChallengeCorrect);
+  setTheText(wrongGameAnswerAudioChallenge, audioChallengeWrong);
 
   return template.children[0] as HTMLDivElement;
 }

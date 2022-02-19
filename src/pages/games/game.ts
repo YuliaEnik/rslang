@@ -1,8 +1,14 @@
 import './game.scss';
-import { getElement, createHTMLelement, createElement, renderElement } from '../../utils/utils';
+import {
+  getElement,
+  createHTMLelement,
+  createElement,
+  renderElement,
+} from '../../utils/utils';
 import { sprint } from '../../components/sprint/sprintApp';
 import { StateTextContentEn } from '../../utils/types';
 import { fullscreen } from '../../components/full-screen/full-screen';
+import { audioChallenge } from '../../components/audio-game/audio-game';
 
 export const viewGame = (game: string, stateTextContentEn: StateTextContentEn):HTMLElement => {
   const parent = getElement('div');
@@ -19,7 +25,7 @@ export const viewGame = (game: string, stateTextContentEn: StateTextContentEn):H
     sprint(gameContent, stateTextContentEn, gameWrapper);
   }
   if (game === 'audioChallenge') {
-    alert(`Game ${game} is under contruction`);
+    audioChallenge(gameContent);
   }
 
   return gameSection;
