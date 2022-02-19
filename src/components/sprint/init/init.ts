@@ -12,13 +12,6 @@ const createScore = (scoreWrap:HTMLElement) => {
   scoreWrap.textContent = `${stateSprint.score}`;
 };
 
-const isEnd = (data: Word[]):boolean => {
-  if (stateSprint.curIndex === data.length - 1) {
-    return true;
-  }
-  return false;
-};
-
 const checkAnswer = (data: Word[], btn: HTMLElement, scoreWrap: HTMLElement, parentPic:HTMLElement) => {
   const btnAnsw = Number(btn.dataset.answ);
   // correct Answer

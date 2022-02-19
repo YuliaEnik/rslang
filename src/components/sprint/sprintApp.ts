@@ -25,7 +25,7 @@ export const sprint = async (
   stateSprint.game_time = 60;
   stateSprint.questionsArray.length = 0;
   const arrayBtnEl:HTMLElement[] = [];
-  //busParent.classList.add('bus');
+  busParent.classList.add('bus');
   const sprintWrapper = createHTMLelement('div', { class: 'sprint-wrapper' }, parent);
   const sprintContent = createHTMLelement('div', { class: 'sprint-content' }, sprintWrapper);
   const timerScoreWrap = createHTMLelement('div', { class: 'horizontal-wrap' }, sprintContent);
