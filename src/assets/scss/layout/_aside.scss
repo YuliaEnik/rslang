@@ -1,10 +1,40 @@
 .menu {
+  position: relative;
   display: flex;
   flex-direction: column;
   grid-column: 1 / 2;
   grid-row: 1 / 3;
   background-color: #FFFFFF;
   padding: 30px 0 50px;
+  &.active {
+    width: 62px;
+    overflow-x: hidden;
+    & .nav__link::before {
+      margin-left: -50px;
+    }
+    & .logo {
+      padding-left: 10px;
+    }
+    & .logo__img {
+      margin-right: 0;
+    }
+    & .logo__text {
+      display: none;
+    }
+    & .nav__user {
+      display: none;
+    }
+    & .nav__item--logout {
+      padding-left: 20px;
+    }
+    & .aside__toggle {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    & .toggle {
+      background-image: url("assets/svg/toggle-back.svg");
+    }
+  }
 }
 
 .nav {

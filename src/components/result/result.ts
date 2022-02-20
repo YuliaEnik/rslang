@@ -72,6 +72,7 @@ const createResult = (state:StateSprint | StateAudioG):HTMLElement => {
     {
       class: ' res-btn',
       href: `/dictionary/${getDictionaryPage()}`,
+      'data-navigo': '',
     },
     butWrap,
     'Go to Dictionary',

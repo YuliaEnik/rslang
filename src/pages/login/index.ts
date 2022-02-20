@@ -81,7 +81,7 @@ export const buildLogInPage = (): HTMLElement => {
   renderElement(form, formContainer);
 
   const question = createElement('p', { class: 'form__question' });
-  const signUpLink = createElement('a', { class: 'form__link', href: '/signup' }, 'Sign up');
+  const signUpLink = createElement('a', { class: 'form__link', href: '/signup', 'data-navigo': ''}, 'Sign up');
   question.append('Do not have an account?');
   question.append(signUpLink);
   renderElement(question, formContainer);

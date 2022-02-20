@@ -2,6 +2,7 @@ import { appState } from '../../../app';
 import { API_ENDPOINT } from '../../../utils/constants';
 import { router } from '../../../utils/router';
 import {
+  AppStateUI,
   AuthInfo, ResponseStatus, UserLogIn, UserState,
 } from '../../../utils/types';
 

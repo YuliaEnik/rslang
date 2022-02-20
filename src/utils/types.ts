@@ -192,6 +192,14 @@ export interface AppState {
   groupState: GroupState;
 }
 
+export interface AppStateUI {
+  settings: AppStateUISettings;
+}
+
+export interface AppStateUISettings {
+  [key:string]: string;
+}
+
 export interface GroupState {
   group: number;
   pageNumber: number;
