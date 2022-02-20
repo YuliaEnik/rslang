@@ -1,3 +1,4 @@
+@import "../../assets/scss/abstract/constants.scss";
 :root {
   --color-1: #ffd66b;
   --color-2: #ff8f6b;
@@ -5,12 +6,31 @@
 }
 
 .developer-img {
-  width: 30%;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
 }
 
+.dev-1 {
+  & .developer-img {
+    border: 5px solid var(--color-1);
+  }
+}
+
+.dev-2 {
+  & .developer-img {
+    border: 5px solid var(--color-2);
+  }
+}
+
+.dev-3 {
+  & .developer-img {
+    border: 5px solid var(--color-3);
+  }
+}
+
 .developer-main {
-  justify-content: space-around;
+  gap: 20px;
 }
 
 .card-info {
@@ -25,25 +45,25 @@
 }
 
 .tasks-container {
-  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .task {
+  padding: 5px 10px;
   background-color: var(--color-2);
   border-radius: 15px;
   color: black;
   font-size: 12px;
-  padding: 5px;
   font-weight: 700;
   display: flex;
   align-items: center;
   line-height: 10px;
   text-align: center;
-  margin: 0px 5px;
 }
 
 .name {
-  font-size: 2rem;
+  font-size: 2.4rem;
   color: var(--color-2);
   font-weight: 800;
   padding-right: 20px;
@@ -56,13 +76,14 @@
 
 .developer-text {
   padding-top: 20px;
-  text-align: justify;
-  text-indent: 10px;
-  color: black;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  color: $color-dark;
 }
 
 .developers-container {
-  justify-content: space-evenly;
+  max-width: 100%;
+  gap: 30px;
 }
 
 .dev-1 .name {
@@ -89,12 +110,14 @@
   background-color: var(--color-3);
 }
 
-.developers-title {
-  height: 30vh;
-  padding: 10px;
-}
-
 .dev-page {
+  display: flex;
+  flex-direction: column;
+justify-content: center;
   height: calc(100vh - 50px);
   background-color: #fafafb;
+}
+
+.developers-title {
+  margin-bottom: 20px;
 }

@@ -1,12 +1,16 @@
 .words {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  column-gap: 30px;
   position: relative;
   padding: 20px 30px;
-  max-width: calc(100% - 260px);
-  background-color: $color-bg;
+  max-width: 1460px;
   border-radius: 0 0 10px 0;
 }
 
 .words__header {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
@@ -14,24 +18,24 @@
 
 .pagination {
   display: flex;
-  gap: 10px 50px
+  gap: 10px 30px;
 }
 
 .words__list {
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
   display: grid;
-  gap: 16px 32px;
+  gap: 15px 30px;
   grid-template-columns: repeat(2, 1fr);
 }
 
 .games {
-  position: absolute;
-  top: 0;
-  left: 100%;
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
   padding: 20px 20px 20px 0;
-  padding-top: 90px;
+  padding-top: 20px;
   row-gap: 20px;
   width: 200px;
-  background-color: $color-bg;
   border-radius: 0 10px 10px 0;
   &__list {
     display: flex;

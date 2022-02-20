@@ -7,11 +7,12 @@
 
 .level__title {
   padding-left: 30px;
+  margin-top: 5px;
 }
 
 .level__item {
   height: 44px;
-  background-color: $color-bg;
+  background-color: $color-light;
   &:first-child {
     border-radius: 10px 0 0 10px;
   }
@@ -19,7 +20,7 @@
     border-radius: 0 10px 10px 0;
   }
   &:not(:last-child) {
-    border-right: 2px solid $color-lightgrey;
+    border-right: 2px solid $color-bg;
   }
   &.level-0.active {
     background-color: $color-a1;
