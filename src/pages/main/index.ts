@@ -18,7 +18,7 @@ export const buildMainPage = () => {
   }
 
   const allSections = template.querySelectorAll('section');
-  allSections.forEach((section: HTMLElement, i) => {
+  allSections.forEach((section: HTMLElement) => {
     const backgroundColor = getRandomPastelColor();
     section.style.background = `${backgroundColor}`;
   });
