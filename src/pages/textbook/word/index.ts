@@ -34,20 +34,22 @@ function stopAudio(node: NodeListOf<Element>) {
   });
 }
 
-function clickOnDiffOrLearnedButton(
+async function clickOnDiffOrLearnedButton(
   button: HTMLButtonElement,
   difficultOption: string,
   word: Word,
-  addHandler: (word: Word) => void,
-  removeHandler: (word: Word) => void,
+  addHandler: (word: Word) => Promise<Response>,
+  removeHandler: (word: Word) => Promise<Response>,
 ) {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', async () => {
+    // eslint-disable-next-line no-debugger
+    // debugger;
     if (word.userWord?.difficulty !== difficultOption) {
-      addHandler(word);
+      await addHandler(word);
       button.classList.add('active');
       router.reload();
     } else {
-      removeHandler(word);
+      await removeHandler(word);
       button.classList.remove('active');
       router.reload();
     }
@@ -152,19 +154,19 @@ export async function renderWord(
     learnedBtn.addEventListener('click', () => {
       params.onDiffOrLearnedClick?.();
     });
-    clickOnDiffOrLearnedButton(
+    await clickOnDiffOrLearnedButton(
       diffBtn,
       'difficult',
       word,
-      addWordToDifficult,
-      removeWordFromDifficult,
+      await addWordToDifficult,
+      await removeWordFromDifficult,
     );
-    clickOnDiffOrLearnedButton(
+    await clickOnDiffOrLearnedButton(
       learnedBtn,
       'studied',
       word,
-      addWordToLearned,
-      removeWordFromLearned,
+      await addWordToLearned,
+      await removeWordFromLearned,
     );
     // getUserWords(appState.user).then(async (wordsData) => {
     //   const result = await wordsData.json();

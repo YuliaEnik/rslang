@@ -168,6 +168,7 @@ export interface Input {
   type: string;
   id: string;
   class: string;
+  label: string;
 }
 
 export interface AuthInfo {

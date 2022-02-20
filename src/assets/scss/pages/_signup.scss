@@ -1,11 +1,11 @@
 .signup {
-  height: calc(100vh - 110px);
+  height: 100%;
   display: grid;
   grid-template-columns: 448px 1fr;
   background-color: $color-light;
   & > .container--left {
-    padding: 30px;
     grid-column: 1 / 2;
+    padding: 30px;
   }
   &__poster {
     padding: 30px;
@@ -14,8 +14,11 @@
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: 1fr 340px 1fr;
-    background-color: $color-lightgrey;
   }
+}
+
+.signup__poster {
+  background-color: $color-primary;
 }
 
 .signup__img {
@@ -38,4 +41,8 @@
   &:nth-child(2){
     margin-top: 80px;
   }
+}
+
+.signup__title {
+  margin-bottom: 10px;
 }
