@@ -1,3 +1,9 @@
+.nav__list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .nav__link {
   display: block;
   position: relative;
@@ -53,6 +59,7 @@
   padding: 14px 20px 14px 30px;
   display: flex;
   gap: 15px;
+  margin-top: auto;
   align-items: center;
 }
 
@@ -60,11 +67,15 @@
   display: flex;
   align-items: center;
   column-gap: 10px;
-
 }
 
 .nav__pic {
   flex-shrink: 0;
   background-color: $color-secondary;
   border-radius: 50%;
+}
+
+.nav__name {
+  max-width: 125px;
+  overflow-wrap: break-word;
 }

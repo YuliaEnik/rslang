@@ -2,17 +2,17 @@
   display: flex;
   margin-top: 10px;
   margin-bottom: 20px;
-  padding-left: 30px;
 }
 
 .level__title {
-  padding-left: 30px;
   margin-top: 5px;
 }
 
 .level__item {
   height: 44px;
   background-color: $color-light;
+  opacity: 1;
+  transition: opacity 0.3s ease;
   &:first-child {
     border-radius: 10px 0 0 10px;
   }
@@ -49,6 +49,9 @@
   &.level-6.active {
     background-color: $color-difficult;
     border: none;
+  }
+  &:hover {
+    opacity: 0.5;
   }
 }
 
