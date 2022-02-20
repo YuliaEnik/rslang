@@ -1,9 +1,20 @@
 .textboook {
-  padding-top: 20px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+  'header'
+  'words'
+  ;
   padding-left: 0;
-  margin-bottom: 30px;
+  height: calc(100vh - 40px);
+  background-color: $color-bg;
 }
 
-.textbook__title {
-  padding-left: 30px;
+.textbook__header {
+  padding: 30px;
+  padding-bottom: 0;
+  grid-area: header;
+  max-width: 1460px;
+  background-color: $color-bg;
+  z-index: 5;
 }

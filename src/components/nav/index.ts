@@ -36,8 +36,8 @@ function buildLogOut(page: { title: string; link: string; type: string }, userSt
 
   const result = createElement('li', { class: `nav__item nav__item--${page.type}` });
   const userWrapper = createElement('div', { class: 'nav__user' });
-  const userPic = createElement('div', { class: 'nav__pic' });
-  renderElement(userPic, userWrapper);
+  // const userPic = createElement('div', { class: 'nav__pic' });
+  // renderElement(userPic, userWrapper);
   const userName = createElement('p', { class: 'nav__name' }, userState.name);
   renderElement(userName, userWrapper);
   renderElement(userWrapper, result);

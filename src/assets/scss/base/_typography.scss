@@ -28,7 +28,7 @@ body {
   }
   &--prev,
   &--next {
-    @include font($size: 1.6rem, $height: 3rem, $weight: $weight-extrabold);
+    @include font($size: 1.6rem, $height: 1.6rem, $weight: $weight-extrabold);
   }
 }
 
@@ -52,7 +52,8 @@ body {
 
 .subtitle {
   color: $color-grey;
-  @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-bold);
+  text-transform: uppercase;
+  @include font($size: 1.4rem, $height: 2rem, $weight: $weight-bold);
 }
 
 .copyrights {
@@ -94,7 +95,7 @@ body {
 }
 
 .level__link {
-  color: $color-grey;
+  color: $color-dark;
   @include font($size: 1.6rem, $height: 4.4rem, $weight: $weight-semibold);
 }
 
@@ -110,7 +111,7 @@ body {
   }
   & .word__translation {
     color: $color-dark;
-    @include font($size: 1.8rem, $height: 2.4rem, $weight: $weight-bold);
+    @include font($size: 1.8rem, $height: 3rem, $weight: $weight-bold);
   }
 }
 
@@ -164,8 +165,8 @@ body {
 }
 
 .nav__name {
-  color: $color-dark;
-  @include font($size: 1.4rem, $height: 1.4rem, $weight: $weight-bold);
+  color: $color-primary;
+  @include font($size: 1.6rem, $height: 1.6rem, $weight: $weight-bold);
 }
 
 .period__item {
@@ -211,7 +212,7 @@ body {
 .game-level__title {
   color: $color-dark;
   text-transform: uppercase;
-  @include font($size: 1.4rem, $height: 2.4rem, $weight: $weight-extrabold);
+  @include font($size: 1.4rem, $height: 4rem, $weight: $weight-extrabold);
 }
 
 .game-level__item {
@@ -223,4 +224,10 @@ body {
 .doggy__speaks {
   color: $color-dark;
   @include font($size: 2rem, $height: 3rem, $weight: $weight-semibold);
+}
+
+.signup__title {
+  color: $color-grey;
+  text-transform: uppercase;
+  @include font($size: 1.4rem, $height: 2.4rem, $weight: $weight-bold);
 }
