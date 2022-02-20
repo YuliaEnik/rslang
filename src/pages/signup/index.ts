@@ -2,6 +2,7 @@ import { buildLogo } from '../../components/nav';
 import { Input } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
 import { createUser } from '../../services/auth/registration';
+import { appStateUi } from '../../app';
 
 const inputs: Input[] = [
   {
@@ -63,10 +64,14 @@ export const buildSignUpPage = (): HTMLElement => {
   const title = createElement('h1', { class: 'signup__title' }, 'Sign Up');
   renderElement(title, formContainer);
   const form = createElement('form', { class: 'form form--signup' });
-  form.addEventListener('submit', submitForm);
+
   inputs.forEach((input) => {
     const inputContainer = createElement('div', { class: 'input-container' });
-    const label = createElement('label', { class: `label-form label-form--${input.class}`, for: input.id }, input.label);
+    const label = createElement(
+      'label',
+      { class: `label-form label-form--${input.class}`, for: input.id },
+      input.label,
+    );
     const inputEl = createElement(
       'input', {
         class: `input-form input-form--${input.class}`, id: input.id, type: input.type, name: input.id,
@@ -77,14 +82,25 @@ export const buildSignUpPage = (): HTMLElement => {
     renderElement(inputContainer, form);
   });
   const button = createElement('button', { class: 'btn btn--signup' }, 'Create account');
-  renderElement(button, form);
   renderElement(form, formContainer);
+  renderElement(button, form);
+  form.addEventListener('submit', submitForm);
 
   const question = createElement('p', { class: 'form__question' });
   const signUpLink = createElement('a', { class: 'form__link', href: '/login' }, 'Log in');
   question.append('Do you already have an account?');
   question.append(signUpLink);
   renderElement(question, formContainer);
+
+  const errorsContainer = createElement('ul', { class: 'form__errors' });
+  if (appStateUi.signUpErrors.length > 0) {
+    appStateUi.signUpErrors.forEach((error) => {
+      const errorItem = createElement('li', { class: 'form__error' }, error);
+      renderElement(errorItem, errorsContainer);
+    });
+  }
+
+  renderElement(errorsContainer, formContainer);
 
   renderElement(formContainer, containerLeft);
   renderElement(containerLeft, result);

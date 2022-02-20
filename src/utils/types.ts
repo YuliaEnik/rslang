@@ -158,6 +158,15 @@ export enum ResponseStatus {
   EXISTED = 417,
 }
 
+export interface ApiErrorDetails {
+  message: string;
+  path: [];
+}
+
+export interface AppStateUi {
+  [key: string]: string[];
+}
+
 export interface User {
   id: string;
   name: string;
