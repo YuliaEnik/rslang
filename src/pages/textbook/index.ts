@@ -54,6 +54,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     template.querySelector('.level-6')?.classList.add('active');
     getAggregatedWords(appState.user, {
       page: appState.groupState.pageNumber || 0,
+      wordsPerPage: 3600,
       filter: JSON.stringify({ 'userWord.difficulty': 'difficult' }),
     }).then(async (wordsData) => {
       const convertedWords = wordsData[0].paginatedResults.map((el) => convertWordFromAggregated(el));
@@ -83,6 +84,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     getAggregatedWords(appState.user, {
       group: appState.groupState.group,
       page: appState.groupState.pageNumber,
+      wordsPerPage: 20,
     }).then(async (wordsData) => {
       const checkDefaultOpt = wordsData[0].paginatedResults.every((el) => el.userWord?.difficulty === 'studied');
       // console.log(checkDefaultOpt);
@@ -97,7 +99,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     words.innerHTML = '';
     pageSelector.value = String(currentPage + 1);
     template.querySelector(`.level-${id}`)?.classList.add('active');
-    getWordsForRendering(appState.user, { group, page: currentPage }).then((wordsData) => {
+    getWordsForRendering(appState.user, { group, page: currentPage, wordsPerPage: 20 }).then((wordsData) => {
       // console.log(wordsData);
       wordsData.forEach(async (wordEl) => {
         words?.appendChild(
