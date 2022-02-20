@@ -72,9 +72,9 @@ export async function renderWord(
   template.innerHTML = html;
   const wordElement = template.querySelector('.word__popup') as HTMLElement;
   wordElement.classList.add(`level-${appState.groupState.group}`);
-  wordElement?.addEventListener('click', () => {
-    params.onclick?.();
-  });
+  // wordElement?.addEventListener('click', () => {
+  //   params.onclick?.();
+  // });
   const { word } = params;
   const engWord = word.word;
   const { transcription } = word;
