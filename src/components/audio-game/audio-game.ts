@@ -1,7 +1,8 @@
 import './audio-game.scss';
 import { data } from '../../app';
-import { getElement, createHTMLelement } from '../../utils/utils';
+import { getElement, createHTMLelement, getElements } from '../../utils/utils';
 import { createResult } from '../result/result';
+import { keyboardKeysAudioGame, nextKeyboardBtn } from '../../utils/constants';
 import {
   stateAudioG,
   setData,
@@ -56,6 +57,7 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
     updateCurIndex();
     unDisabledBTNS(BTNS);
     if (isEnd(data.words)) {
+      stateAudioG.isEnded = true;
       createResult(stateAudioG);
     } setData(data.words, BTNS, volume);
   });
@@ -65,6 +67,33 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
     toggleNextAnswBTN(nextBTN, unKnowBTN);
     checkAnswer(el, data.words, BTNS);
   });
+
+// keyboard handling
+window.addEventListener("keydown", (event) => {
+  if (stateAudioG.isEnded) return;
+  let keyPressed = event.code;
+  if (keyboardKeysAudioGame[keyPressed] || keyboardKeysAudioGame[keyPressed] === undefined) {
+      return;
+  }
+  keyboardKeysAudioGame[keyPressed] = true;
+});
+
+window.addEventListener("keyup", (event) => {
+  if (stateAudioG.isEnded) return;
+  let keyPressed = event.code;
+  if (keyboardKeysAudioGame[keyPressed]) {
+    if (keyPressed === nextKeyboardBtn) {
+      if (nextBTN.classList.contains('hidden')) return;
+      nextBTN.click();
+      return;
+    };
+    let answBtns = getElements('.audio-answ-btn');
+    let ind = +keyPressed.slice(-1);
+    ((answBtns[ind-1]) as HTMLButtonElement).click();
+    keyboardKeysAudioGame[keyPressed] = false;
+  }
+});
+
 
   checkLengthData(data.words, corgi, answWrap, volume, nextBTN);
   setData(data.words, BTNS, volume);

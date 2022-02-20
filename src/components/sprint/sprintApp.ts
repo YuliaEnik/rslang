@@ -1,5 +1,5 @@
 import './sprint.scss';
-import { createHTMLelement } from '../../utils/utils';
+import { createHTMLelement, getElement } from '../../utils/utils';
 import { StateTextContentEn } from '../../utils/types';
 import {
   checkAnswer,
@@ -7,7 +7,7 @@ import {
   setWords,
 } from './init/init';
 import { createResult, isEnd } from '../result/result';
-import { stateSprint } from '../../utils/constants';
+import { stateSprint, keyboardKeysSprintGame, navigationKeys, nextKeyboardBtn } from '../../utils/constants';
 import { countdown, timer } from './init/timer/timer';
 import { data } from '../../app';
 import { router } from '../../utils/router';
@@ -48,6 +48,7 @@ export const sprint = async (
     el.addEventListener(('click'), () => {
       checkAnswer(data.words, el, scoreWrap, answerPicturesWrap);
       if (isEnd(data.words)) {
+        stateSprint.isEnded = true;
         createResult(stateSprint);
         clearTimeout(timer);
         busParent.style.animationPlayState = 'paused';
@@ -56,6 +57,40 @@ export const sprint = async (
       updateCurIndex();
       setWords(data.words, wordWrapEn, wordWrapRu);
     });
+  });
+
+  // keyboard handling
+  window.addEventListener("keydown", (event) => {
+    let keyPressed = event.code;
+    if (keyboardKeysSprintGame[keyPressed] || keyboardKeysSprintGame[keyPressed] === undefined) {
+        return;
+    }
+    keyboardKeysSprintGame[keyPressed] = true;
+  });
+
+  window.addEventListener("keyup", (event) => {
+    if (stateSprint.isEnded) return;
+    let keyPressed = event.code;
+    if (keyboardKeysSprintGame[keyPressed]) {
+
+      const selector: string = navigationKeys[keyPressed] ?
+
+        `[data-answ = '${String(stateSprint.trueAnsw)}']` :
+
+        `[data-answ = '${String(stateSprint.falseAnsw)}']`
+      const btnPressed = (getElement(selector)) as HTMLElement;
+      checkAnswer(data.words, btnPressed, scoreWrap, answerPicturesWrap);
+      if (isEnd(data.words)) {
+        stateSprint.isEnded = true;
+        createResult(stateSprint);
+        clearTimeout(timer);
+        busParent.style.animationPlayState = 'paused';
+        return;
+      }
+      updateCurIndex();
+      setWords(data.words, wordWrapEn, wordWrapRu);
+      keyboardKeysSprintGame[keyPressed] = false;
+    }
   });
   setWords(data.words, wordWrapEn, wordWrapRu);
   countdown(timerWrap);

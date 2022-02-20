@@ -13,6 +13,7 @@ const countIncorAnsws = 4;
 // eslint-disable-next-line
 // @ts-ignore
 const setData = (data:Word[], btnAnsws:HTMLElement[], volume:audio):void => {
+  volume.src = `${API_ENDPOINT}/${data[stateAudioG.curIndex].audio}`
   stateAudioG.answsArray.length = 0;
   stateAudioG.answsArray.push(data[stateAudioG.curIndex].wordTranslate);
   for (let i = 0; i < countIncorAnsws; i++) {
@@ -26,7 +27,6 @@ const setData = (data:Word[], btnAnsws:HTMLElement[], volume:audio):void => {
   btnAnsws.forEach((el, i) => {
     el.textContent = `${i + 1}. ${stateAudioG.answsArray[i]}`;
   });
-  volume.src = `${API_ENDPOINT}/${data[stateAudioG.curIndex].audio}`;
 };
 
 const checkAnswer = (el:Event, data:Word[], BTNS:HTMLElement[]):void => {

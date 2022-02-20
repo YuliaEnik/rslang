@@ -23,6 +23,7 @@ export const stateSprint: StateSprint = {
   isTrueTranslate: null,
   game_time: 60,
   points: 10,
+  isEnded: false,
 };
 
 export const stateAudioG:StateAudioG = {
@@ -31,6 +32,7 @@ export const stateAudioG:StateAudioG = {
   questionsArray: [],
   score: 0,
   maxAnsw: 5,
+  isEnded: false,
 };
 
 export const pages: Page[] = [
@@ -70,3 +72,11 @@ export const pages: Page[] = [
     type: 'logout',
   },
 ];
+
+export const keyboardKeysSprintGame: {[key: string]: boolean} = { 'ArrowLeft': false, 'ArrowRight': false, 'Enter': false };
+
+export const keyboardKeysAudioGame: {[key: string]: boolean} = { 'Digit1': false, 'Digit2': false, 'Digit3': false, 'Digit4': false, 'Digit5': false, 'Enter': false };
+
+export const navigationKeys: {[key: string]: boolean} = { 'ArrowLeft': true, 'ArrowRight': false };
+
+export const nextKeyboardBtn: string ='Enter';
