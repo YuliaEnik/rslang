@@ -8,11 +8,13 @@ const inputs: Input[] = [
     type: 'email',
     id: 'emailSignup',
     class: 'email',
+    label: 'Email',
   },
   {
     type: 'password',
     id: 'passwordSignup',
     class: 'password',
+    label: 'Password',
   },
 ];
 
