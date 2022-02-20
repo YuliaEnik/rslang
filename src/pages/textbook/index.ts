@@ -22,6 +22,7 @@ export function buildDictionaryPage(): HTMLDivElement {
   template.innerHTML = html;
   const levelButtons = template.querySelectorAll('.level__item');
   const words = template.querySelector('.words__list') as HTMLElement;
+  const wordsDiv = template.querySelector('.words') as HTMLElement;
   const gamesEl = template.querySelector('.games') as HTMLDivElement;
 
   // add options to select
@@ -54,7 +55,8 @@ export function buildDictionaryPage(): HTMLDivElement {
       if (wordsData[0].paginatedResults.length === 0) {
         const pagination = template.querySelector('.pagination') as HTMLDivElement;
         pagination.classList.add('hidden');
-        words.innerHTML = 'No words have been added yet';
+        gamesEl.classList.add('hidden');
+        wordsDiv.innerHTML = 'No words have been added yet';
       }
       convertedWords.forEach(async (el) => {
         const renderEl = renderWord({ word: el }, appState.user);
