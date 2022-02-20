@@ -97,7 +97,7 @@ export async function renderWord(
   const exampleRus = template.querySelector('.rus-phrase') as HTMLParagraphElement;
   const audioBtnElWord = template.querySelector('.audio-word-btn') as HTMLButtonElement;
   const audioBtnElMeaning = template.querySelector('.audio-meaning-btn') as HTMLButtonElement;
-  const audioBtnElExample = template.querySelector('.word__speaker') as HTMLButtonElement;
+  const audioBtnElExample = template.querySelector('.audio-example-btn') as HTMLButtonElement;
   const audioElWord = template.querySelector('.audio-word') as HTMLAudioElement;
   const audioElMeaning = template.querySelector('.audio-meaning') as HTMLAudioElement;
   const audioElExample = template.querySelector('.audio-example') as HTMLAudioElement;
