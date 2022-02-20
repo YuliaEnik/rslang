@@ -38,7 +38,12 @@ export const createHTMLelement = (
   return elem;
 };
 
-export const buildLayout = (pageElement: HTMLElement, context: Match | undefined, hideMenu: boolean, hideFooter: boolean): HTMLElement => {
+export const buildLayout = (
+  pageElement: HTMLElement | Array<HTMLElement>,
+  context: Match | undefined,
+  hideMenu: boolean,
+  hideFooter: boolean,
+): HTMLElement => {
   const result = createElement('div', { class: 'main-container' });
 
   if (!hideMenu) {
@@ -50,10 +55,14 @@ export const buildLayout = (pageElement: HTMLElement, context: Match | undefined
     { class: `main ${hideMenu ? 'hidden-menu' : ''} ${hideFooter ? 'hidden-footer' : ''}` },
   );
 
-  const mainTitle = createElement('h1', { class: 'visually-hidden' }, 'Learn English with RS Lang application');
-  renderElement(mainTitle, main);
+  // const mainTitle = createElement('h1', { class: 'visually-hidden' }, 'Learn English with RS Lang application');
+  // renderElement(mainTitle, main);
+  if (Array.isArray(pageElement)) {
+    pageElement.forEach((el) => renderElement(el, main));
+  } else {
+    renderElement(pageElement, main);
+  }
 
-  renderElement(pageElement, main);
   renderElement(main, result);
 
   if (!hideFooter) {
@@ -63,7 +72,12 @@ export const buildLayout = (pageElement: HTMLElement, context: Match | undefined
   return result;
 };
 
-export const renderPage = (buildPageElement: HTMLElement, context: Match | undefined, hideMenu = false, hideFooter = false): void => {
+export const renderPage = (
+  buildPageElement: HTMLElement | Array<HTMLElement>,
+  context: Match | undefined,
+  hideMenu = false,
+  hideFooter = false,
+): void => {
   const layout = buildLayout(buildPageElement, context, hideMenu, hideFooter);
   document.body.innerHTML = '';
   document.body.appendChild(layout);
@@ -84,14 +98,14 @@ export function shuffle(array:string[]):void {
   array.sort(() => Math.random() - 0.5);
 }
 
-export function renderEl<T extends keyof HTMLElementTagNameMap>(tagName: T, config?: {
+export function createEl<T extends keyof HTMLElementTagNameMap>(tagName: T, config?: {
   elementConfiguration?: (input: HTMLElementTagNameMap[T]) => void,
   children?: HTMLElement[],
   attrs?: Partial<HTMLElementTagNameMap[T]>,
   classes?: string,
 }) {
   const el = document.createElement(tagName);
-  config?.elementConfiguration?.call(null, el);
+  config?.elementConfiguration?.(el);
   if (config?.children) {
     config.children.forEach((child) => {
       el.appendChild(child);

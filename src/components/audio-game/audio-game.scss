@@ -57,13 +57,15 @@
 }
 
 .audio-answ-btn {
-  height: 4rem;
-  width: 15rem;
+  height: 5rem;
+  width: 17rem;
   margin: 1rem 0 4rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
+  font-family: Nunito;
+  font-size: 1.6rem;
   transition: .6s;
   color: white;
   cursor: pointer;
@@ -75,16 +77,16 @@
     text-decoration: line-through;
   }
   &.correct {
-    background-color: rgba(181, 241, 176, .6);
+    background-color: rgba(181, 241, 176, .7);
   }
   &.right {
-    background-color: rgba(255, 214, 107, .6);
+    background-color: rgba(255, 214, 107, .7);
   }
 }
 
 .next-answ-btn {
-  height: 3rem;
-  width: 10rem;
+  height: 4rem;
+  width: 17rem;
   border-radius: 5px;
   background-color: #FFD66B;
   cursor: pointer;

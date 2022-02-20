@@ -1,4 +1,5 @@
-import { Word, StateAudioG } from '../../../utils/types';
+import { Word } from '../../../utils/types';
+import { playSound, right, wrong } from '../../../pages/games/sound/sound';
 import {
   createRandomAnswerFalse,
   shuffle,
@@ -13,7 +14,7 @@ const countIncorAnsws = 4;
 // eslint-disable-next-line
 // @ts-ignore
 const setData = (data:Word[], btnAnsws:HTMLElement[], volume:audio):void => {
-  volume.src = `${API_ENDPOINT}/${data[stateAudioG.curIndex].audio}`
+  volume.src = `${API_ENDPOINT}/${data[stateAudioG.curIndex].audio}`;
   stateAudioG.answsArray.length = 0;
   stateAudioG.answsArray.push(data[stateAudioG.curIndex].wordTranslate);
   for (let i = 0; i < countIncorAnsws; i++) {
@@ -41,9 +42,11 @@ const checkAnswer = (el:Event, data:Word[], BTNS:HTMLElement[]):void => {
   if (userAnswer === rightAnswer) {
     data[stateAudioG.curIndex].correctAnswer = 1;
     (el.target as HTMLElement).classList.add('correct');
+    playSound(right);
   } else {
   // incorrect answer
     data[stateAudioG.curIndex].correctAnswer = 0;
+    playSound(wrong);
     (el.target as HTMLElement).classList.add('incorrect');
     BTNS.forEach((item) => {
       if ((item.textContent)?.slice(3) === rightAnswer) {
@@ -92,24 +95,6 @@ const removeClass = (BTNS:HTMLElement[]):void => {
   });
 };
 
-const checkLengthData = (
-  data:Word[],
-  corgiParent:HTMLElement,
-  answWrap:HTMLElement,
-  volume:HTMLElement,
-  next:HTMLElement,
-):void => {
-  if (data.length <= 1) {
-    createHTMLelement('div', { class: 'audio-corgi_message' }, corgiParent, 'Too few words!');
-    answWrap.classList.add('hidden');
-    volume.classList.add('hidden');
-    next.classList.add('hidden');
-  }
-  if (data.length < 5) {
-    stateAudioG.maxAnsw = data.length;
-  }
-};
-
 const isEnd = (data:Word[]):boolean => {
   if (stateAudioG.curIndex === data.length - 1) {
     return true;
@@ -148,12 +133,9 @@ const unDisabledBTNS = (BTNS:HTMLElement[]):void => {
 
 export {
   setData,
-  StateAudioG,
-  stateAudioG,
   checkAnswer,
   removeClass,
   updateCurIndex,
-  checkLengthData,
   isEnd,
   setCorrectData,
   toggleNextAnswBTN,

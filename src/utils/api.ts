@@ -153,15 +153,15 @@ export async function getAggregatedWords(
 }
 
 export async function getUserWordsForGame(userState: UserState | null, req?: {
-  group: number,
+  group?: number,
   page?: number,
   wordsPerPage?: number,
   filter?: string,
-}): Promise<[]> {
+}): Promise<AggregateResponse[]> {
   if (!userState) throw Error('User state is null. Cannot get user words.');
   const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}`;
   const response = await fetchForUser(url, userState);
-  const result = await response.json();
+  const result: AggregateResponse[] = await response.json();
   return result;
 }
 

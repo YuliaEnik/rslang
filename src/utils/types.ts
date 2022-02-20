@@ -101,6 +101,7 @@ export interface StateSprint {
   game_time: number;
   points: number;
   isEnded: boolean;
+  currentStreak: number;
 }
 
 export interface StateAudioG {
@@ -110,6 +111,7 @@ export interface StateAudioG {
   questionsArray: Word[];
   maxAnsw: number;
   isEnded: boolean;
+  currentStreak: number;
 }
 export interface UserCalculatedStat {
   newWords: string;
@@ -168,6 +170,7 @@ export interface Input {
   type: string;
   id: string;
   class: string;
+  label: string;
 }
 
 export interface AuthInfo {

@@ -1,4 +1,4 @@
-import { data } from '../../app';
+import { appState, data } from '../../app';
 import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
 import { createElement, random, renderElement } from '../../utils/utils';
@@ -96,7 +96,11 @@ export function buildGameStartPage(game: string) {
   const gameLevelList = createElement('ul', { class: 'game-level__list' });
   gameLevels.forEach((level) => {
     const levelItem = createElement('li', { class: 'game-level__item' }, `${level.levelName}`);
-    levelItem.addEventListener('click', () => buildGamePage(game, level.levelGroup, level.page));
+    levelItem.addEventListener('click', () => {
+      appState.groupState.group = Number(level.levelGroup);
+      appState.groupState.pageNumber = Number(level.page);
+      buildGamePage(game, level.levelGroup, level.page);
+    });
     renderElement(levelItem, gameLevelList);
   });
 

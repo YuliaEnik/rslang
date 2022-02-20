@@ -7,7 +7,7 @@ import {
   setWords,
 } from './init/init';
 import { createResult, isEnd } from '../result/result';
-import { stateSprint, keyboardKeysSprintGame, navigationKeys, nextKeyboardBtn } from '../../utils/constants';
+import { stateSprint, keyboardKeysSprintGame, navigationKeys } from '../../utils/constants';
 import { countdown, timer } from './init/timer/timer';
 import { data } from '../../app';
 import { router } from '../../utils/router';
@@ -21,13 +21,23 @@ export const sprint = async (
     router.navigate('/sprint');
     return null;
   }
+
+  if (data.words.length === 1) {
+    alert('You cannot play with only 1 word');
+    router.reload();
+    return null;
+  }
+
   clearTimeout(timer);
+  stateSprint.currentStreak = 0;
+  stateSprint.curIndex = 0;
   stateSprint.game_time = 60;
   stateSprint.questionsArray.length = 0;
+  stateSprint.isEnded = false;
+  stateSprint.score = 0;
   const arrayBtnEl:HTMLElement[] = [];
   busParent.classList.add('bus');
   const sprintWrapper = createHTMLelement('div', { class: 'sprint-wrapper' }, parent);
-  const soundBtn = createHTMLelement('div', { class: 'sound sound-on' }, parent);
   const sprintContent = createHTMLelement('div', { class: 'sprint-content' }, sprintWrapper);
   const timerScoreWrap = createHTMLelement('div', { class: 'horizontal-wrap' }, sprintContent);
   const timerWrap = createHTMLelement('div', { class: 'timer' }, timerScoreWrap);
@@ -58,37 +68,24 @@ export const sprint = async (
       setWords(data.words, wordWrapEn, wordWrapRu);
     });
   });
-
-  // keyboard handling
-  window.addEventListener("keydown", (event) => {
-    let keyPressed = event.code;
+  window.addEventListener('keydown', (event) => {
+    event.preventDefault();
+    const keyPressed = event.code;
     if (keyboardKeysSprintGame[keyPressed] || keyboardKeysSprintGame[keyPressed] === undefined) {
-        return;
+      return;
     }
     keyboardKeysSprintGame[keyPressed] = true;
   });
 
-  window.addEventListener("keyup", (event) => {
+  window.addEventListener('keyup', (event) => {
     if (stateSprint.isEnded) return;
-    let keyPressed = event.code;
+    const keyPressed = event.code;
     if (keyboardKeysSprintGame[keyPressed]) {
-
-      const selector: string = navigationKeys[keyPressed] ?
-
-        `[data-answ = '${String(stateSprint.trueAnsw)}']` :
-
-        `[data-answ = '${String(stateSprint.falseAnsw)}']`
+      const selector: string = navigationKeys[keyPressed]
+        ? `[data-answ = '${String(stateSprint.trueAnsw)}']`
+        : `[data-answ = '${String(stateSprint.falseAnsw)}']`;
       const btnPressed = (getElement(selector)) as HTMLElement;
-      checkAnswer(data.words, btnPressed, scoreWrap, answerPicturesWrap);
-      if (isEnd(data.words)) {
-        stateSprint.isEnded = true;
-        createResult(stateSprint);
-        clearTimeout(timer);
-        busParent.style.animationPlayState = 'paused';
-        return;
-      }
-      updateCurIndex();
-      setWords(data.words, wordWrapEn, wordWrapRu);
+      btnPressed.click();
       keyboardKeysSprintGame[keyPressed] = false;
     }
   });

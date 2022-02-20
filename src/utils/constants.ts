@@ -24,15 +24,17 @@ export const stateSprint: StateSprint = {
   game_time: 60,
   points: 10,
   isEnded: false,
+  currentStreak: 0,
 };
 
-export const stateAudioG:StateAudioG = {
+export const stateAudioG: StateAudioG = {
   curIndex: 0,
   answsArray: [],
   questionsArray: [],
   score: 0,
   maxAnsw: 5,
   isEnded: false,
+  currentStreak: 0,
 };
 
 export const pages: Page[] = [
@@ -73,10 +75,26 @@ export const pages: Page[] = [
   },
 ];
 
-export const keyboardKeysSprintGame: {[key: string]: boolean} = { 'ArrowLeft': false, 'ArrowRight': false, 'Enter': false };
+export const keyboardKeysSprintGame: { [key: string]: boolean } = {
+  ArrowLeft: false,
+  ArrowRight: false,
+};
 
-export const keyboardKeysAudioGame: {[key: string]: boolean} = { 'Digit1': false, 'Digit2': false, 'Digit3': false, 'Digit4': false, 'Digit5': false, 'Enter': false };
+export const keyboardKeysAudioGame: { [key: string]: boolean } = {
+  Digit1: false,
+  Digit2: false,
+  Digit3: false,
+  Digit4: false,
+  Digit5: false,
+  Enter: false,
+  ArrowRight: false,
+  Space: false,
+};
 
-export const navigationKeys: {[key: string]: boolean} = { 'ArrowLeft': true, 'ArrowRight': false };
+export const navigationKeys: { [key: string]: boolean } = { ArrowLeft: true, ArrowRight: false };
 
-export const nextKeyboardBtn: string ='Enter';
+export const nextKeyboardBtn = 'ArrowRight';
+
+export const amswerKeyboardBtn = 'Enter';
+
+export const soundKeyboardBtn = 'Space';

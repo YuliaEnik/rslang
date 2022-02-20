@@ -34,22 +34,22 @@ function stopAudio(node: NodeListOf<Element>) {
   });
 }
 
-function clickOnDiffOrLearnedButton(
+async function clickOnDiffOrLearnedButton(
   button: HTMLButtonElement,
   difficultOption: string,
-  messageAdd: string,
-  messageRemove: string,
   word: Word,
-  addHandler: (word: Word) => void,
-  removeHandler: (word: Word) => void,
+  addHandler: (word: Word) => Promise<Response>,
+  removeHandler: (word: Word) => Promise<Response>,
 ) {
-  button.addEventListener('click', () => {
+  button.addEventListener('click', async () => {
+    // eslint-disable-next-line no-debugger
+    // debugger;
     if (word.userWord?.difficulty !== difficultOption) {
-      addHandler(word);
+      await addHandler(word);
       button.classList.add('active');
       router.reload();
     } else {
-      removeHandler(word);
+      await removeHandler(word);
       button.classList.remove('active');
       router.reload();
     }
@@ -72,9 +72,9 @@ export async function renderWord(
   template.innerHTML = html;
   const wordElement = template.querySelector('.word__popup') as HTMLElement;
   wordElement.classList.add(`level-${appState.groupState.group}`);
-  wordElement?.addEventListener('click', () => {
-    params.onclick?.();
-  });
+  // wordElement?.addEventListener('click', () => {
+  //   params.onclick?.();
+  // });
   const { word } = params;
   const engWord = word.word;
   const { transcription } = word;
@@ -154,23 +154,19 @@ export async function renderWord(
     learnedBtn.addEventListener('click', () => {
       params.onDiffOrLearnedClick?.();
     });
-    clickOnDiffOrLearnedButton(
+    await clickOnDiffOrLearnedButton(
       diffBtn,
       'difficult',
-      'Word added to difficult',
-      'Word removed from difficult',
       word,
-      addWordToDifficult,
-      removeWordFromDifficult,
+      await addWordToDifficult,
+      await removeWordFromDifficult,
     );
-    clickOnDiffOrLearnedButton(
+    await clickOnDiffOrLearnedButton(
       learnedBtn,
       'studied',
-      'Word added to learned',
-      'Word removed from learned',
       word,
-      addWordToLearned,
-      removeWordFromLearned,
+      await addWordToLearned,
+      await removeWordFromLearned,
     );
     // getUserWords(appState.user).then(async (wordsData) => {
     //   const result = await wordsData.json();
