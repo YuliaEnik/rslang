@@ -34,6 +34,8 @@ export function buildDictionaryPage(): HTMLDivElement {
   for (let i = 0; i < 30; i++) {
     const option = document.createElement('option') as HTMLOptionElement;
     option.classList.add('select__item');
+    option.classList.add(`select__item-${i}`);
+    // option.classList.add('active');
     option.value = String(i + 1);
     option.innerText = `Page ${option.value}`;
     pageSelector.appendChild(option);
@@ -156,6 +158,7 @@ export function buildDictionaryPage(): HTMLDivElement {
 
   const diffBtn = template.querySelector('.difficult') as HTMLButtonElement;
   diffBtn.addEventListener('click', () => {
+    checkIfPageLearned();
     renderDifficultPage();
   });
 
