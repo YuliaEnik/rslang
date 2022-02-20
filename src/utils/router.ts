@@ -71,8 +71,8 @@ router
     renderPage(buildDevelopersPage(), context);
   })
   .on('/signup', (context) => {
-    renderPage(buildSignUpPage(), context);
+    renderPage(buildSignUpPage(), context, true, true);
   })
   .on('/login', (context) => {
-    renderPage(buildLogInPage(), context);
+    renderPage(buildLogInPage(), context, true, true);
   });

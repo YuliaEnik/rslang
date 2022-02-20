@@ -8,16 +8,19 @@ const inputs: Input[] = [
     type: 'text',
     id: 'nameSignup',
     class: 'name',
+    label: 'Name',
   },
   {
     type: 'email',
     id: 'emailSignup',
     class: 'email',
+    label: 'Email',
   },
   {
     type: 'password',
     id: 'passwordSignup',
-    class: 'name',
+    class: 'password',
+    label: 'Password',
   },
 ];
 
@@ -63,7 +66,7 @@ export const buildSignUpPage = (): HTMLElement => {
   form.addEventListener('submit', submitForm);
   inputs.forEach((input) => {
     const inputContainer = createElement('div', { class: 'input-container' });
-    const label = createElement('label', { class: `label-form label-form--${input.class}`, for: input.id }, input.id);
+    const label = createElement('label', { class: `label-form label-form--${input.class}`, for: input.id }, input.label);
     const inputEl = createElement(
       'input', {
         class: `input-form input-form--${input.class}`, id: input.id, type: input.type, name: input.id,
@@ -76,6 +79,13 @@ export const buildSignUpPage = (): HTMLElement => {
   const button = createElement('button', { class: 'btn btn--signup' }, 'Create account');
   renderElement(button, form);
   renderElement(form, formContainer);
+
+  const question = createElement('p', { class: 'form__question' });
+  const signUpLink = createElement('a', { class: 'form__link', href: '/login' }, 'Log in');
+  question.append('Do you already have an account?');
+  question.append(signUpLink);
+  renderElement(question, formContainer);
+
   renderElement(formContainer, containerLeft);
   renderElement(containerLeft, result);
   const poster = createElement('div', { class: 'signup__poster' });
