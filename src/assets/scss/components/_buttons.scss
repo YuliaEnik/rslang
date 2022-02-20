@@ -50,7 +50,8 @@
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    filter: brightness(0) saturate(100%) invert(35%) sepia(84%) saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
+    filter: brightness(0) saturate(100%) invert(35%) sepia(84%) saturate(3542%)
+      hue-rotate(231deg) brightness(102%) contrast(101%);
     content: "";
   }
   &--prev::before {
@@ -72,7 +73,8 @@
     background-size: contain;
     border-radius: 0;
     &:hover {
-      filter: brightness(0) saturate(100%) invert(35%) sepia(84%) saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
+      filter: brightness(0) saturate(100%) invert(35%) sepia(84%)
+        saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
     }
   }
   &--studied {
@@ -87,10 +89,12 @@
     background-size: contain;
     border-radius: 0;
     &:hover {
-      filter: brightness(0) saturate(100%) invert(35%) sepia(84%) saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
+      filter: brightness(0) saturate(100%) invert(35%) sepia(84%)
+        saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
     }
     &.active {
-      filter: brightness(0) saturate(100%) invert(35%) sepia(84%) saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
+      filter: brightness(0) saturate(100%) invert(35%) sepia(84%)
+        saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
     }
   }
   &--difficult {
@@ -105,10 +109,13 @@
     background-size: contain;
     border-radius: 0;
     &:hover {
-      filter: brightness(0) saturate(100%) invert(35%) sepia(84%) saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
+      filter: brightness(0) saturate(100%) invert(35%) sepia(84%)
+        saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
     }
     &.active {
-      filter: brightness(0) saturate(100%) invert(35%) sepia(84%) saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
+      filter: brightness(0) saturate(100%) invert(35%) sepia(84%)
+        saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
+      transform: rotate(-45deg);
     }
   }
   &--games {
@@ -118,8 +125,7 @@
     color: $color-light;
     background-color: $color-primary;
     border-radius: 0 0 10px 10px;
-    transition: color 0.3s ease,
-                background 0.3s ease;
+    transition: color 0.3s ease, background 0.3s ease;
     &:hover {
       color: $color-dark;
       background-color: $color-secondary;
@@ -137,7 +143,8 @@
     background-size: contain;
     border-radius: 0;
     &:hover {
-      filter: brightness(0) saturate(100%) invert(35%) sepia(84%) saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
+      filter: brightness(0) saturate(100%) invert(35%) sepia(84%)
+        saturate(3542%) hue-rotate(231deg) brightness(102%) contrast(101%);
     }
   }
   &--close {
@@ -152,12 +159,13 @@
     background-size: contain;
     border-radius: 0;
     opacity: 1;
-    filter: brightness(0) saturate(100%) invert(6%) sepia(40%) saturate(3839%) hue-rotate(228deg) brightness(85%) contrast(111%);
+    filter: brightness(0) saturate(100%) invert(6%) sepia(40%) saturate(3839%)
+      hue-rotate(228deg) brightness(85%) contrast(111%);
     &:hover {
       opacity: 0.5;
     }
   }
-  &--fullscreen{
+  &--fullscreen {
     padding: 0;
     display: block;
     width: 20px;
@@ -169,12 +177,13 @@
     background-size: contain;
     border-radius: 0;
     opacity: 1;
-    filter: brightness(0) saturate(100%) invert(6%) sepia(40%) saturate(3839%) hue-rotate(228deg) brightness(85%) contrast(111%);
+    filter: brightness(0) saturate(100%) invert(6%) sepia(40%) saturate(3839%)
+      hue-rotate(228deg) brightness(85%) contrast(111%);
     &:hover {
       opacity: 0.5;
     }
   }
-  &--audio{
+  &--audio {
     padding: 0;
     display: block;
     width: 22px;
@@ -186,7 +195,8 @@
     background-size: contain;
     border-radius: 0;
     opacity: 1;
-    filter: brightness(0) saturate(100%) invert(6%) sepia(40%) saturate(3839%) hue-rotate(228deg) brightness(85%) contrast(111%);
+    filter: brightness(0) saturate(100%) invert(6%) sepia(40%) saturate(3839%)
+      hue-rotate(228deg) brightness(85%) contrast(111%);
     &:hover {
       opacity: 0.5;
     }
