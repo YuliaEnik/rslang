@@ -100,6 +100,7 @@ export interface StateSprint {
   isTrueTranslate: number | null;
   game_time: number;
   points: number;
+  currentStreak: number;
 }
 
 export interface StateAudioG {
@@ -108,6 +109,7 @@ export interface StateAudioG {
   answsArray:string[];
   questionsArray: Word[];
   maxAnsw: number;
+  currentStreak: number;
 }
 export interface UserCalculatedStat {
   newWords: string;

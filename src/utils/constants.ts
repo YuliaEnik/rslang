@@ -23,14 +23,16 @@ export const stateSprint: StateSprint = {
   isTrueTranslate: null,
   game_time: 60,
   points: 10,
+  currentStreak: 0,
 };
 
-export const stateAudioG:StateAudioG = {
+export const stateAudioG: StateAudioG = {
   curIndex: 0,
   answsArray: [],
   questionsArray: [],
   score: 0,
   maxAnsw: 5,
+  currentStreak: 0,
 };
 
 export const pages: Page[] = [

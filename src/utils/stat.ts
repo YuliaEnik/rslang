@@ -6,6 +6,7 @@ import {
   getUserStatistics,
   saveUserStatistics,
 } from './api';
+import { stateAudioG, stateSprint } from './constants';
 import {
   GamesStat,
   GameStat,
@@ -259,17 +260,31 @@ function calculateLearnedWords(
 }
 
 function calculateBestStreak(game: string, date: string, userStatistics: UserStatistics) {
-  if (userStatistics.optional?.games?.[game]) {
-    if (date === userStatistics.optional.games[game].streakLastUpdate
-      && userStatistics.optional.games[game].currentStreak >= userStatistics.optional.games[game].bestStreak) {
-      userStatistics.optional.games[game].bestStreak = userStatistics.optional.games[game].currentStreak;
-      userStatistics.optional.games[game].streakLastUpdate = date;
-    } else if (date !== userStatistics.optional.games[game].streakLastUpdate) {
-      userStatistics.optional.games[game].bestStreak = userStatistics.optional.games[game].currentStreak;
-      userStatistics.optional.games[game].streakLastUpdate = date;
+  if (game === 'sprint') {
+    if (userStatistics.optional?.games?.[game]) {
+      if (date === userStatistics.optional.games[game].streakLastUpdate
+        && stateSprint.currentStreak >= userStatistics.optional.games[game].bestStreak) {
+        userStatistics.optional.games[game].bestStreak = stateSprint.currentStreak;
+        userStatistics.optional.games[game].streakLastUpdate = date;
+      } else if (date !== userStatistics.optional.games[game].streakLastUpdate) {
+        userStatistics.optional.games[game].bestStreak = stateSprint.currentStreak;
+        userStatistics.optional.games[game].streakLastUpdate = date;
+      }
     }
   }
 
+  if (game === 'audioChallenge') {
+    if (userStatistics.optional?.games?.[game]) {
+      if (date === userStatistics.optional.games[game].streakLastUpdate
+        && stateAudioG.currentStreak >= userStatistics.optional.games[game].bestStreak) {
+        userStatistics.optional.games[game].bestStreak = stateAudioG.currentStreak;
+        userStatistics.optional.games[game].streakLastUpdate = date;
+      } else if (date !== userStatistics.optional.games[game].streakLastUpdate) {
+        userStatistics.optional.games[game].bestStreak = stateAudioG.currentStreak;
+        userStatistics.optional.games[game].streakLastUpdate = date;
+      }
+    }
+  }
   return userStatistics;
 }
 
@@ -282,47 +297,68 @@ function calculateStreak(
   if (userWordAction === UserWordAction.ANSWERED_CORRECTLY) {
     if (userStatistics.optional?.games?.[game]) {
       if (currentDate === userStatistics.optional.games[game].streakLastUpdate) {
-        userStatistics.optional.games[game].currentStreak += 1;
-        userStatistics.optional.games[game].streakLastUpdate = currentDate;
+        if (game === 'sprint') {
+          stateSprint.currentStreak += 1;
+        }
+
+        if (game === 'audioChallenge') {
+          stateAudioG.currentStreak += 1;
+        }
       } else if (currentDate !== userStatistics.optional.games[game].streakLastUpdate
         || userStatistics.optional.games[game].streakLastUpdate === 'undefined') {
-        userStatistics.optional.games[game].bestStreak = 1;
-        userStatistics.optional.games[game].currentStreak = 1;
-        userStatistics.optional.games[game].streakLastUpdate = currentDate;
+        if (game === 'sprint') {
+          stateSprint.currentStreak = 1;
+        }
+
+        if (game === 'audioChallenge') {
+          stateAudioG.currentStreak += 1;
+        }
       }
-    } else {
-      userStatistics.optional = userStatistics.optional || {};
-      userStatistics.optional.games = userStatistics.optional.games || {} as GamesStat;
-
-      const gameStat = userStatistics.optional.games[game] || {} as GameStat;
-      gameStat.bestStreak = 1;
-      gameStat.currentStreak = 1;
-      gameStat.streakLastUpdate = currentDate;
-
-      userStatistics.optional.games[game] = gameStat;
     }
   } else if (userWordAction === UserWordAction.ANSWERED_WRONGLY) {
     if (userStatistics.optional?.games?.[game]) {
-      if (currentDate === userStatistics.optional.games[game].streakLastUpdate) {
-        if (userStatistics.optional.games[game].currentStreak
-          > userStatistics.optional.games[game].bestStreak) {
-          userStatistics.optional.games[game].bestStreak = userStatistics.optional.games[game].currentStreak;
-          userStatistics.optional.games[game].currentStreak = 0;
+      if (game === 'sprint') {
+        if (currentDate === userStatistics.optional.games[game].streakLastUpdate) {
+          if (stateSprint.currentStreak
+            > userStatistics.optional.games[game].bestStreak) {
+            stateSprint.currentStreak = 0;
+            userStatistics.optional.games[game].bestStreak = stateSprint.currentStreak;
+            userStatistics.optional.games[game].streakLastUpdate = currentDate;
+          }
+        } else if (currentDate !== userStatistics.optional.games[game].streakLastUpdate) {
+          userStatistics.optional.games[game].bestStreak = 0;
+          stateSprint.currentStreak = 0;
           userStatistics.optional.games[game].streakLastUpdate = currentDate;
         }
-        userStatistics.optional.games[game].currentStreak = 0;
-        userStatistics.optional.games[game].streakLastUpdate = currentDate;
-      } else if (currentDate !== userStatistics.optional.games[game].streakLastUpdate) {
-        userStatistics.optional.games[game].bestStreak = 0;
-        userStatistics.optional.games[game].currentStreak = 0;
-        userStatistics.optional.games[game].streakLastUpdate = currentDate;
+      }
+
+      if (game === 'audioChallenge') {
+        if (currentDate === userStatistics.optional.games[game].streakLastUpdate) {
+          if (stateAudioG.currentStreak
+            > userStatistics.optional.games[game].bestStreak) {
+            stateAudioG.currentStreak = 0;
+            userStatistics.optional.games[game].bestStreak = stateAudioG.currentStreak;
+            userStatistics.optional.games[game].streakLastUpdate = currentDate;
+          }
+        } else if (currentDate !== userStatistics.optional.games[game].streakLastUpdate) {
+          userStatistics.optional.games[game].bestStreak = 0;
+          stateAudioG.currentStreak = 0;
+          userStatistics.optional.games[game].streakLastUpdate = currentDate;
+        }
       }
     } else {
       userStatistics.optional = userStatistics.optional || {};
       userStatistics.optional.games = userStatistics.optional.games || {} as GamesStat;
 
       const gameStat = userStatistics.optional.games[game] || {} as GameStat;
-      gameStat.bestStreak = userStatistics.optional.games[game].currentStreak;
+
+      if (game === 'sprint') {
+        gameStat.bestStreak = stateSprint.currentStreak;
+      }
+
+      if (game === 'audioChallenge') {
+        gameStat.bestStreak = stateAudioG.currentStreak;
+      }
       gameStat.currentStreak = 0;
       gameStat.streakLastUpdate = currentDate;
 
