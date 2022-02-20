@@ -27,6 +27,7 @@ export function buildDictionaryPage(): HTMLDivElement {
   const wordsDiv = template.querySelector('.words') as HTMLElement;
   const gamesEl = template.querySelector('.games') as HTMLDivElement;
   const level5 = template.querySelector('.level-5') as HTMLLIElement;
+  const paginationEl = template.querySelector('.pagination') as HTMLDivElement;
 
   // add options to select
 
@@ -50,6 +51,7 @@ export function buildDictionaryPage(): HTMLDivElement {
 
   async function renderDifficultPage() {
     words.innerHTML = '';
+    paginationEl.classList.add('hidden');
     appState.groupState.group = 6;
     template.querySelector('.level-6')?.classList.add('active');
     getAggregatedWords(appState.user, {
