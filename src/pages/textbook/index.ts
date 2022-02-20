@@ -52,6 +52,8 @@ export function buildDictionaryPage(): HTMLDivElement {
     }).then(async (wordsData) => {
       const convertedWords = wordsData[0].paginatedResults.map((el) => convertWordFromAggregated(el));
       if (wordsData[0].paginatedResults.length === 0) {
+        const pagination = template.querySelector('.pagination') as HTMLDivElement;
+        pagination.classList.add('hidden');
         words.innerHTML = 'No words have been added yet';
       }
       convertedWords.forEach(async (el) => {
