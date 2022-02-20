@@ -8,10 +8,12 @@ import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
 
-function applyAuthentication(levelButton: HTMLElement, gamesEl: HTMLElement, userState: UserState | null) {
+function applyAuthentication(levelButton: HTMLElement, gamesEl: HTMLElement, levelEl: HTMLLIElement, userState: UserState | null) {
   if (userState?.userId) {
     levelButton.classList.remove('level__item--hidden');
     gamesEl.classList.remove('hidden');
+  } else {
+    levelEl.style.borderRadius = '0px 10px 10px 0px';
   }
 }
 
@@ -24,6 +26,7 @@ export function buildDictionaryPage(): HTMLDivElement {
   const words = template.querySelector('.words__list') as HTMLElement;
   const wordsDiv = template.querySelector('.words') as HTMLElement;
   const gamesEl = template.querySelector('.games') as HTMLDivElement;
+  const level5 = template.querySelector('.level-5') as HTMLLIElement;
 
   // add options to select
 
@@ -41,7 +44,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     // wordCard.classList.add('active');
   }
 
-  applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
+  applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, level5, appState.user);
 
   async function renderDifficultPage() {
     words.innerHTML = '';
@@ -149,7 +152,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     gamesButton.forEach((gameButton) => gameButton.addEventListener('click', playGame));
   }
   // Double call = to delete?
-  applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
+  // applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
 
   const diffBtn = template.querySelector('.difficult') as HTMLButtonElement;
   diffBtn.addEventListener('click', () => {
