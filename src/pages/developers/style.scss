@@ -1,0 +1,123 @@
+@import "../../assets/scss/abstract/constants.scss";
+:root {
+  --color-1: #ffd66b;
+  --color-2: #ff8f6b;
+  --color-3: #5b93ff;
+}
+
+.developer-img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.dev-1 {
+  & .developer-img {
+    border: 5px solid var(--color-1);
+  }
+}
+
+.dev-2 {
+  & .developer-img {
+    border: 5px solid var(--color-2);
+  }
+}
+
+.dev-3 {
+  & .developer-img {
+    border: 5px solid var(--color-3);
+  }
+}
+
+.developer-main {
+  gap: 20px;
+}
+
+.card-info {
+  width: 25vw;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: white;
+}
+
+.flex {
+  display: flex;
+}
+
+.tasks-container {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.task {
+  padding: 5px 10px;
+  background-color: var(--color-2);
+  border-radius: 15px;
+  color: black;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  line-height: 10px;
+  text-align: center;
+}
+
+.name {
+  font-size: 2.4rem;
+  color: var(--color-2);
+  font-weight: 800;
+  padding-right: 20px;
+}
+
+.position {
+  padding: 5px 0;
+  font-weight: 600;
+}
+
+.developer-text {
+  padding-top: 20px;
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  color: $color-dark;
+}
+
+.developers-container {
+  max-width: 100%;
+  gap: 30px;
+}
+
+.dev-1 .name {
+  color: var(--color-1);
+}
+
+.dev-1 .task {
+  background-color: var(--color-1);
+}
+
+.dev-2 .name {
+  color: var(--color-2);
+}
+
+.dev-2 .task {
+  background-color: var(--color-2);
+}
+
+.dev-3 .name {
+  color: var(--color-3);
+}
+
+.dev-3 .task {
+  background-color: var(--color-3);
+}
+
+.dev-page {
+  display: flex;
+  flex-direction: column;
+justify-content: center;
+  height: calc(100vh - 40px);
+  background-color: #fafafb;
+}
+
+.developers-title {
+  margin-bottom: 20px;
+}

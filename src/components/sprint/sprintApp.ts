@@ -1,5 +1,5 @@
 import './sprint.scss';
-import { createHTMLelement } from '../../utils/utils';
+import { createHTMLelement, getElement } from '../../utils/utils';
 import { StateTextContentEn } from '../../utils/types';
 import {
   checkAnswer,
@@ -7,7 +7,7 @@ import {
   setWords,
 } from './init/init';
 import { createResult, isEnd } from '../result/result';
-import { stateSprint } from '../../utils/constants';
+import { stateSprint, keyboardKeysSprintGame, navigationKeys } from '../../utils/constants';
 import { countdown, timer } from './init/timer/timer';
 import { data } from '../../app';
 import { router } from '../../utils/router';
@@ -29,9 +29,12 @@ export const sprint = async (
   }
 
   clearTimeout(timer);
+  stateSprint.currentStreak = 0;
   stateSprint.curIndex = 0;
   stateSprint.game_time = 60;
   stateSprint.questionsArray.length = 0;
+  stateSprint.isEnded = false;
+  stateSprint.score = 0;
   const arrayBtnEl:HTMLElement[] = [];
   busParent.classList.add('bus');
   const sprintWrapper = createHTMLelement('div', { class: 'sprint-wrapper' }, parent);
@@ -55,6 +58,7 @@ export const sprint = async (
     el.addEventListener(('click'), () => {
       checkAnswer(data.words, el, scoreWrap, answerPicturesWrap);
       if (isEnd(data.words)) {
+        stateSprint.isEnded = true;
         createResult(stateSprint);
         clearTimeout(timer);
         busParent.style.animationPlayState = 'paused';
@@ -63,6 +67,27 @@ export const sprint = async (
       updateCurIndex();
       setWords(data.words, wordWrapEn, wordWrapRu);
     });
+  });
+  window.addEventListener('keydown', (event) => {
+    event.preventDefault();
+    const keyPressed = event.code;
+    if (keyboardKeysSprintGame[keyPressed] || keyboardKeysSprintGame[keyPressed] === undefined) {
+      return;
+    }
+    keyboardKeysSprintGame[keyPressed] = true;
+  });
+
+  window.addEventListener('keyup', (event) => {
+    if (stateSprint.isEnded) return;
+    const keyPressed = event.code;
+    if (keyboardKeysSprintGame[keyPressed]) {
+      const selector: string = navigationKeys[keyPressed]
+        ? `[data-answ = '${String(stateSprint.trueAnsw)}']`
+        : `[data-answ = '${String(stateSprint.falseAnsw)}']`;
+      const btnPressed = (getElement(selector)) as HTMLElement;
+      btnPressed.click();
+      keyboardKeysSprintGame[keyPressed] = false;
+    }
   });
   setWords(data.words, wordWrapEn, wordWrapRu);
   countdown(timerWrap);

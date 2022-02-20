@@ -2,17 +2,20 @@ import { buildLogo } from '../../components/nav';
 import { Input } from '../../utils/types';
 import { createElement, renderElement } from '../../utils/utils';
 import { logInUser } from '../../services/auth/login';
+import { appStateUi } from '../../app';
 
 const inputs: Input[] = [
   {
     type: 'email',
     id: 'emailSignup',
     class: 'email',
+    label: 'Email',
   },
   {
     type: 'password',
     id: 'passwordSignup',
     class: 'password',
+    label: 'Password',
   },
 ];
 
@@ -83,6 +86,15 @@ export const buildLogInPage = (): HTMLElement => {
   question.append('Do not have an account?');
   question.append(signUpLink);
   renderElement(question, formContainer);
+
+  const errorsContainer = createElement('ul', { class: 'form__errors' });
+  if (appStateUi.logInErrors.length > 0) {
+    appStateUi.logInErrors.forEach((error: string) => {
+      const errorItem = createElement('li', { class: 'form__error' }, error);
+      renderElement(errorItem, errorsContainer);
+    });
+  }
+  renderElement(errorsContainer, formContainer);
 
   renderElement(formContainer, containerLeft);
   renderElement(containerLeft, result);

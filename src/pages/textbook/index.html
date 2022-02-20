@@ -1,29 +1,31 @@
 <section class="section textboook">
-  <h2 class="title section__title textbook__title">TextBook</h2>
-  <div class="level">
-    <h4 class="subtitle level__title">Choose a level</h4>
-    <ul class="level__list">
-      <li class="level__item a1 level-0"><a href="/dictionary/1?page=1" class="level__link">Easy (A1)</a></li>
-      <li class="level__item a2 level-1"><a href="/dictionary/2?page=1" class="level__link">Easy (A2)</a></li>
-      <li class="level__item b1 level-2"><a href="/dictionary/3?page=1" class="level__link">Medium (B1)</a></li>
-      <li class="level__item b2 level-3"><a href="/dictionary/4?page=1" class="level__link">Medium (B2)</a></li>
-      <li class="level__item c1 level-4"><a href="/dictionary/5?page=1" class="level__link">Advanced (C1)</a></li>
-      <li class="level__item c2 level-5"><a href="/dictionary/6?page=1" class="level__link">Advanced (C2)</a></li>
-      <li id='level-difficult' class="level__item difficult level__item--hidden level-6"><a href="/dictionary/difficult"
-          class="level__link">Difficult</a></li>
-    </ul>
-  </div>
-  <div class="words">
+  <header class="textbook__header">
+    <h2 class="title section__title textbook__title">Dictionary</h2>
+    <div class="level">
+      <h4 class="subtitle level__title">Choose a level</h4>
+      <ul class="level__list">
+        <li class="level__item a1 level-0"><a href="/dictionary/1?page=1" class="level__link">Easy (A1)</a></li>
+        <li class="level__item a2 level-1"><a href="/dictionary/2?page=1" class="level__link">Easy (A2)</a></li>
+        <li class="level__item b1 level-2"><a href="/dictionary/3?page=1" class="level__link">Medium (B1)</a></li>
+        <li class="level__item b2 level-3"><a href="/dictionary/4?page=1" class="level__link">Medium (B2)</a></li>
+        <li class="level__item c1 level-4"><a href="/dictionary/5?page=1" class="level__link">Advanced (C1)</a></li>
+        <li class="level__item c2 level-5"><a href="/dictionary/6?page=1" class="level__link">Advanced (C2)</a></li>
+        <li id='level-difficult' class="level__item difficult level__item--hidden level-6"><a
+            href="/dictionary/difficult" class="level__link">Difficult</a></li>
+      </ul>
+    </div>
     <header class="words__header">
       <h3 class="title words__title">Words</h3>
       <div class="pagination">
-        <button class="page-btn previous-btn">Previous</button>
+        <button class="btn btn--prev previous-btn">Previous</button>
         <select class="page-selector" name="list">
         </select>
-        <button class="page-btn next-btn">Next</button>
-        <ul class="page-list"></ul>
+        <button class="btn btn--next page-btn next-btn">Next</button>
+        <!-- <ul class="page-list"></ul> -->
       </div>
     </header>
+  </header>
+  <div class="words">
     <ul class="words__list">
       <!-- <li class="word words__item">
             <button class="btn btn--play-audio"></button>

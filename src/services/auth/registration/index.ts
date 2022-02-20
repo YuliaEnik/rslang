@@ -1,8 +1,11 @@
+import { appStateUi } from '../../../app';
 import { API_ENDPOINT } from '../../../utils/constants';
-import { NewUser, ResponseStatus } from '../../../utils/types';
+import { router } from '../../../utils/router';
+import { ApiErrorDetails, NewUser, ResponseStatus } from '../../../utils/types';
 import { logInUser } from '../login';
 
 export async function createUser(newUser: NewUser): Promise<void> {
+  appStateUi.signUpErrors = [];
   const response = await fetch(`${API_ENDPOINT}/users`, {
     method: 'POST',
     headers: {
@@ -12,20 +15,26 @@ export async function createUser(newUser: NewUser): Promise<void> {
     body: JSON.stringify(newUser),
   });
 
-  if (response.status === ResponseStatus.EXISTED) {
-    alert('User already exits. Please go to sign in');
-    // show pop up and
-    // navigate to log in page
-    // router.navigate('/login');
+  if (!response.ok) {
+    let body = '';
+    let errorMessages = [];
+    if (response.body) {
+      body = await response.text();
+      errorMessages.push(body);
+    }
+    try {
+      const content = JSON.parse(body);
+      const errors = content.error.errors.map((el: ApiErrorDetails) => el.message);
+      errorMessages = errors;
+    } catch (error) {
+      // Ignore
+    }
+    appStateUi.signUpErrors = errorMessages;
+    router.reload();
   }
-  const content = await response.json();
+
   if (response.status === ResponseStatus.SUCCESS) {
     // show pop up
     logInUser(newUser);
-  }
-
-  if (response.status === ResponseStatus.CREDENTIALS) {
-    // show error message
-    console.log(content.error.errors[0].message);
   }
 }
