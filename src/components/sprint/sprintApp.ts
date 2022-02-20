@@ -29,6 +29,7 @@ export const sprint = async (
   }
 
   clearTimeout(timer);
+  stateSprint.currentStreak = 0;
   stateSprint.curIndex = 0;
   stateSprint.game_time = 60;
   stateSprint.questionsArray.length = 0;
