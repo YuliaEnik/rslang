@@ -37,8 +37,6 @@ function stopAudio(node: NodeListOf<Element>) {
 function clickOnDiffOrLearnedButton(
   button: HTMLButtonElement,
   difficultOption: string,
-  messageAdd: string,
-  messageRemove: string,
   word: Word,
   addHandler: (word: Word) => void,
   removeHandler: (word: Word) => void,
@@ -157,8 +155,6 @@ export async function renderWord(
     clickOnDiffOrLearnedButton(
       diffBtn,
       'difficult',
-      'Word added to difficult',
-      'Word removed from difficult',
       word,
       addWordToDifficult,
       removeWordFromDifficult,
@@ -166,8 +162,6 @@ export async function renderWord(
     clickOnDiffOrLearnedButton(
       learnedBtn,
       'studied',
-      'Word added to learned',
-      'Word removed from learned',
       word,
       addWordToLearned,
       removeWordFromLearned,
