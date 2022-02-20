@@ -8,10 +8,12 @@ import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
 
-function applyAuthentication(levelButton: HTMLElement, gamesEl: HTMLElement, userState: UserState | null) {
+function applyAuthentication(levelButton: HTMLElement, gamesEl: HTMLElement, levelEl: HTMLLIElement, userState: UserState | null) {
   if (userState?.userId) {
     levelButton.classList.remove('level__item--hidden');
     gamesEl.classList.remove('hidden');
+  } else {
+    levelEl.style.borderRadius = '0px 10px 10px 0px';
   }
 }
 
@@ -22,7 +24,10 @@ export function buildDictionaryPage(): HTMLDivElement {
   template.innerHTML = html;
   const levelButtons = template.querySelectorAll('.level__item');
   const words = template.querySelector('.words__list') as HTMLElement;
+  const wordsDiv = template.querySelector('.words') as HTMLElement;
   const gamesEl = template.querySelector('.games') as HTMLDivElement;
+  const level5 = template.querySelector('.level-5') as HTMLLIElement;
+  const paginationEl = template.querySelector('.pagination') as HTMLDivElement;
 
   // add options to select
 
@@ -30,6 +35,8 @@ export function buildDictionaryPage(): HTMLDivElement {
   for (let i = 0; i < 30; i++) {
     const option = document.createElement('option') as HTMLOptionElement;
     option.classList.add('select__item');
+    option.classList.add(`select__item-${i}`);
+    // option.classList.add('active');
     option.value = String(i + 1);
     option.innerText = `Page ${option.value}`;
     pageSelector.appendChild(option);
@@ -40,19 +47,24 @@ export function buildDictionaryPage(): HTMLDivElement {
     // wordCard.classList.add('active');
   }
 
-  applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
+  applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, level5, appState.user);
 
   async function renderDifficultPage() {
     words.innerHTML = '';
+    paginationEl.classList.add('hidden');
     appState.groupState.group = 6;
     template.querySelector('.level-6')?.classList.add('active');
     getAggregatedWords(appState.user, {
       page: appState.groupState.pageNumber || 0,
+      wordsPerPage: 3600,
       filter: JSON.stringify({ 'userWord.difficulty': 'difficult' }),
     }).then(async (wordsData) => {
       const convertedWords = wordsData[0].paginatedResults.map((el) => convertWordFromAggregated(el));
       if (wordsData[0].paginatedResults.length === 0) {
-        words.innerHTML = 'No words have been added yet';
+        const pagination = template.querySelector('.pagination') as HTMLDivElement;
+        pagination.classList.add('hidden');
+        gamesEl.classList.add('hidden');
+        wordsDiv.innerHTML = 'No words have been added yet';
       }
       convertedWords.forEach(async (el) => {
         const renderEl = renderWord({ word: el }, appState.user);
@@ -74,6 +86,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     getAggregatedWords(appState.user, {
       group: appState.groupState.group,
       page: appState.groupState.pageNumber,
+      wordsPerPage: 20,
     }).then(async (wordsData) => {
       const checkDefaultOpt = wordsData[0].paginatedResults.every((el) => el.userWord?.difficulty === 'studied');
       // console.log(checkDefaultOpt);
@@ -88,7 +101,7 @@ export function buildDictionaryPage(): HTMLDivElement {
     words.innerHTML = '';
     pageSelector.value = String(currentPage + 1);
     template.querySelector(`.level-${id}`)?.classList.add('active');
-    getWordsForRendering(appState.user, { group, page: currentPage }).then((wordsData) => {
+    getWordsForRendering(appState.user, { group, page: currentPage, wordsPerPage: 20 }).then((wordsData) => {
       // console.log(wordsData);
       wordsData.forEach(async (wordEl) => {
         words?.appendChild(
@@ -145,10 +158,11 @@ export function buildDictionaryPage(): HTMLDivElement {
     gamesButton.forEach((gameButton) => gameButton.addEventListener('click', playGame));
   }
   // Double call = to delete?
-  applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
+  // applyAuthentication(template.querySelector('.difficult') as HTMLElement, gamesEl, appState.user);
 
   const diffBtn = template.querySelector('.difficult') as HTMLButtonElement;
   diffBtn.addEventListener('click', () => {
+    checkIfPageLearned();
     renderDifficultPage();
   });
 
