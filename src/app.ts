@@ -1,7 +1,7 @@
 import { loadUserFromLocalStorage } from './services/auth/login';
 import { router } from './utils/router';
-import { AppState, AppStateUI, Data } from './utils/types';
 import { loadUserUISettingsFromLocalStorage } from './utils/utils';
+import { AppState, AppStateUi, Data } from './utils/types';
 
 export const appState: AppState = {
   user: null,
@@ -11,7 +11,9 @@ export const appState: AppState = {
   },
 };
 
-export const appStateUI: AppStateUI = {
+export const appStateUi: AppStateUi = {
+  signUpErrors: [],
+  logInErrors: [],
   settings: {
     menu: '',
   },
@@ -23,6 +25,6 @@ export const data: Data = {
 
 export const runApp = (): void => {
   appState.user = loadUserFromLocalStorage();
-  appStateUI.settings = loadUserUISettingsFromLocalStorage();
+  appStateUi.settings = loadUserUISettingsFromLocalStorage();
   router.resolve();
 };

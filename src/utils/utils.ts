@@ -1,8 +1,8 @@
 import { Match } from 'navigo';
-import { appStateUI } from '../app';
+import { appStateUi } from '../app';
 import { buildFooter } from '../components/footer';
 import { buildSideBar } from '../components/nav';
-import { AppStateUI, AppStateUISettings, Word } from './types';
+import { AppStateUi, AppStateUISettings, Word } from './types';
 
 export const createElement = (type: string, attrs: { [key: string]: string }, textContentEl?: string): HTMLElement => {
   const elem = document.createElement(type);
@@ -125,7 +125,7 @@ export function createEl<T extends keyof HTMLElementTagNameMap>(tagName: T, conf
 }
 
 function updateAppStateUI(appStateUISettings: AppStateUISettings): void {
-  appStateUI.settings = appStateUISettings;
+  appStateUi.settings = appStateUISettings;
 }
 
 export function loadUserUISettingsFromLocalStorage(): AppStateUISettings {
@@ -136,11 +136,11 @@ export function loadUserUISettingsFromLocalStorage(): AppStateUISettings {
     return result;
   }
 
-  return appStateUI.settings;
+  return appStateUi.settings;
 }
 
 export function saveUserUISettingsToLocalStorage(appStateUISettings: AppStateUISettings): void {
-  if (appStateUI) {
-    localStorage.setItem('appStateUISettings', JSON.stringify(appStateUI));
+  if (appStateUi) {
+    localStorage.setItem('appStateUISettings', JSON.stringify(appStateUi));
   }
 }

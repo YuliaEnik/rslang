@@ -100,6 +100,7 @@ export interface StateSprint {
   isTrueTranslate: number | null;
   game_time: number;
   points: number;
+  isEnded: boolean;
   currentStreak: number;
 }
 
@@ -109,6 +110,7 @@ export interface StateAudioG {
   answsArray:string[];
   questionsArray: Word[];
   maxAnsw: number;
+  isEnded: boolean;
   currentStreak: number;
 }
 export interface UserCalculatedStat {
@@ -156,6 +158,16 @@ export enum ResponseStatus {
   NOT_FOUND = 404,
   CREDENTIALS = 422,
   EXISTED = 417,
+}
+
+export interface ApiErrorDetails {
+  message: string;
+  path: [];
+}
+
+export interface AppStateUi {
+  [key: string]: string[] | AppStateUISettings;
+  settings: AppStateUISettings;
 }
 
 export interface User {

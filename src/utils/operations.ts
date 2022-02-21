@@ -39,7 +39,7 @@ export function convertWordFromAggregated(wordFromAggregated: WordFromAggregated
 
 export async function getWordsForRendering(
   userState: UserState | null,
-  req?: { group: number, page?: number },
+  req?: { group: number, page?: number, wordsPerPage?: number },
 ): Promise<Word[]> {
   if (!userState?.userId) {
     const result = await getWords(req);

@@ -3,7 +3,7 @@ import './style.scss';
 
 const developers = [
   {
-    github: 'yenik',
+    github: 'YuliaEnik',
     url: 'https://github.com/YuliaEnik',
   },
   {

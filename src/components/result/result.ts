@@ -1,7 +1,7 @@
 import './result.scss';
 import { StateSprint, Word, StateAudioG } from '../../utils/types';
 import { stateSprint, API_ENDPOINT } from '../../utils/constants';
-import { createHTMLelement, getElement } from '../../utils/utils';
+import { createHTMLelement, getElement, random } from '../../utils/utils';
 import { router } from '../../utils/router';
 import { appState } from '../../app';
 
@@ -55,11 +55,17 @@ const createResult = (state:StateSprint | StateAudioG):HTMLElement => {
     }
   });
   const resultWrap = createHTMLelement('div', { class: 'result-content res-result-wrap' }, resultContent);
+  // resultWrap.style.backgroundImage = `url(img/smile/${random(7)}.jpeg)`
   const dilogWrap = createHTMLelement('div', { class: 'dialog-wrap' }, resultWrap);
   createHTMLelement('div', { class: 'dialog-cell dialog-hello' }, dilogWrap, 'Nicely done! Keep up to speed!');
   if (state.score) {
-    createHTMLelement('div', { class: 'dialog-cell dialog-score' }, dilogWrap, `Your score is ${state.score}!`);
+    createHTMLelement('div', { class: 'dialog-cell dialog-score' }, dilogWrap,
+      `Your score is ${state.score}!`);
   }
+  createHTMLelement('div', { class: 'dialog-cell dialog-score' }, dilogWrap,
+  // eslint-disable-next-line
+  // @ts-ignore
+    `You answered ${state.questionsArray.reduce((res, i) => res + i.correctAnswer, 0)} words correctly!`);
   createHTMLelement('div', { class: 'dialog-cell dialog-chees' }, dilogWrap, 'Cheers!');
   const butWrap = createHTMLelement('div', { class: 'result-horizontal-wrap' }, resultContent);
   const playAgainButton = createHTMLelement('button', { class: 'res-btn' }, butWrap, 'Play again');

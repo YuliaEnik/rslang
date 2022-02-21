@@ -1,9 +1,12 @@
-import { appState } from '../../../app';
+import { appState, appStateUi } from '../../../app';
 import { API_ENDPOINT } from '../../../utils/constants';
 import { router } from '../../../utils/router';
 import {
-  AppStateUI,
-  AuthInfo, ResponseStatus, UserLogIn, UserState,
+  ApiErrorDetails,
+  AuthInfo,
+  ResponseStatus,
+  UserLogIn,
+  UserState,
 } from '../../../utils/types';
 
 function updateAppStateUser(userState: UserState): void {
@@ -36,6 +39,33 @@ export async function logInUser(user: UserLogIn): Promise<void> {
     body: JSON.stringify(user),
   });
 
+  if (response.status === 403) {
+    const errorMessage = 'Please check email and password and retry. Or go to sign up :)';
+    appStateUi.logInErrors = [errorMessage];
+    router.reload();
+    return;
+  }
+
+  if (!response.ok) {
+    let body = '';
+    let errorMessages = [];
+    if (response.body) {
+      body = await response.text();
+      errorMessages.push(body);
+    }
+    try {
+      const content = JSON.parse(body);
+      const errors = content.error.errors.map((el: ApiErrorDetails) => el.message);
+      errorMessages = errors;
+      console.log(errors);
+    } catch (error) {
+      //
+    }
+    appStateUi.logInErrors = errorMessages;
+    router.reload();
+    return;
+  }
+
   if (response.status === ResponseStatus.SUCCESS) {
     const content: AuthInfo = await response.json();
     const userState = {
@@ -50,10 +80,5 @@ export async function logInUser(user: UserLogIn): Promise<void> {
     alert(`${user.email}, you logged in`);
     // show pop up about success
     setTimeout(() => router.navigate('/'), 1000);
-  }
-
-  if (response.status === ResponseStatus.INVALID_TOKEN) {
-    // show message
-    alert('Wrong email / password. Please check spelling.');
   }
 }
