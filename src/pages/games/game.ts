@@ -4,14 +4,13 @@ import {
   createHTMLelement,
   createElement,
   renderElement,
-  isFullscreenOpen,
 } from '../../utils/utils';
 import { createAudio, muteSound } from './sound/sound';
 import { sprint } from '../../components/sprint/sprintApp';
 import { StateTextContentEn } from '../../utils/types';
-import { fullscreen } from './full-screen/full-screen';
 import { audioChallenge } from '../../components/audio-game/audio-game';
 import { getDictionaryPage } from '../../components/result/result';
+import { fullscreen } from './full-screen/full-screen';
 
 export const viewGame = (game: string, stateTextContentEn: StateTextContentEn):HTMLElement => {
   const parent = getElement('div');
@@ -23,10 +22,9 @@ export const viewGame = (game: string, stateTextContentEn: StateTextContentEn):H
   );
   gameClose.addEventListener('click', () => window.history.back());
   renderElement(gameClose, gameWrapper);
-
   const fullScreen = createHTMLelement(
     'div',
-    { class: `full-screen ${isFullscreenOpen() ? 'screen-close' : 'screen-open'} ` },
+    { class: 'full-screen screen-open' },
     gameWrapper,
   );
   fullScreen.addEventListener('click', () => {
@@ -46,17 +44,5 @@ export const viewGame = (game: string, stateTextContentEn: StateTextContentEn):H
   if (game === 'audioChallenge') {
     audioChallenge(gameContent);
   }
-  function changeIcon(button: HTMLElement) {
-    if (!document.fullscreenElement) {
-      if (button.classList.contains('screen-close')) {
-        button.classList.remove('screen-close');
-        button.classList.add('screen-open');
-      }
-      button.classList.remove('screen-close');
-      button.classList.add('screen-open');
-    }
-  }
-
-  window.addEventListener('fullscreenchange', () => changeIcon(fullScreen));
   return gameSection;
 };

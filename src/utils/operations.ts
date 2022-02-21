@@ -1,16 +1,9 @@
-import { appState } from '../app';
 import {
-  createUserWord,
   getAggregatedWords,
-  getUserWord,
   getWords,
-  saveUserWord,
 } from './api';
-import { calculateWordStatus, updateStatisticsFromTextbook } from './stat';
 import {
   UserState,
-  UserWord,
-  UserWordAction,
   Word,
   WordFromAggregated,
 } from './types';

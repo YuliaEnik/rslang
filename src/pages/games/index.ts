@@ -1,11 +1,9 @@
 import { appState, data } from '../../app';
 import { getDictionaryPage } from '../../components/result/result';
 import { getWords } from '../../utils/api';
-import { stateSprint } from '../../utils/constants';
 import { router } from '../../utils/router';
 import {
   createElement,
-  isFullscreenOpen,
   random,
   renderElement,
 } from '../../utils/utils';
@@ -65,32 +63,6 @@ async function buildGamePage(game: string, group: string, page: string) {
   router.navigate(`/${game}/play`);
 }
 
-function toggleAudio(game: string) {
-  if (game === 'sprint') {
-    stateSprint.muted = true;
-  }
-}
-
-function changeIcon(button: HTMLElement) {
-  if (!document.fullscreenElement) {
-    button.classList.remove('btn--fullscreen-out');
-    button.classList.add('btn--fullscreen');
-  }
-}
-
-function setFullscreen(button: HTMLElement) {
-  if (!document.fullscreenElement) {
-    button.classList.add('btn--fullscreen-out');
-    button.classList.remove('btn--fullscreen');
-    document.documentElement.requestFullscreen();
-  }
-  if (document.fullscreenElement) {
-    button.classList.remove('btn--fullscreen-out');
-    button.classList.add('btn--fullscreen');
-    setTimeout(() => document.exitFullscreen(), 0);
-  }
-}
-
 export function buildGameStartPage(game: string) {
   const result = createElement('section', { class: `section game game--${game}` });
 
@@ -102,17 +74,6 @@ export function buildGameStartPage(game: string) {
   const gameButtons = createElement('div', { class: 'game__buttons' });
   const gameClose = createElement('a', { class: 'btn btn--close', href: `/dictionary/${getDictionaryPage()}` });
   renderElement(gameClose, gameButtons);
-
-  const gameFullScreen = createElement(
-    'button',
-    { class: `btn ${isFullscreenOpen() ? 'btn--fullscreen' : 'btn--fullscreen-out'} ` },
-  );
-  gameFullScreen.addEventListener('click', () => setFullscreen(gameFullScreen));
-  renderElement(gameFullScreen, gameButtons);
-
-  const gameAudio = createElement('button', { class: 'btn btn--audio' });
-  gameAudio.addEventListener('click', () => toggleAudio(game));
-  renderElement(gameAudio, gameButtons);
 
   renderElement(gameButtons, section);
 
@@ -158,6 +119,6 @@ export function buildGameStartPage(game: string) {
 
   renderElement(gameWrapper, section);
   renderElement(section, result);
-  window.addEventListener('fullscreenchange', () => changeIcon(gameFullScreen));
+
   return result;
 }
