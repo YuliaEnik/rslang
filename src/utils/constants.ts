@@ -53,12 +53,12 @@ export const pages: Page[] = [
   {
     title: 'Sprint',
     link: '/sprint',
-    type: 'games',
+    type: 'sprintgame',
   },
   {
     title: 'Audio Challenge',
     link: '/audioChallenge',
-    type: 'games',
+    type: 'audiogame',
   },
   {
     title: 'Statistics',

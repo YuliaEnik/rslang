@@ -150,7 +150,12 @@
   }
   & > .word__speaker {
     grid-column: 1 / 4;
-    max-width: 42px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
   }
 }
 
