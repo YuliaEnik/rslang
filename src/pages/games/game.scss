@@ -32,17 +32,25 @@
   right: 3rem;
 }
 
-.btn--audio--off {
-  padding: 0;
-  display: block;
-  width: 22px;
-  height: 22px;
-  background-color: transparent;
-  background-position: center;
-//background-image: url(;
+.sound {
+  height: 2rem;
+  width: 2rem;
+  position: absolute;
+  top: 10rem;
+  right: 3rem;
   background-repeat: no-repeat;
-  background-size: contain;
-  border-radius: 0;
-  opacity: 1;
-  filter: brightness(0) saturate(100%) invert(6%) sepia(40%) saturate(3839%) hue-rotate(228deg) brightness(85%) contrast(111%);
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.sound-on {
+  background-image: url(./../../../public/svg/sound_on.svg);
+}
+
+.sound-off {
+  background-image: url(./../../assets/svg/sound_off.svg);
 }

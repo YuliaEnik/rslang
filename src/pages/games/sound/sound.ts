@@ -18,16 +18,23 @@ const playSound = (answer: string) => {
   audio.play();
 };
 
-/* const muteSound = (el:HTMLElement) => {
+const muteSound = (el:HTMLElement) => {
   const audio = document.querySelector('.volume') as HTMLAudioElement;
-  el.classList.toggle()
-
-}; */
+  if (audio.muted === true) {
+    el.classList.add('sound-on');
+    el.classList.remove('sound-off');
+    audio.muted = false;
+    return;
+  }
+  el.classList.add('sound-off');
+  el.classList.remove('sound-on');
+  audio.muted = true;
+};
 
 export {
   createAudio,
   playSound,
-  // muteSound,
+  muteSound,
   right,
   wrong,
 };
