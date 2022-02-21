@@ -8,7 +8,12 @@ import html from './index.html';
 import './style.scss';
 import { renderWord } from './word';
 
-function applyAuthentication(levelButton: HTMLElement, gamesEl: HTMLElement, levelEl: HTMLLIElement, userState: UserState | null) {
+function applyAuthentication(
+  levelButton: HTMLElement,
+  gamesEl: HTMLElement,
+  levelEl: HTMLLIElement,
+  userState: UserState | null,
+) {
   if (userState?.userId) {
     levelButton.classList.remove('level__item--hidden');
     gamesEl.classList.remove('hidden');
@@ -83,6 +88,9 @@ export function buildDictionaryPage(): HTMLDivElement {
   }
 
   function checkIfPageLearned() {
+    if (!appState.user) {
+      return;
+    }
     getAggregatedWords(appState.user, {
       group: appState.groupState.group,
       page: appState.groupState.pageNumber,
