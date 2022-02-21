@@ -1,7 +1,7 @@
 import './result.scss';
 import { StateSprint, Word, StateAudioG } from '../../utils/types';
 import { stateSprint, API_ENDPOINT } from '../../utils/constants';
-import { createHTMLelement, getElement, random } from '../../utils/utils';
+import { createHTMLelement, getElement } from '../../utils/utils';
 import { router } from '../../utils/router';
 import { appState } from '../../app';
 
