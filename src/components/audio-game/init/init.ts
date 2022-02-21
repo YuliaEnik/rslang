@@ -14,7 +14,9 @@ const countIncorAnsws = 4;
 // eslint-disable-next-line
 // @ts-ignore
 const setData = (data:Word[], btnAnsws:HTMLElement[], volume:audio):void => {
+  volume.preload = 'auto';
   volume.src = `${API_ENDPOINT}/${data[stateAudioG.curIndex].audio}`;
+  volume.play();
   stateAudioG.answsArray.length = 0;
   stateAudioG.answsArray.push(data[stateAudioG.curIndex].wordTranslate);
   for (let i = 0; i < countIncorAnsws; i++) {

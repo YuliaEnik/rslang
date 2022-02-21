@@ -31,3 +31,26 @@
   top: 3rem;
   right: 3rem;
 }
+
+.sound {
+  height: 2rem;
+  width: 2rem;
+  position: absolute;
+  top: 10rem;
+  right: 3rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.sound-on {
+  background-image: url(./../../../public/svg/sound_on.svg);
+}
+
+.sound-off {
+  background-image: url(./../../assets/svg/sound_off.svg);
+}

@@ -46,10 +46,6 @@ body {
   }
 }
 
-.about {
-  height: calc(100vh - 50px);
-}
-
 .subtitle {
   color: $color-grey;
   text-transform: uppercase;
@@ -173,7 +169,7 @@ body {
 
 .select__item {
   color: $color-dark;
-  @include font($size: 1.6rem, $height: 3rem, $weight: $weight-bold);
+  @include font($size: 1.6rem, $height: 3rem);
 }
 
 .nav__name {
