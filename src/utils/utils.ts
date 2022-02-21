@@ -128,11 +128,11 @@ export function createEl<T extends keyof HTMLElementTagNameMap>(tagName: T, conf
   return el;
 }
 
-function updateAppStateUI(appStateUISettings: AppStateUISettings): void {
-  appStateUi.settings = appStateUISettings;
-}
+// function updateAppStateUI(appStateUISettings: AppStateUISettings): void {
+//   appStateUi.settings = appStateUISettings;
+// }
 
-export function loadUserUISettingsFromLocalStorage(): AppStateUISettings {
+export function loadUserUiSettingsFromLocalStorage(): AppStateUISettings {
   const appStateUIJson = localStorage.getItem('appStateUISettings');
   if (appStateUIJson) {
     const result = JSON.parse(appStateUIJson) as AppStateUISettings;

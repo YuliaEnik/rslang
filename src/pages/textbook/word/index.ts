@@ -204,12 +204,12 @@ export async function renderWord(
   function getAndSetRandomImg() {
     const randomNumber = Math.floor(Math.random() * (8));
     wordSpeakerImg.style.backgroundImage = `url('img/smile/${randomNumber}.jpeg')`;
-    wordSpeakerImg.style.borderRadius = '50%';
-    wordSpeakerImg.style.width = '9rem';
-    wordSpeakerImg.style.height = '4rem';
-    wordSpeakerImg.style.backgroundPosition = 'center';
-    wordSpeakerImg.style.backgroundSize = 'cover';
-    wordSpeakerImg.style.backgroundRepeat = 'no-repeat';
+    // wordSpeakerImg.style.borderRadius = '50%';
+    // wordSpeakerImg.style.width = '9rem';
+    // wordSpeakerImg.style.height = '4rem';
+    // wordSpeakerImg.style.backgroundPosition = 'center';
+    // wordSpeakerImg.style.backgroundSize = 'cover';
+    // wordSpeakerImg.style.backgroundRepeat = 'no-repeat';
   }
 
   getAndSetRandomImg();

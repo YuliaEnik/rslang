@@ -1,6 +1,6 @@
 import { loadUserFromLocalStorage } from './services/auth/login';
 import { router } from './utils/router';
-import { loadUserUISettingsFromLocalStorage as loadUserUiSettingsFromLocalStorage } from './utils/utils';
+import { loadUserUiSettingsFromLocalStorage } from './utils/utils';
 import { AppState, AppStateUi, Data } from './utils/types';
 
 export const appState: AppState = {

@@ -36,8 +36,11 @@
     &--dictionary::before {
       background-image: url("assets/svg/dictionary.svg");
     }
-    &--games::before {
-      background-image: url("assets/svg/games.svg");
+    &--sprintgame::before {
+      background-image: url("assets/svg/sprintgame.svg");
+    }
+    &--audiogame::before {
+      background-image: url("assets/svg/audiogame.svg");
     }
     &--statistics::before {
       background-image: url("assets/svg/statistics.svg");

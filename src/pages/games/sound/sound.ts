@@ -16,6 +16,7 @@ const playSound = (answer: string) => {
   audio.currentTime = 0;
   audio.volume = 0.4;
   audio.play();
+  audio.volume = 0.15;
 };
 
 const muteSound = (el: HTMLElement) => {

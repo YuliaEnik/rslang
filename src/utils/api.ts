@@ -131,7 +131,7 @@ export async function saveUserWord(userState: UserState | null, wordId: string, 
   );
 
   if (!result.ok) {
-    console.log('cannot creat word');
+    console.log('cannot create word');
   }
 
   return result;

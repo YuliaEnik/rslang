@@ -1,7 +1,12 @@
 import { appState, data } from '../../app';
+import { getDictionaryPage } from '../../components/result/result';
 import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
-import { createElement, random, renderElement } from '../../utils/utils';
+import {
+  createElement,
+  random,
+  renderElement,
+} from '../../utils/utils';
 
 interface GameLabels {
   [key: string]: {
@@ -67,16 +72,16 @@ export function buildGameStartPage(game: string) {
   const section = createElement('section', { class: 'section__game' });
 
   const gameButtons = createElement('div', { class: 'game__buttons' });
-  const gameClose = createElement('a', { class: 'btn btn--close', title: 'close the game', href: '/dictionary/1?page=1', 'data-navigo': '' });
+  const gameClose = createElement(
+    'a',
+    {
+      class: 'btn btn--close',
+      title: 'close the game',
+      href: '/dictionary/1?page=1',
+      'data-navigo': '',
+    },
+  );
   renderElement(gameClose, gameButtons);
-
-  const gameFullScreen = createElement('button', { class: 'btn btn--fullscreen', title: 'full screen' });
-  gameClose.addEventListener('click', () => console.log(game));
-  renderElement(gameFullScreen, gameButtons);
-
-  const gameAudio = createElement('button', { class: 'btn btn--audio', title: 'mute/unmute' });
-  gameClose.addEventListener('click', () => console.log(game));
-  renderElement(gameAudio, gameButtons);
 
   renderElement(gameButtons, section);
 

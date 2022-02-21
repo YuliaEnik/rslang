@@ -102,6 +102,7 @@ export interface StateSprint {
   points: number;
   isEnded: boolean;
   currentStreak: number;
+  muted: boolean;
 }
 
 export interface StateAudioG {
@@ -112,6 +113,7 @@ export interface StateAudioG {
   maxAnsw: number;
   isEnded: boolean;
   currentStreak: number;
+  muted: boolean;
 }
 export interface UserCalculatedStat {
   newWords: string;
