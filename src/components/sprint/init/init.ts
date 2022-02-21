@@ -74,9 +74,10 @@ const setWordEn = (data: Word[], wordEn: HTMLElement) => {
   wordEn.textContent = data[stateSprint.curIndex].word;
 };
 
-const setWords = (data: Word[], wordEn: HTMLElement, wordRu:HTMLElement) => {
+const setWords = (data: Word[], wordEn: HTMLElement, wordRu:HTMLElement, perWord:HTMLElement) => {
   setWordEn(data, wordEn);
   setWordRu(data, wordRu, stateSprint.curIndex);
+  perWord.textContent = `+${stateSprint.points} per word`;
 };
 
 export {

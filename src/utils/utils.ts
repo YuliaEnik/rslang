@@ -1,7 +1,8 @@
 import { Match } from 'navigo';
+import { appStateUi } from '../app';
 import { buildFooter } from '../components/footer';
 import { buildSideBar } from '../components/nav';
-import { Word } from './types';
+import { AppStateUi, AppStateUISettings, Word } from './types';
 
 export const createElement = (type: string, attrs: { [key: string]: string }, textContentEl?: string): HTMLElement => {
   const elem = document.createElement(type);
@@ -43,11 +44,12 @@ export const buildLayout = (
   context: Match | undefined,
   hideMenu: boolean,
   hideFooter: boolean,
+  collapsedMenu: boolean,
 ): HTMLElement => {
   const result = createElement('div', { class: 'main-container' });
 
   if (!hideMenu) {
-    renderElement(buildSideBar(context), result);
+    renderElement(buildSideBar(context, collapsedMenu), result);
   }
 
   const main = createElement(
@@ -77,8 +79,9 @@ export const renderPage = (
   context: Match | undefined,
   hideMenu = false,
   hideFooter = false,
+  collapsedMenu = false,
 ): void => {
-  const layout = buildLayout(buildPageElement, context, hideMenu, hideFooter);
+  const layout = buildLayout(buildPageElement, context, hideMenu, hideFooter, collapsedMenu);
   document.body.innerHTML = '';
   document.body.appendChild(layout);
 };
@@ -91,6 +94,8 @@ export const createRandomAnswerFalse = (data: Word[], currentIndex: number): num
   while (k === currentIndex) {
     k = getRandomTranslateWord();
   }
+  console.log(currentIndex, k);
+
   return k;
 };
 
@@ -128,4 +133,24 @@ export function isFullscreenOpen(): boolean {
     return false;
   }
   return true;
+}
+
+function updateAppStateUI(appStateUISettings: AppStateUISettings): void {
+  appStateUi.settings = appStateUISettings;
+}
+
+export function loadUserUiSettingsFromLocalStorage(): AppStateUISettings {
+  const appStateUIJson = localStorage.getItem('appStateUISettings');
+  if (appStateUIJson) {
+    const result = JSON.parse(appStateUIJson) as AppStateUISettings;
+    return result;
+  }
+
+  return appStateUi.settings;
+}
+
+export function saveUserUISettingsToLocalStorage(appStateUISettings: AppStateUISettings): void {
+  if (appStateUISettings) {
+    localStorage.setItem('appStateUISettings', JSON.stringify(appStateUISettings));
+  }
 }

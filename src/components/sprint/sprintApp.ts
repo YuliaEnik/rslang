@@ -41,6 +41,7 @@ export const sprint = async (
   const sprintContent = createHTMLelement('div', { class: 'sprint-content' }, sprintWrapper);
   const timerScoreWrap = createHTMLelement('div', { class: 'horizontal-wrap' }, sprintContent);
   const timerWrap = createHTMLelement('div', { class: 'timer' }, timerScoreWrap);
+  const perWord = createHTMLelement('div', { class: 'perWord' }, timerScoreWrap);
   const scoreWrap = createHTMLelement('div', { class: 'score' }, timerScoreWrap, `${stateSprint.score}`);
   const answerPicturesWrap = createHTMLelement('div', { class: 'answ-pic-wrap' }, sprintContent);
   const wordWrapEn = createHTMLelement('h2', { class: 'sprintWordEn' }, sprintContent);
@@ -65,7 +66,7 @@ export const sprint = async (
         return;
       }
       updateCurIndex();
-      setWords(data.words, wordWrapEn, wordWrapRu);
+      setWords(data.words, wordWrapEn, wordWrapRu, perWord);
     });
   });
   window.addEventListener('keydown', (event) => {
@@ -89,7 +90,7 @@ export const sprint = async (
       keyboardKeysSprintGame[keyPressed] = false;
     }
   });
-  setWords(data.words, wordWrapEn, wordWrapRu);
+  setWords(data.words, wordWrapEn, wordWrapRu, perWord);
   countdown(timerWrap);
   return sprintWrapper;
 };

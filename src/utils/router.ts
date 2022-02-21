@@ -44,17 +44,17 @@ router
     updateDictionaryPageAppState(context);
     renderPage(buildDictionaryPage(), context);
   })
-  .on('/sprint', async (context) => {
-    renderPage(buildGameStartPage('sprint'), context, true, true);
+  .on('/sprint', (context) => {
+    renderPage(buildGameStartPage('sprint'), context, false, true, true);
   })
   .on('/sprint/play', (context) => {
-    renderPage(viewGame('sprint', stateTextContentEn), context, true, true);
+    renderPage(viewGame('sprint', stateTextContentEn), context, false, true, true);
   })
-  .on('/audioChallenge', async (context) => {
-    renderPage(buildGameStartPage('audioChallenge'), context, true, true);
+  .on('/audioChallenge', (context) => {
+    renderPage(buildGameStartPage('audioChallenge'), context, false, true, true);
   })
-  .on('/audioChallenge/play', async (context) => {
-    renderPage(viewGame('audioChallenge', stateTextContentEn), context, true, true);
+  .on('/audioChallenge/play', (context) => {
+    renderPage(viewGame('audioChallenge', stateTextContentEn), context, false, true, true);
   })
   .on('/statistics', async (context) => {
     const userStatistics = await getUserStatistics(appState.user);
@@ -65,8 +65,8 @@ router
     renderPage(buildDevelopersPage(), context);
   })
   .on('/signup', (context) => {
-    renderPage(buildSignUpPage(), context, true, true);
+    renderPage(buildSignUpPage(), context, false, true, true);
   })
   .on('/login', (context) => {
-    renderPage(buildLogInPage(), context, true, true);
+    renderPage(buildLogInPage(), context, false, true, true);
   });

@@ -37,6 +37,7 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
   }
   stateAudioG.curIndex = 0;
   stateAudioG.questionsArray.length = 0;
+  stateAudioG.answsArray.length = 0;
   stateAudioG.isEnded = false;
   stateAudioG.score = 0;
   const BTNS:HTMLElement[] = [];
@@ -82,6 +83,7 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
     toggleNextAnswBTN(nextBTN, unKnowBTN);
     checkAnswer(el, data.words, BTNS);
   });
+
   function handleKeyDown(event: KeyboardEvent) {
     event.preventDefault();
     if (stateAudioG.isEnded) return;
