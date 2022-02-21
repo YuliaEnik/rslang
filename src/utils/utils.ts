@@ -94,6 +94,8 @@ export const createRandomAnswerFalse = (data: Word[], currentIndex: number): num
   while (k === currentIndex) {
     k = getRandomTranslateWord();
   }
+  console.log(currentIndex, k);
+
   return k;
 };
 

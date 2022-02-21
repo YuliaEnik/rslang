@@ -5,24 +5,28 @@ import {
   shuffle,
   createHTMLelement,
   getElement,
+  random,
 } from '../../../utils/utils';
 import { API_ENDPOINT, stateAudioG } from '../../../utils/constants';
 import { updateStatisticsFromGames } from '../../../utils/stat';
 import { appState } from '../../../app';
 
-const countIncorAnsws = 4;
 // eslint-disable-next-line
 // @ts-ignore
 const setData = (data:Word[], btnAnsws:HTMLElement[], volume:audio):void => {
+  if (stateAudioG.isEnded) return;
   volume.preload = 'auto';
   volume.src = `${API_ENDPOINT}/${data[stateAudioG.curIndex].audio}`;
   volume.play();
+
+  const countIncorAnsws = stateAudioG.maxAnsw - 1;
   stateAudioG.answsArray.length = 0;
   stateAudioG.answsArray.push(data[stateAudioG.curIndex].wordTranslate);
   for (let i = 0; i < countIncorAnsws; i++) {
-    let value:string = data[createRandomAnswerFalse(data, stateAudioG.curIndex)].wordTranslate;
-    if (stateAudioG.answsArray.includes(value)) {
-      value = data[createRandomAnswerFalse(data, stateAudioG.curIndex)].wordTranslate;
+    let value:string = data[random(data.length)].wordTranslate;
+    const set1 = new Set(stateAudioG.answsArray);
+    while (set1.has(value)) {
+      value = data[random(data.length)].wordTranslate;
     }
     stateAudioG.answsArray.push(value);
   }
@@ -98,7 +102,7 @@ const removeClass = (BTNS:HTMLElement[]):void => {
 };
 
 const isEnd = (data:Word[]):boolean => {
-  if (stateAudioG.curIndex === data.length - 1) {
+  if (stateAudioG.curIndex === data.length) {
     return true;
   }
   return false;
