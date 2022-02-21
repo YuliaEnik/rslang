@@ -52,7 +52,6 @@ async function fetchForUser(url: string, userState: UserState, body?: UserWord |
     });
 
   if (response.status === ResponseStatus.SUCCESS) {
-    // const result = await response.json();
     return response;
   }
   if (response.status === ResponseStatus.UNAUTHORIZED) {
@@ -71,7 +70,6 @@ async function fetchForUser(url: string, userState: UserState, body?: UserWord |
       body: JSON.stringify(body),
     });
 
-  // const result = await response.json();
   return response;
 }
 
@@ -133,7 +131,7 @@ export async function saveUserWord(userState: UserState | null, wordId: string, 
   );
 
   if (!result.ok) {
-    throw new Error('Cannot update word');
+    console.log('cannot creat word');
   }
 
   return result;
@@ -141,11 +139,11 @@ export async function saveUserWord(userState: UserState | null, wordId: string, 
 
 export async function getAggregatedWords(
   userState: UserState | null,
-  req?: { group?: number, page?: number, filter?: string },
+  req?: { group?: number, page?: number, wordsPerPage?: number, filter?: string },
 ) {
   if (!userState) throw Error('User state is null. Cannot get user words.');
 
-  const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}&wordsPerPage=20`;
+  const url = `${API_ENDPOINT}/users/${userState.userId}/aggregatedWords${buildGetParams(req)}`;
   const response = await fetchForUser(url, userState);
   const result: AggregateResponse[] = await response.json();
 

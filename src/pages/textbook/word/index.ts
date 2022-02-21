@@ -42,8 +42,6 @@ async function clickOnDiffOrLearnedButton(
   removeHandler: (word: Word) => Promise<Response>,
 ) {
   button.addEventListener('click', async () => {
-    // eslint-disable-next-line no-debugger
-    // debugger;
     if (word.userWord?.difficulty !== difficultOption) {
       await addHandler(word);
       button.classList.add('active');

@@ -46,10 +46,6 @@ body {
   }
 }
 
-.about {
-  height: calc(100vh - 50px);
-}
-
 .subtitle {
   color: $color-grey;
   text-transform: uppercase;
@@ -89,9 +85,21 @@ body {
   @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-semibold);
 }
 
+.form__question  {
+  @extend %font;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-semibold);
+}
+
 .form__link {
   @extend %font;
   color: $color-primary;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-semibold);
+}
+
+.form__error {
+  color: $color-light;
+  @include font($size: 1.6rem, $height: 2rem, $weight: $weight-semibold);
+
 }
 
 .level__link {
@@ -161,7 +169,7 @@ body {
 
 .select__item {
   color: $color-dark;
-  @include font($size: 1.6rem, $height: 3rem, $weight: $weight-bold);
+  @include font($size: 1.6rem, $height: 3rem);
 }
 
 .nav__name {

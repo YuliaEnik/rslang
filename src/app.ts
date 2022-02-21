@@ -1,6 +1,6 @@
 import { loadUserFromLocalStorage } from './services/auth/login';
 import { router } from './utils/router';
-import { AppState, Data } from './utils/types';
+import { AppState, AppStateUi, Data } from './utils/types';
 
 export const appState: AppState = {
   user: null,
@@ -8,6 +8,11 @@ export const appState: AppState = {
     group: 0,
     pageNumber: 0,
   },
+};
+
+export const appStateUi: AppStateUi = {
+  signUpErrors: [],
+  logInErrors: [],
 };
 
 export const data: Data = {

@@ -7,3 +7,17 @@
   display: flex;
   gap: 5px;
 }
+
+.form__errors {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form__error {
+  max-width: fit-content;
+  padding: 10px;
+  background-color: rgba(229, 57, 57, 0.5);
+  border-radius: 10px;
+}
