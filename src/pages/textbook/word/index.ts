@@ -103,6 +103,7 @@ export async function renderWord(
   const sprintWrong = template.querySelector('.sprint-wrong') as HTMLParagraphElement;
   const audioChallengeCorrect = template.querySelector('.audio-challenge-correct') as HTMLParagraphElement;
   const audioChallengeWrong = template.querySelector('.audio-challenge-wrong') as HTMLParagraphElement;
+  const wordSpeakerImg = template.querySelector('.word__speaker') as HTMLDivElement;
 
   wordEngEl.textContent = engWord;
   transcriptionEl.textContent = transcription;
@@ -193,6 +194,21 @@ export async function renderWord(
   setTheText(wrongGameAnswerSprint, sprintWrong);
   setTheText(correctGameAnswerAudioChallenge, audioChallengeCorrect);
   setTheText(wrongGameAnswerAudioChallenge, audioChallengeWrong);
+
+  // random word speaker img
+
+  function getAndSetRandomImg() {
+    const randomNumber = Math.floor(Math.random() * (8));
+    wordSpeakerImg.style.backgroundImage = `url('img/smile/${randomNumber}.jpeg')`;
+    wordSpeakerImg.style.borderRadius = '50%';
+    wordSpeakerImg.style.width = '9rem';
+    wordSpeakerImg.style.height = '4rem';
+    wordSpeakerImg.style.backgroundPosition = 'center';
+    wordSpeakerImg.style.backgroundSize = 'cover';
+    wordSpeakerImg.style.backgroundRepeat = 'no-repeat';
+  }
+
+  getAndSetRandomImg();
 
   return template.children[0] as HTMLDivElement;
 }
