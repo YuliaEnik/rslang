@@ -1,17 +1,17 @@
 import './result.scss';
 import { StateSprint, Word, StateAudioG } from '../../utils/types';
 import { stateSprint, API_ENDPOINT } from '../../utils/constants';
-import { createHTMLelement, getElement, random } from '../../utils/utils';
+import { createHTMLelement, getElement } from '../../utils/utils';
 import { router } from '../../utils/router';
 import { appState } from '../../app';
 
-function getGameAttemptNumber() {
+function getGameAttemptNumber(): number {
   let attemptNumber = Number(router.current?.[0]?.params?.attempt) || 1;
   attemptNumber++;
   return attemptNumber;
 }
 
-function getGameRoute() {
+function getGameRoute(): string {
   if (router.current?.[0]?.url) {
     const gameRoute = router.current[0].url;
     return gameRoute;
@@ -19,7 +19,7 @@ function getGameRoute() {
   return '';
 }
 
-function getDictionaryPage() {
+function getDictionaryPage():string {
   const group = appState.groupState.group < 6 ? appState.groupState.group + 1 : 'difficult';
   const page = appState.groupState.group < 6 ? appState.groupState.pageNumber + 1 : '';
   const queryString = typeof page === 'number' ? `?page=${page}` : page;
@@ -78,6 +78,7 @@ const createResult = (state:StateSprint | StateAudioG):HTMLElement => {
     {
       class: ' res-btn',
       href: `/dictionary/${getDictionaryPage()}`,
+      'data-navigo': '',
     },
     butWrap,
     'Go to Dictionary',

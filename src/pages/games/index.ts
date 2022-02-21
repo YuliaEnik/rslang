@@ -67,7 +67,7 @@ export function buildGameStartPage(game: string) {
   const section = createElement('section', { class: 'section__game' });
 
   const gameButtons = createElement('div', { class: 'game__buttons' });
-  const gameClose = createElement('a', { class: 'btn btn--close', href: '/dictionary/1?page=1' });
+  const gameClose = createElement('a', { class: 'btn btn--close', href: '/dictionary/1?page=1', 'data-navigo': '' });
   renderElement(gameClose, gameButtons);
 
   const gameFullScreen = createElement('button', { class: 'btn btn--fullscreen' });

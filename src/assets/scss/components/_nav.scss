@@ -7,6 +7,7 @@
 .nav__link {
   display: block;
   position: relative;
+  white-space: nowrap;
   padding: 14px;
   padding-left: 66px;
   &:hover {
@@ -78,4 +79,30 @@
 .nav__name {
   max-width: 125px;
   overflow-wrap: break-word;
+}
+
+.aside__toggle {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  padding: 10px 13px;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: background 0.3s ease;
+  cursor: pointer;
+  &:hover {
+    background-color: $color-bg;
+  }
+}
+
+.toggle {
+  display: block;
+  width: 15px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-image: url("assets/svg/toggle-menu.svg");
+  background-position: center;
+  background-size: contain;
 }

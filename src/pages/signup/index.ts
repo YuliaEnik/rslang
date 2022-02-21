@@ -58,8 +58,8 @@ export const buildSignUpPage = (): HTMLElement => {
   const result = createElement('section', { class: 'signup' });
   const containerLeft = createElement('section', { class: 'container--left' });
   const header = createElement('header', { class: 'signup__header' });
-  renderElement(buildLogo(), header);
   renderElement(header, containerLeft);
+
   const formContainer = createElement('div', { class: 'form-container' });
   const title = createElement('h1', { class: 'signup__title' }, 'Sign Up');
   renderElement(title, formContainer);
@@ -87,14 +87,14 @@ export const buildSignUpPage = (): HTMLElement => {
   form.addEventListener('submit', submitForm);
 
   const question = createElement('p', { class: 'form__question' });
-  const signUpLink = createElement('a', { class: 'form__link', href: '/login' }, 'Log in');
+  const signUpLink = createElement('a', { class: 'form__link', href: '/login', 'data-navigo': '' }, 'Log in');
   question.append('Do you already have an account?');
   question.append(signUpLink);
   renderElement(question, formContainer);
 
   const errorsContainer = createElement('ul', { class: 'form__errors' });
   if (appStateUi.signUpErrors.length > 0) {
-    appStateUi.signUpErrors.forEach((error) => {
+    appStateUi.signUpErrors.forEach((error: string) => {
       const errorItem = createElement('li', { class: 'form__error' }, error);
       renderElement(errorItem, errorsContainer);
     });
