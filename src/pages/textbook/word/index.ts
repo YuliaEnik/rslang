@@ -167,10 +167,14 @@ export async function renderWord(
       await addWordToLearned,
       await removeWordFromLearned,
     );
-    // getUserWords(appState.user).then(async (wordsData) => {
-    //   const result = await wordsData.json();
-    //   console.log(result);
-    // });
+    diffBtn.setAttribute('title', 'add to difficult words');
+    if (diffBtn.classList.contains('active')) {
+      diffBtn.setAttribute('title', 'remove from difficult words');
+    }
+    learnedBtn.setAttribute('title', 'mark as learned');
+    if (learnedBtn.classList.contains('active')) {
+      learnedBtn.setAttribute('title', 'remove from learned');
+    }
   }
 
   // update game statistic elements

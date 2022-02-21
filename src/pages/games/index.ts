@@ -9,8 +9,8 @@ import {
 } from '../../utils/utils';
 
 interface GameLabels {
-  [key:string]: {
-    [key:string]: string;
+  [key: string]: {
+    [key: string]: string;
   }
 }
 
@@ -72,7 +72,15 @@ export function buildGameStartPage(game: string) {
   const section = createElement('section', { class: 'section__game' });
 
   const gameButtons = createElement('div', { class: 'game__buttons' });
-  const gameClose = createElement('a', { class: 'btn btn--close', href: `/dictionary/${getDictionaryPage()}` });
+  const gameClose = createElement(
+    'a',
+    {
+      class: 'btn btn--close',
+      title: 'close the game',
+      href: '/dictionary/1?page=1',
+      'data-navigo': '',
+    },
+  );
   renderElement(gameClose, gameButtons);
 
   renderElement(gameButtons, section);
