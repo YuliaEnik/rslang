@@ -1,5 +1,7 @@
 .level__list {
   display: flex;
+  flex-wrap: wrap;
+  row-gap: 10px;
   margin-top: 10px;
   margin-bottom: 20px;
 }
@@ -52,6 +54,22 @@
   }
   &:hover {
     opacity: 0.5;
+  }
+}
+
+@media (max-width: 1200px) {
+  .level__list {
+    gap: 10px;
+  }
+
+  .level__item {
+    border-radius: 10px;
+    &:first-child {
+      border-radius: 10px;
+    }
+    &:last-child {
+      border-radius: 10px;
+    }
   }
 }
 
