@@ -183,6 +183,24 @@
       opacity: 0.5;
     }
   }
+&--fullscreen-out {
+  padding: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: transparent;
+  background-position: center;
+  background-image: url("../public/svg/fullscreen-out.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 0;
+  opacity: 1;
+  filter: brightness(0) saturate(100%) invert(6%) sepia(40%) saturate(3839%)
+    hue-rotate(228deg) brightness(85%) contrast(111%);
+  &:hover {
+    opacity: 0.5;
+  }
+}
   &--audio {
     padding: 0;
     display: block;

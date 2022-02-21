@@ -16,6 +16,7 @@ const playSound = (answer: string) => {
   audio.setAttribute('src', `sounds/${answer}.mp3`);
   audio.currentTime = 0;
   audio.play();
+  audio.volume = 0.15;
 };
 
 const muteSound = () => {

@@ -25,6 +25,7 @@ export const stateSprint: StateSprint = {
   points: 10,
   isEnded: false,
   currentStreak: 0,
+  muted: false,
 };
 
 export const stateAudioG: StateAudioG = {
@@ -35,6 +36,7 @@ export const stateAudioG: StateAudioG = {
   maxAnsw: 5,
   isEnded: false,
   currentStreak: 0,
+  muted: false,
 };
 
 export const pages: Page[] = [

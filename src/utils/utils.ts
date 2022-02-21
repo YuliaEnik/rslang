@@ -122,3 +122,10 @@ export function createEl<T extends keyof HTMLElementTagNameMap>(tagName: T, conf
   }
   return el;
 }
+
+export function isFullscreenOpen(): boolean {
+  if (!document.exitFullscreen) {
+    return false;
+  }
+  return true;
+}
