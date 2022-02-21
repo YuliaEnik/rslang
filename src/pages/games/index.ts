@@ -74,7 +74,7 @@ export function buildGameStartPage(game: string) {
   gameClose.addEventListener('click', () => console.log(game));
   renderElement(gameFullScreen, gameButtons);
 
-  const gameAudio = createElement('button', { class: 'btn btn--audio', title: 'mute / unmute' });
+  const gameAudio = createElement('button', { class: 'btn btn--audio', title: 'mute/unmute' });
   gameClose.addEventListener('click', () => console.log(game));
   renderElement(gameAudio, gameButtons);
 

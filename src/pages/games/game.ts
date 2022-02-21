@@ -11,17 +11,17 @@ import { StateTextContentEn } from '../../utils/types';
 import { fullscreen } from './full-screen/full-screen';
 import { audioChallenge } from '../../components/audio-game/audio-game';
 
-export const viewGame = (game: string, stateTextContentEn: StateTextContentEn):HTMLElement => {
+export const viewGame = (game: string, stateTextContentEn: StateTextContentEn): HTMLElement => {
   const parent = getElement('div');
   const gameSection = createHTMLelement('section', { id: 'game-section', class: 'game-section' }, parent);
   const gameWrapper = createHTMLelement('div', { class: 'game-wrapper' }, gameSection);
-  const gameClose = createElement('a', { class: 'btn btn--close btn--game-close', href: '/dictionary/1?page=1', 'data-navigo': '' });
+  const gameClose = createElement('a', { class: 'btn btn--close btn--game-close', title: 'close the game', href: '/dictionary/1?page=1', 'data-navigo': '' });
   renderElement(gameClose, gameWrapper);
-  const fullScreen = createHTMLelement('div', { class: 'full-screen screen-open' }, gameWrapper);
+  const fullScreen = createHTMLelement('div', { class: 'full-screen screen-open', title: 'full screen' }, gameWrapper);
   fullScreen.addEventListener('click', () => {
     fullscreen(gameSection, fullScreen);
   });
-  const soundBtn = createHTMLelement('div', { class: 'sound sound-on' }, gameWrapper);
+  const soundBtn = createHTMLelement('div', { class: 'sound sound-on', title: 'mute' }, gameWrapper);
   createAudio(soundBtn);
   soundBtn.addEventListener('click', () => {
     muteSound(soundBtn);
