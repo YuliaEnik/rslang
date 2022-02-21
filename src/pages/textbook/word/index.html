@@ -1,7 +1,7 @@
 <li class="words__item word__popup">
   <div class="word__column word__column--left">
     <div class="word__info">
-      <button class="btn btn--play-audio audio-word-btn">
+      <button title="listen to pronunciation" class="btn btn--play-audio audio-word-btn">
         <audio class="audio-word" src="http://localhost:8080/files/01_0002.mp3"></audio>
       </button>
       <p class="word__eng">carbon dioxide</p>
@@ -12,13 +12,17 @@
       <h5 class="word__subheading">Game results</h5>
       <div class="stat">
         <p class="stat__game">Audio challenge</p>
-        <p class="stat__result stat__result--correct audio-challenge-correct">49</p>
-        <p class="stat__result stat__result--wrong audio-challenge-wrong">49</p>
+        <p title="number of correct answers in 'Audio challenge'"
+          class="stat__result stat__result--correct audio-challenge-correct">49</p>
+        <p title="number of wrong answers in 'Audio challenge'"
+          class="stat__result stat__result--wrong audio-challenge-wrong">49
+        </p>
       </div>
       <div class="stat">
         <p class="stat__game">Sprint</p>
-        <p class="stat__result stat__result--correct sprint-correct">49</p>
-        <p class="stat__result stat__result--wrong sprint-wrong">49</p>
+        <p title="number of correct answers in 'Sprint'" class="stat__result stat__result--correct sprint-correct">49
+        </p>
+        <p title="number of wrong answers in 'Sprint'" class="stat__result stat__result--wrong sprint-wrong">49</p>
       </div>
     </div>
   </div>
@@ -30,7 +34,7 @@
     </header>
     <div class="word__meaning">
       <h5 class="word__subheading">Meaning</h5>
-      <button class="btn btn--play-audio audio-meaning-btn">
+      <button title="listen to meaning" class="btn btn--play-audio audio-meaning-btn">
         <audio class="audio-meaning" src="http://localhost:8080/files/01_0002.mp3v"></audio>
       </button>
       <p class="word__phrase word__phrase--eng">Carbon dioxide is a gas made from one carbon atom and two oxygen atoms.
@@ -41,14 +45,14 @@
     </div>
     <div class="word__example">
       <h5 class="word__subheading">Example</h5>
-      <button class="btn btn--play-audio audio-example-btn">
+      <button title="listen to example" class="btn btn--play-audio audio-example-btn">
         <audio class="audio-example" src="http://localhost:8080/files/01_0002.mp3"></audio>
       </button>
       <p class="word__phrase word__phrase--bubble eng-phrase">I use biodegradable compost to feed my garden.</p>
       <p class="word__phrase word__phrase--bubble rus-phrase">Я использую биоразлагаемый компост, чтобы кормить свой
         сад.
       </p>
-      <div class="word__speaker"></div>
+      <div title="Queen says" class="word__speaker"></div>
     </div>
   </div>
 </li>

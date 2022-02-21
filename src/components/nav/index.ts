@@ -63,7 +63,7 @@ export function logOut(): void {
 }
 
 function buildLogOut(page: { title: string; link: string; type: string }, userState: UserState) {
-  if (userState === null) return createElement('div', { });
+  if (userState === null) return createElement('div', {});
 
   const result = createElement('li', { class: `nav__item nav__item--${page.type}` });
   const userWrapper = createElement('div', { class: 'nav__user' });
@@ -73,7 +73,7 @@ function buildLogOut(page: { title: string; link: string; type: string }, userSt
   renderElement(userName, userWrapper);
   renderElement(userWrapper, result);
 
-  const logOutButton = createElement('button', { class: 'btn btn--logout' });
+  const logOutButton = createElement('button', { class: 'btn btn--logout', title: 'logout' });
   logOutButton.addEventListener('click', logOut);
   renderElement(logOutButton, result);
 
@@ -82,7 +82,7 @@ function buildLogOut(page: { title: string; link: string; type: string }, userSt
 
 export const buildLogo = (): HTMLElement => {
   const result = createElement('a', { class: 'logo logo__nav', href: '/', 'data-navigo': '' });
-  const logoImg = createElement('div', { class: 'logo__img' });
+  const logoImg = createElement('div', { class: 'logo__img', title: 'to home page' });
   renderElement(logoImg, result);
   const logoText = createElement('p', { class: 'logo__text' }, 'RS Lang');
   renderElement(logoText, result);
