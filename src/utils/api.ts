@@ -52,7 +52,6 @@ async function fetchForUser(url: string, userState: UserState, body?: UserWord |
     });
 
   if (response.status === ResponseStatus.SUCCESS) {
-    // const result = await response.json();
     return response;
   }
   if (response.status === ResponseStatus.UNAUTHORIZED) {
@@ -71,7 +70,6 @@ async function fetchForUser(url: string, userState: UserState, body?: UserWord |
       body: JSON.stringify(body),
     });
 
-  // const result = await response.json();
   return response;
 }
 
@@ -133,7 +131,7 @@ export async function saveUserWord(userState: UserState | null, wordId: string, 
   );
 
   if (!result.ok) {
-    throw new Error('Cannot update word');
+    console.log('cannot creat word');
   }
 
   return result;

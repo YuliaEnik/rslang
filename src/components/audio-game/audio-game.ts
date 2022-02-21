@@ -1,14 +1,19 @@
 import './audio-game.scss';
 import { data } from '../../app';
-import { getElement, createHTMLelement } from '../../utils/utils';
+import { getElement, createHTMLelement, getElements } from '../../utils/utils';
 import { createResult } from '../result/result';
 import {
   stateAudioG,
+  keyboardKeysAudioGame,
+  nextKeyboardBtn,
+  amswerKeyboardBtn,
+  soundKeyboardBtn,
+} from '../../utils/constants';
+import {
   setData,
   checkAnswer,
   removeClass,
   updateCurIndex,
-  checkLengthData,
   isEnd,
   setCorrectData,
   toggleNextAnswBTN,
@@ -23,15 +28,13 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
     router.navigate('/audioChallenge');
     return null;
   }
-
-  if (data.words.length === 1) {
-    alert('You cannot play with only 1 word');
-    router.reload();
-    return null;
+  if (data.words.length < 5) {
+    stateAudioG.maxAnsw = data.words.length;
   }
-
   stateAudioG.curIndex = 0;
   stateAudioG.questionsArray.length = 0;
+  stateAudioG.isEnded = false;
+  stateAudioG.score = 0;
   const BTNS:HTMLElement[] = [];
   const gameContent = createHTMLelement('div', { class: 'audio-game-wrapper' }, parent);
   parent.classList.add('game-wrapper-content-audio');
@@ -39,6 +42,7 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
   const volumePic = createHTMLelement('div', { class: 'audio-volume-wrap' }, picsWrap);
   const volume = new Audio();
   volumePic.addEventListener('click', () => {
+    volume.currentTime = 0;
     volume.play();
   });
   const corgi = createHTMLelement('div', { class: 'audio-corgi' }, picsWrap);
@@ -64,6 +68,7 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
     updateCurIndex();
     unDisabledBTNS(BTNS);
     if (isEnd(data.words)) {
+      stateAudioG.isEnded = true;
       createResult(stateAudioG);
     } setData(data.words, BTNS, volume);
   });
@@ -73,8 +78,40 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
     toggleNextAnswBTN(nextBTN, unKnowBTN);
     checkAnswer(el, data.words, BTNS);
   });
+  window.addEventListener('keydown', (event) => {
+    event.preventDefault();
+    if (stateAudioG.isEnded) return;
+    const keyPressed = event.code;
+    if (keyboardKeysAudioGame[keyPressed] || keyboardKeysAudioGame[keyPressed] === undefined) {
+      return;
+    }
+    keyboardKeysAudioGame[keyPressed] = true;
+  });
 
-  checkLengthData(data.words, corgi, answWrap, volume, nextBTN);
+  window.addEventListener('keyup', (event) => {
+    if (stateAudioG.isEnded) return;
+    const keyPressed = event.code;
+    if (keyboardKeysAudioGame[keyPressed]) {
+      if (keyPressed === nextKeyboardBtn) {
+        if (nextBTN.classList.contains('hidden')) return;
+        nextBTN.click();
+        return;
+      }
+      if (keyPressed === amswerKeyboardBtn) {
+        if (unKnowBTN.classList.contains('hidden')) return;
+        unKnowBTN.click();
+        return;
+      }
+      if (keyPressed === soundKeyboardBtn) {
+        volumePic.click();
+        return;
+      }
+      const answBtns = getElements('.audio-answ-btn');
+      const ind = +keyPressed.slice(-1);
+      ((answBtns[ind - 1]) as HTMLButtonElement).click();
+      keyboardKeysAudioGame[keyPressed] = false;
+    }
+  });
   setData(data.words, BTNS, volume);
   return gameContent;
 };
