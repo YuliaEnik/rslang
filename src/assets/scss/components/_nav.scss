@@ -7,6 +7,7 @@
 .nav__link {
   display: block;
   position: relative;
+  white-space: nowrap;
   padding: 14px;
   padding-left: 66px;
   &:hover {

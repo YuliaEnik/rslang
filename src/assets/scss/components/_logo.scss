@@ -13,5 +13,8 @@
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background-color: $color-primary;
+  background-image: url("../public/svg/logo.svg");
+  background-position: center;
+  background-repeat:no-repeat;
+  background-size: contain;
 }

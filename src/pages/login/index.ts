@@ -50,10 +50,6 @@ function submitForm(this: HTMLFormElement, event: Event) {
 export const buildLogInPage = (): HTMLElement => {
   const result = createElement('section', { class: 'signup' });
   const containerLeft = createElement('section', { class: 'container--left' });
-  const header = createElement('header', { class: 'signup__header' });
-
-  renderElement(buildLogo(), header);
-  renderElement(header, containerLeft);
 
   const formContainer = createElement('div', { class: 'form-container' });
   const title = createElement('h1', { class: 'signup__title' }, 'Sign Up');
@@ -82,7 +78,11 @@ export const buildLogInPage = (): HTMLElement => {
   renderElement(form, formContainer);
 
   const question = createElement('p', { class: 'form__question' });
-  const signUpLink = createElement('a', { class: 'form__link', href: '/signup', 'data-navigo': ''}, 'Sign up');
+  const signUpLink = createElement(
+    'a',
+    { class: 'form__link', href: '/signup', 'data-navigo': '' },
+    'Sign up',
+  );
   question.append('Do not have an account?');
   question.append(signUpLink);
   renderElement(question, formContainer);

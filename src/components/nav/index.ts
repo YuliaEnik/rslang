@@ -1,5 +1,5 @@
 import { Match } from 'navigo';
-import { appState, appStateUI } from '../../app';
+import { appState, appStateUi } from '../../app';
 import { pages } from '../../utils/constants';
 import { router } from '../../utils/router';
 import { UserState } from '../../utils/types';
@@ -25,21 +25,40 @@ const buildActiveClass = (pageLink: string, context: Match | undefined): string 
 };
 
 function toggleAsideMenu(menuElement: HTMLElement) {
-  if (appStateUI.settings.menu === 'active') {
-    appStateUI.settings.menu = '';
+  if (appStateUi.settings.menu === 'active') {
+    appStateUi.settings.menu = '';
     menuElement.classList.remove('active');
-    saveUserUISettingsToLocalStorage(appStateUI.settings);
   } else {
-    appStateUI.settings.menu = 'active';
+    appStateUi.settings.menu = 'active';
     menuElement.classList.add('active');
-    saveUserUISettingsToLocalStorage(appStateUI.settings);
   }
+  if (router.current) {
+    if (router.current[0].url.includes('sprint')
+      || router.current[0].url.includes('audioChallenge')
+      || router.current[0].url.includes('login')
+      || router.current[0].url.includes('signup')) {
+      return;
+    }
+  }
+  saveUserUISettingsToLocalStorage(appStateUi.settings);
+}
+
+function isCollapsed(collapsedMenu: boolean) {
+  if (collapsedMenu) {
+    if (appStateUi.settings.menu === 'active') {
+      return ' active';
+    }
+    return ' active';
+  }
+  if (appStateUi.settings.menu === 'active') {
+    return ' active';
+  }
+  return '';
 }
 
 export function logOut(): void {
   appState.user = null;
   localStorage.removeItem('userState');
-  alert('You have been logged out');
   router.navigate('/?loggedout=true');
 }
 
@@ -114,8 +133,8 @@ export const buildNavigation = (context: Match | undefined): HTMLElement => {
   return result;
 };
 
-export const buildSideBar = (context: Match | undefined): HTMLElement => {
-  const result = createElement('aside', { class: `menu${appStateUI.settings.menu === 'active' ? ' active' : ''}` });
+export const buildSideBar = (context: Match | undefined, collapsedMenu: boolean): HTMLElement => {
+  const result = createElement('aside', { class: `menu${isCollapsed(collapsedMenu)}` });
   renderElement(buildLogo(), result);
   renderElement(buildNavigation(context), result);
   renderElement(buildMenuTogle(result), result);

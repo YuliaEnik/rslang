@@ -58,8 +58,8 @@ export const buildSignUpPage = (): HTMLElement => {
   const result = createElement('section', { class: 'signup' });
   const containerLeft = createElement('section', { class: 'container--left' });
   const header = createElement('header', { class: 'signup__header' });
-  renderElement(buildLogo(), header);
   renderElement(header, containerLeft);
+
   const formContainer = createElement('div', { class: 'form-container' });
   const title = createElement('h1', { class: 'signup__title' }, 'Sign Up');
   renderElement(title, formContainer);
@@ -94,7 +94,7 @@ export const buildSignUpPage = (): HTMLElement => {
 
   const errorsContainer = createElement('ul', { class: 'form__errors' });
   if (appStateUi.signUpErrors.length > 0) {
-    appStateUi.signUpErrors.forEach((error) => {
+    appStateUi.signUpErrors.forEach((error: string) => {
       const errorItem = createElement('li', { class: 'form__error' }, error);
       renderElement(errorItem, errorsContainer);
     });

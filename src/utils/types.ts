@@ -166,7 +166,8 @@ export interface ApiErrorDetails {
 }
 
 export interface AppStateUi {
-  [key: string]: string[] | AppStateUISettings;
+  signUpErrors: string[];
+  logInErrors: string[];
   settings: AppStateUISettings;
 }
 

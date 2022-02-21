@@ -1,6 +1,6 @@
 import { loadUserFromLocalStorage } from './services/auth/login';
 import { router } from './utils/router';
-import { loadUserUISettingsFromLocalStorage } from './utils/utils';
+import { loadUserUISettingsFromLocalStorage as loadUserUiSettingsFromLocalStorage } from './utils/utils';
 import { AppState, AppStateUi, Data } from './utils/types';
 
 export const appState: AppState = {
@@ -25,6 +25,6 @@ export const data: Data = {
 
 export const runApp = (): void => {
   appState.user = loadUserFromLocalStorage();
-  appStateUi.settings = loadUserUISettingsFromLocalStorage();
+  appStateUi.settings = loadUserUiSettingsFromLocalStorage();
   router.resolve();
 };

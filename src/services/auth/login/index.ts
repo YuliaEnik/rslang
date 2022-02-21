@@ -40,7 +40,7 @@ export async function logInUser(user: UserLogIn): Promise<void> {
   });
 
   if (response.status === 403) {
-    const errorMessage = 'Please check email and password and retry. Or go to sign up :)';
+    const errorMessage = 'Please check the email and the password you entered. Or welcome to sign up :)';
     appStateUi.logInErrors = [errorMessage];
     router.reload();
     return;
