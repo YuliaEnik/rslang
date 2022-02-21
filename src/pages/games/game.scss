@@ -31,3 +31,18 @@
   top: 3rem;
   right: 3rem;
 }
+
+.btn--audio--off {
+  padding: 0;
+  display: block;
+  width: 22px;
+  height: 22px;
+  background-color: transparent;
+  background-position: center;
+//background-image: url(;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 0;
+  opacity: 1;
+  filter: brightness(0) saturate(100%) invert(6%) sepia(40%) saturate(3839%) hue-rotate(228deg) brightness(85%) contrast(111%);
+}

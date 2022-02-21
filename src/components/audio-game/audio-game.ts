@@ -28,6 +28,10 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
     router.navigate('/audioChallenge');
     return null;
   }
+  if (data.words.length === 1) {
+    router.reload();
+    return null;
+  }
   if (data.words.length < 5) {
     stateAudioG.maxAnsw = data.words.length;
   }
@@ -78,7 +82,7 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
     toggleNextAnswBTN(nextBTN, unKnowBTN);
     checkAnswer(el, data.words, BTNS);
   });
-  window.addEventListener('keydown', (event) => {
+  function handleKeyDown(event: KeyboardEvent) {
     event.preventDefault();
     if (stateAudioG.isEnded) return;
     const keyPressed = event.code;
@@ -86,9 +90,8 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
       return;
     }
     keyboardKeysAudioGame[keyPressed] = true;
-  });
-
-  window.addEventListener('keyup', (event) => {
+  }
+  function handleKeyUp(event: KeyboardEvent) {
     if (stateAudioG.isEnded) return;
     const keyPressed = event.code;
     if (keyboardKeysAudioGame[keyPressed]) {
@@ -111,7 +114,12 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
       ((answBtns[ind - 1]) as HTMLButtonElement).click();
       keyboardKeysAudioGame[keyPressed] = false;
     }
-  });
+  }
+
+  window.removeEventListener('keydown', handleKeyDown);
+  window.removeEventListener('keyup', handleKeyUp);
+  window.addEventListener('keydown', handleKeyDown);
+  window.addEventListener('keyup', handleKeyUp);
   setData(data.words, BTNS, volume);
   return gameContent;
 };
