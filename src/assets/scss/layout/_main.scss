@@ -18,9 +18,23 @@
 }
 
 .main-page-section.main-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-color: $color-primary;
+  & .section__title--main {
+    font-size: clamp(4rem, 4.5vw, 10rem);
+    line-height: 1.3;
+  }
 }
 
 .main-page-section.about {
   background-color: $color-secondary;
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  & .section__title--main {
+    color: $color-dark;
+  }
 }
