@@ -37,6 +37,11 @@ body {
   @include font($size: 2.4rem, $height: 3.3rem, $weight: $weight-extrabold);
 }
 
+.greeting__description {
+  color: $color-light;
+  @include font($size: 2.4rem, $height: 1, $weight: $weight-bold);
+}
+
 .section__title {
   color: $color-dark;
   @include font($size: 2.4rem, $height: 3.3rem, $weight: $weight-extrabold);

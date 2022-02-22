@@ -7,9 +7,9 @@ export const buildMainPage = () => {
   template.innerHTML = html;
 
   if (appState.user) {
-    const buttonSignIns = template.querySelectorAll('.btn--sign') as NodeListOf<HTMLElement>;
-    if (buttonSignIns) {
-      buttonSignIns.forEach((btn: HTMLElement) => {
+    const buttonWrapper = template.querySelectorAll('.button-wrapper') as NodeListOf<HTMLElement>;
+    if (buttonWrapper) {
+      buttonWrapper.forEach((btn: HTMLElement) => {
         btn.style.display = 'none';
       });
     }

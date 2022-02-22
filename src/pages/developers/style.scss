@@ -34,7 +34,7 @@
 }
 
 .card-info {
-  width: 25vw;
+  max-width: calc((100% - 60px) / 3);
   padding: 20px;
   border-radius: 20px;
   background-color: white;
@@ -86,6 +86,16 @@
   gap: 30px;
 }
 
+@media (max-width: 1200px) {
+  .developers-container {
+    flex-direction: column;
+  }
+  .card-info {
+    min-width: 30ch;
+    max-width: 75ch;
+  }
+}
+
 .dev-1 .name {
   color: var(--color-1);
 }
@@ -113,8 +123,7 @@
 .dev-page {
   display: flex;
   flex-direction: column;
-justify-content: center;
-  height: calc(100vh - 40px);
+  justify-content: center;
   background-color: #fafafb;
 }
 
