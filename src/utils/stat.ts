@@ -182,8 +182,6 @@ function initializeUserWord(userWordAction: UserWordAction, game: string, curren
 }
 
 export function calculateNewWords(userStatistics: UserStatistics, currentDate: string, game: string) {
-    // eslint-disable-next-line no-debugger
-    debugger;
   if (userStatistics.optional?.games?.[game]?.newWordsGame
     && userStatistics.optional?.games?.[game]?.newWordsGameLastUpdate) {
     if (currentDate !== userStatistics.optional.games?.[game].newWordsGameLastUpdate) {
