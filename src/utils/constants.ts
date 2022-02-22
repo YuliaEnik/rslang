@@ -5,7 +5,7 @@ import {
   StateAudioG,
 } from './types';
 
-export const API_ENDPOINT = 'http://localhost:3000';
+export const API_ENDPOINT = 'https://rslang-20-be.herokuapp.com';
 
 export const stateTextContentEn: StateTextContentEn = {
   btnTrue: 'true',

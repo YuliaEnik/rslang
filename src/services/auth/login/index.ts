@@ -77,7 +77,6 @@ export async function logInUser(user: UserLogIn): Promise<void> {
     };
     updateAppStateUser(userState);
     saveUserToLocalStorage(userState);
-    alert(`${user.email}, you logged in`);
     // show pop up about success
     setTimeout(() => router.navigate('/'), 1000);
   }
