@@ -4,6 +4,7 @@ import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
 import {
   createElement,
+  createHTMLelement,
   random,
   renderElement,
 } from '../../utils/utils';
@@ -56,6 +57,17 @@ const gameLevels = [
     levelGroup: '5',
     page: `${random(29)}`,
   },
+];
+
+const keyDescriptionTextSprint = [
+  '"Arrow left" or "Arrow right" to answer',
+];
+
+const keyDescriptionTextAudio = [
+  '1, 2, 3, 4, 5 to choose your answer',
+  '"Enter" to show a correct answer',
+  '"Arrow right" to get the next question',
+  '"Space" to repeat the word',
 ];
 
 async function buildGamePage(game: string, group: string, page: string) {
@@ -112,6 +124,18 @@ export function buildGameStartPage(game: string) {
   renderElement(gameLevelList, gameLevel);
   renderElement(gameLevel, gameWrapper);
 
+  const keyDescription = createHTMLelement('div', { class: 'key-description' }, gameWrapper);
+  const keyDescriptionTitle = createHTMLelement('p', { class: 'key-description__title' }, keyDescription, 'Press:');
+  if (game === 'sprint') {
+    keyDescriptionTextSprint.forEach((element) => {
+      const keyText = createHTMLelement('p', { class: 'key-description__item' }, keyDescription, element);
+    });
+  }
+  if (game === 'audioChallenge') {
+    keyDescriptionTextAudio.forEach((element) => {
+      const keyText = createHTMLelement('p', { class: 'key-description__item' }, keyDescription, element);
+    });
+  }
   const doggyWrapper = createElement('div', { class: 'game__doggy' });
   const doggyImage = createElement('img', {
     src: 'img/doggy.png',

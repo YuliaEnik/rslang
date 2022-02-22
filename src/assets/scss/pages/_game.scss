@@ -14,7 +14,7 @@
     flex-direction: column;
     text-align: center;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
   }
 }
 
@@ -53,6 +53,7 @@
   justify-content: center;
   gap: 10px 40px;
   align-items: center;
+  z-index: 5;
 }
 
 .game-level__list {
@@ -85,6 +86,13 @@
   height: 270px;
   left: 20%;
   bottom: 0;
+  z-index: 0;
+}
+
+@media (max-width: 600px) {
+  .game__doggy {
+    display: none;
+  }
 }
 
 .doggy {

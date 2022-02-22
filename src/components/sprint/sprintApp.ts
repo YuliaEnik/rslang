@@ -54,6 +54,7 @@ export const sprint = async (
   const btnFalse = createHTMLelement('button',
     { class: 'button button_false', 'data-answ': String(stateSprint.falseAnsw) },
     btnContainer, stateTextContentEn.btnFalse);
+
   arrayBtnEl.push(btnFalse);
   arrayBtnEl.forEach((el) => {
     el.addEventListener(('click'), () => {

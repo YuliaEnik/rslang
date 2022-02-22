@@ -1,3 +1,9 @@
 .section--developers {
+  max-width: 1440px;
+
   padding: 30px;
+}
+
+.developers-container {
+  flex-wrap: wrap;
 }
