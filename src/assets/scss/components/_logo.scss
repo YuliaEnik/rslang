@@ -1,0 +1,20 @@
+.logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logo__nav {
+  padding: 0 0 0 30px;
+}
+
+.logo__img {
+  margin-right: 15px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-image: url("../public/svg/logo.svg");
+  background-position: center;
+  background-repeat:no-repeat;
+  background-size: contain;
+}

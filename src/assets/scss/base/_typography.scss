@@ -1,0 +1,276 @@
+html {
+  font-size: 62.5%;
+}
+
+body {
+  @extend %font;
+  color: $color-grey;
+  @include font($size: 1.4rem, $height: 2rem);
+}
+
+.nav__link {
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 2rem, $weight: $weight-semibold);
+}
+
+.logo__text {
+  color: $color-dark;
+  @include font($size: 2.4rem, $height: 3.2rem, $weight: $weight-extrabold);
+}
+
+.btn {
+  @extend %font;
+  color: $color-primary;
+  @include font($size: 1.6rem, $height: 4rem, $weight: $weight-extrabold);
+  &--signup {
+    color: $color-light;
+    @include font($size: 1.6rem, $height: 5rem, $weight: $weight-extrabold);
+  }
+  &--prev,
+  &--next {
+    @include font($size: 1.6rem, $height: 1.6rem, $weight: $weight-extrabold);
+  }
+}
+
+.title {
+  color: $color-dark;
+  @include font($size: 2.4rem, $height: 3.3rem, $weight: $weight-extrabold);
+}
+
+.section__title {
+  color: $color-dark;
+  @include font($size: 2.4rem, $height: 3.3rem, $weight: $weight-extrabold);
+  &--main {
+    color: $color-light;
+    @include font($size: 5.6rem, $height: 7.6rem, $weight: $weight-extrabold);
+  }
+}
+
+.subtitle {
+  color: $color-grey;
+  text-transform: uppercase;
+  @include font($size: 1.4rem, $height: 2rem, $weight: $weight-bold);
+}
+
+.copyrights {
+  color: $color-grey;
+  @include font($size: 1.2rem, $height: 1.6rem, $weight: $weight-extrabold);
+}
+
+.developers__title {
+  color: $color-grey;
+  @include font($size: 1.4rem, $height: 1.8rem, $weight: $weight-bold);
+}
+
+.developers__link {
+  color: $color-grey;
+  @include font($size: 1.4rem, $height: 1.8rem, $weight: $weight-semibold);
+}
+
+.label-form {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-semibold);
+  text-transform: capitalize;
+}
+
+.input-form {
+  @extend %font;
+  color: $color-grey;
+  @include font($size: 1.4rem, $height: 5rem);
+}
+
+.speech-bubble {
+  color: $color-dark;
+  @include font($size: 1.8rem, $height: 2.5rem, $weight: $weight-semibold);
+}
+
+.form__question  {
+  @extend %font;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-semibold);
+}
+
+.form__link {
+  @extend %font;
+  color: $color-primary;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-semibold);
+}
+
+.form__error {
+  color: $color-light;
+  @include font($size: 1.6rem, $height: 2rem, $weight: $weight-semibold);
+
+}
+
+.level__link {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 4.4rem, $weight: $weight-semibold);
+}
+
+.word__eng {
+  color: $color-dark;
+  @include font($size: 2rem, $height: 2.7rem, $weight: $weight-bold);
+}
+
+.word__popup {
+  & .word__eng {
+    color: $color-primary;
+    @include font($size: 2.6rem, $height: 3rem, $weight: $weight-bold);
+  }
+  & .word__translation {
+    color: $color-dark;
+    @include font($size: 1.8rem, $height: 3rem, $weight: $weight-bold);
+  }
+}
+
+.word__translation {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 2.2rem);
+}
+
+.word__transcription {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-semibold);
+}
+
+.word__subheading {
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-semibold);
+}
+
+.stat__game {
+  color: $color-dark;
+  @include font($size: 1.4rem, $height: 2rem, $weight: $weight-semibold);
+}
+
+.stat__result {
+  color: $color-dark;
+  @include font($size: 1.2rem, $height: 2.2rem, $weight: $weight-semibold);
+}
+
+.word__phrase {
+  color: $color-dark;
+  @include font($size: 1.4rem, $height: 2rem, $weight: $weight-semibold);
+}
+
+.games__description {
+  color: $color-dark;
+  @include font($size: 1.2rem, $height: 1.4rem, $weight: $weight-bold);
+}
+
+.select__input {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 3rem, $weight: $weight-bold);
+  &::placeholder {
+    color: $color-dark;
+  }
+}
+
+.select__item {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 3rem);
+}
+
+.nav__name {
+  color: $color-primary;
+  @include font($size: 1.6rem, $height: 1.6rem, $weight: $weight-bold);
+}
+
+.period__item {
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 4.4rem, $weight: $weight-bold);
+}
+
+.statistics__item-quantity {
+  color: $color-dark;
+  @include font($size: 3.6rem, $height: 5rem, $weight: $weight-black);
+}
+
+.statistics__item-desc {
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-bold);
+}
+
+.statistics__item-title {
+  color: $color-dark;
+  @include font($size: 3rem, $height: 4.4rem, $weight: $weight-extrabold);
+}
+
+.statistics__item-item {
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-bold);
+}
+
+.statistics__item-item {
+  color: $color-grey;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-bold);
+}
+
+.game__title {
+  color: $color-dark;
+  @include font($size: 7.2rem, $height: 7.2rem, $weight: $weight-black);
+}
+
+.game__description {
+  color: $color-dark;
+  @include font($size: 2.4rem, $height: 3.2rem, $weight: $weight-semibold);
+}
+
+.game-level__title {
+  color: $color-dark;
+  text-transform: uppercase;
+  @include font($size: 1.4rem, $height: 4rem, $weight: $weight-extrabold);
+}
+
+.game-level__item {
+  color: $color-primary;
+  text-transform: uppercase;
+  @include font($size: 1.6rem, $height: 4rem, $weight: $weight-bold);
+}
+
+.doggy__speaks {
+  color: $color-dark;
+  @include font($size: 2rem, $height: 3rem, $weight: $weight-semibold);
+}
+
+.signup__title {
+  color: $color-primary;
+  text-transform: uppercase;
+  @include font($size: 2.4rem, $height: 3rem, $weight: $weight-extrabold);
+}
+
+.next-answ-btn {
+  @extend %font;
+  color: $color-light;
+  @include font($size: 1.6rem, $height: 5rem, $weight: $weight-extrabold);
+}
+
+.audio-answ-btn {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 1.8rem, $weight: $weight-bold);
+}
+
+.correct-word {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 3.2rem, $height: 3.2rem, $weight: $weight-bold);
+}
+
+.audio-corgi_message {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-bold);
+}
+
+.key-description__title {
+  color: $color-dark;
+  text-transform: uppercase;
+  @include font($size: 1.4rem, $height: 2rem, $weight: $weight-extrabold);
+}
+
+.key-description__item {
+  color: $color-dark;
+  @include font($size: 1.4rem, $height: 2.2rem, $weight: $weight-semibold);
+}

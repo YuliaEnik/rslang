@@ -1,0 +1,7 @@
+.main__header {
+  display: flex;
+  justify-content: space-between;
+  & > .btn {
+    margin-left: auto;
+  }
+}

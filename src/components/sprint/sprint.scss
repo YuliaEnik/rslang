@@ -1,0 +1,162 @@
+.game-section {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #5B93FF;;
+}
+
+.game-wrapper-content {
+  height: 100%;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media  (max-width: 600px){
+    width: 100%;
+  }
+}
+
+.exit {
+  width: 5rem;
+  height: 3rem;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  box-shadow: 1px 17px 44px rgba(3, 2, 41, 0.07);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all .7s;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.sprint-wrapper {
+  height: 60rem;
+  width: 50rem;
+  padding: 3%;
+  display: flex;
+  align-self: center;
+  @media  (max-width: 920px){
+    width: 80%;
+  }
+  @media  (max-width: 600px){
+    height: 80%;
+    width: 100%;
+    padding: 0;
+    border-radius: 0;
+  }
+}
+
+.sprint-content {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5rem;
+}
+
+.sprintWordEn {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 64px;
+  text-align: center;
+  color: #FFD66B;
+}
+
+.sprintWordRu {
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 38px;
+  line-height: 52px;
+  text-align: center;
+  color: #030229;
+  opacity: 0.7;
+}
+
+.horizontal-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
+
+.btn-wrap {
+  display: flex;
+  justify-self: center;
+}
+
+.button {
+  height: 4rem;
+  width: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content:space-around;
+  font-size: 2rem;
+  border: none;
+  color: white;
+  cursor: pointer;
+  box-shadow: inset -2px -4px 6px rgba(0, 0, 0, 0.1);
+  transition: .7s;
+  &_true {
+    background-color: #3BAD69;
+    border-radius: 5px 0px 0px 5px;
+    &:hover {
+      background-color: #147c3e;
+    }
+  }
+  &_false {
+    background-color: #E53939;
+    border-radius: 0px 5px 5px 0px;
+    &:hover {
+      background-color: #cc0606;
+    }
+  }
+}
+
+.score {
+  height: 3rem;
+  width: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  color: #FFD66B;
+}
+
+.bus {
+  background-image: url(./../../../public/img/bus.png);
+  background-repeat: no-repeat;
+  background-position-x: 100%;
+  background-position-y: 100%;
+  background-size: 24rem 21rem;
+  animation-name: bus;
+  animation-duration: 60s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bus {
+  0%   {background-position-x: 100%;}
+  100% {background-position-x: 0%;}
+}
+
+.perWord {
+  color: #FFD66B;
+}

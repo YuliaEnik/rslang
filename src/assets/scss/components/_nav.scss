@@ -1,0 +1,111 @@
+.nav__list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.nav__link {
+  display: block;
+  position: relative;
+  white-space: nowrap;
+  padding: 14px;
+  padding-left: 66px;
+  &:hover {
+    background-image: linear-gradient(to right, #d3d1fc, $color-light);
+    color: $color-primary;
+  }
+  &.active {
+    background-image: linear-gradient(to right, #d3d1fc, $color-light);
+    color: $color-primary;
+    font-weight: $weight-bold;
+  }
+  &::before {
+    position: absolute;
+    display: block;
+    margin-left: -30px;
+    width: 20px;
+    height: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    content: "";
+  }
+    &--main::before {
+      background-image: url("assets/svg/main.svg");
+    }
+    &--dictionary::before {
+      background-image: url("assets/svg/dictionary.svg");
+    }
+    &--sprintgame::before {
+      background-image: url("assets/svg/sprintgame.svg");
+    }
+    &--audiogame::before {
+      background-image: url("assets/svg/audiogame.svg");
+    }
+    &--statistics::before {
+      background-image: url("assets/svg/statistics.svg");
+    }
+    &--developers::before {
+      background-image: url("assets/svg/heart.svg");
+    }
+    &--settings::before {
+      background-image: url("assets/svg/settings.svg");
+    }
+    &:hover::before {
+        filter: brightness(0) saturate(100%) invert(30%) sepia(85%) saturate(2012%) hue-rotate(231deg) brightness(101%) contrast(102%);
+    }
+    &.active::before {
+      filter: brightness(0) saturate(100%) invert(30%) sepia(85%) saturate(2012%) hue-rotate(231deg) brightness(101%) contrast(102%);
+    }
+}
+
+.nav__item--logout {
+  padding: 14px 20px 14px 30px;
+  display: flex;
+  gap: 15px;
+  margin-top: auto;
+  align-items: center;
+}
+
+.nav__user {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.nav__pic {
+  flex-shrink: 0;
+  background-color: $color-secondary;
+  border-radius: 50%;
+}
+
+.nav__name {
+  max-width: 125px;
+  overflow-wrap: break-word;
+}
+
+.aside__toggle {
+  position: absolute;
+  top: 55%;
+  right: 0;
+  padding: 10px 13px;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: background 0.3s ease;
+  cursor: pointer;
+  &:hover {
+    background-color: $color-bg;
+  }
+}
+
+.toggle {
+  display: block;
+  width: 15px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-image: url("assets/svg/toggle-menu.svg");
+  background-position: center;
+  background-size: contain;
+}

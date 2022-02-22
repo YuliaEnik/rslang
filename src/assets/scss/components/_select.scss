@@ -1,0 +1,35 @@
+.select {
+  position: relative;
+}
+
+.select__input {
+  width: 140px;
+  height: 45px;
+  color: $color-dark;
+  text-align: center;
+  background-color: transparent;
+  border: 2px solid $color-primary;
+  border-radius: 10px;
+  outline: none;
+}
+
+.select__list {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-height: 500px;
+  width: 140px;
+  text-align: center;
+  background-color: $color-bg;
+  border: 2px solid $color-primary;
+  border-radius: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.select__item {
+  cursor: pointer;
+  &:hover {
+    background-color: $color-secondary;
+  }
+}

@@ -1,0 +1,111 @@
+.game {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & .game-wrapper-content {
+    display: flex;
+    margin: 0 auto;
+    width: 700px;
+    max-width: 100%;
+    height: 100vh;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    gap: 30px;
+  }
+}
+
+.game--sprint {
+  background-color: $color-additional;
+  & .game-level__item {
+    color: $color-secondary;
+    border-color: $color-secondary;
+    &:hover {
+      color: $color-dark;
+      background-color: $color-secondary;
+    }
+  }
+}
+
+.game--audioChallenge {
+  background-color: $color-secondary;
+}
+
+.game__buttons {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  z-index: 5;
+}
+
+.game-level {
+  margin-top: 30px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 40px;
+  align-items: center;
+  z-index: 5;
+}
+
+.game-level__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 20px;
+}
+
+.game-level__item {
+  width: 44px;
+  height: 44px;
+  text-align: center;
+  border: 2px solid $color-primary;
+  border-radius: 50%;
+  cursor: pointer;
+  &:hover {
+    color: $color-light;
+    background-color: $color-primary;
+  }
+}
+
+.game__doggy {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 70% 30%;
+  column-gap: 10px;
+  width: 450px;
+  max-width: 100%;
+  height: 270px;
+  left: 20%;
+  bottom: 0;
+  z-index: 0;
+}
+
+@media (max-width: 600px) {
+  .game__doggy {
+    display: none;
+  }
+}
+
+.doggy {
+  justify-self: end;
+  align-self: end;
+  max-width: 240px;
+  min-width: 150px;
+}
+
+.doggy__speaks {
+  margin-top: 75px;
+  padding: 10px 20px;
+  height: fit-content;
+  border-radius: 10px 10px 10px 0;
+  background-color: $color-extra-additional;
+}

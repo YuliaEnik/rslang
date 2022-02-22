@@ -1,0 +1,37 @@
+.footer {
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  background-color: $color-light;
+}
+
+.logo-rss {
+  width: 60px;
+  height: auto;
+  fill: $color-grey;
+}
+
+.developers {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.heart {
+  display: inline-block;
+  padding: 0 8px;
+  height: 10px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("assets/svg/heart.svg");
+}
+
+.developers__list {
+  display: flex;
+  gap: 10px;
+}

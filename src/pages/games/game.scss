@@ -1,0 +1,56 @@
+.game-section {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #5B93FF;;
+}
+
+.game-wrapper-content {
+  height: 100%;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media  (max-width: 600px){
+    width: 100%;
+  }
+}
+
+.btn--game-close {
+  position: absolute;
+  top: 3rem;
+  right: 3rem;
+}
+
+.sound {
+  height: 2rem;
+  width: 2rem;
+  position: absolute;
+  top: 10rem;
+  right: 3rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+
+.sound-on {
+  background-image: url(./../../../public/svg/sound_on.svg);
+}
+
+.sound-off {
+  background-image: url(./../../assets/svg/sound_off.svg);
+}

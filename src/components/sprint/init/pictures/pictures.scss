@@ -1,0 +1,30 @@
+.answ-pic-wrap {
+  height: 9rem;
+  width: 30rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.answerPic {
+  height: 9rem;
+  width: 9rem;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border: solid 3px rgb(243, 207, 5);
+  //box-shadow:15px 21px 12px 14px rgba(240,235,15,0.61);
+}
+
+.angryWrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.angryPic {
+  border: solid 3px rgb(250, 95, 57);
+}
