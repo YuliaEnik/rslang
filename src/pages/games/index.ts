@@ -1,11 +1,17 @@
 import { appState, data } from '../../app';
+import { getDictionaryPage } from '../../components/result/result';
 import { getWords } from '../../utils/api';
 import { router } from '../../utils/router';
-import { createElement, random, renderElement } from '../../utils/utils';
+import {
+  createElement,
+  createHTMLelement,
+  random,
+  renderElement,
+} from '../../utils/utils';
 
 interface GameLabels {
-  [key:string]: {
-    [key:string]: string;
+  [key: string]: {
+    [key: string]: string;
   }
 }
 
@@ -53,6 +59,17 @@ const gameLevels = [
   },
 ];
 
+const keyDescriptionTextSprint = [
+  '"Arrow left" or "Arrow right" to answer',
+];
+
+const keyDescriptionTextAudio = [
+  '1, 2, 3, 4, 5 to choose your answer',
+  '"Enter" to show a correct answer',
+  '"Arrow right" to get the next question',
+  '"Space" to repeat the word',
+];
+
 async function buildGamePage(game: string, group: string, page: string) {
   data.words = await getWords({ group: +group, page: +page });
   router.navigate(`/${game}/play`);
@@ -67,16 +84,16 @@ export function buildGameStartPage(game: string) {
   const section = createElement('section', { class: 'section__game' });
 
   const gameButtons = createElement('div', { class: 'game__buttons' });
-  const gameClose = createElement('a', { class: 'btn btn--close', href: '/dictionary/1?page=1' });
+  const gameClose = createElement(
+    'a',
+    {
+      class: 'btn btn--close',
+      title: 'close the game',
+      href: '/dictionary/1?page=1',
+      'data-navigo': '',
+    },
+  );
   renderElement(gameClose, gameButtons);
-
-  const gameFullScreen = createElement('button', { class: 'btn btn--fullscreen' });
-  gameClose.addEventListener('click', () => console.log(game));
-  renderElement(gameFullScreen, gameButtons);
-
-  const gameAudio = createElement('button', { class: 'btn btn--audio' });
-  gameClose.addEventListener('click', () => console.log(game));
-  renderElement(gameAudio, gameButtons);
 
   renderElement(gameButtons, section);
 
@@ -107,6 +124,18 @@ export function buildGameStartPage(game: string) {
   renderElement(gameLevelList, gameLevel);
   renderElement(gameLevel, gameWrapper);
 
+  const keyDescription = createHTMLelement('div', { class: 'key-description' }, gameWrapper);
+  const keyDescriptionTitle = createHTMLelement('p', { class: 'key-description__title' }, keyDescription, 'Press:');
+  if (game === 'sprint') {
+    keyDescriptionTextSprint.forEach((element) => {
+      const keyText = createHTMLelement('p', { class: 'key-description__item' }, keyDescription, element);
+    });
+  }
+  if (game === 'audioChallenge') {
+    keyDescriptionTextAudio.forEach((element) => {
+      const keyText = createHTMLelement('p', { class: 'key-description__item' }, keyDescription, element);
+    });
+  }
   const doggyWrapper = createElement('div', { class: 'game__doggy' });
   const doggyImage = createElement('img', {
     src: 'img/doggy.png',

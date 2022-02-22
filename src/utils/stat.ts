@@ -182,8 +182,8 @@ function initializeUserWord(userWordAction: UserWordAction, game: string, curren
 }
 
 export function calculateNewWords(userStatistics: UserStatistics, currentDate: string, game: string) {
-  if (userStatistics.optional?.games?.[game].newWordsGame
-    && userStatistics.optional?.games?.[game].newWordsGameLastUpdate) {
+  if (userStatistics.optional?.games?.[game]?.newWordsGame
+    && userStatistics.optional?.games?.[game]?.newWordsGameLastUpdate) {
     if (currentDate !== userStatistics.optional.games?.[game].newWordsGameLastUpdate) {
       userStatistics.optional.games[game].newWordsGameLastUpdate = currentDate;
       userStatistics.optional.games[game].newWordsGame = 1;

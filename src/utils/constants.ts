@@ -5,7 +5,7 @@ import {
   StateAudioG,
 } from './types';
 
-export const API_ENDPOINT = 'http://localhost:3000';
+export const API_ENDPOINT = 'https://rslang-20-be.herokuapp.com';
 
 export const stateTextContentEn: StateTextContentEn = {
   btnTrue: 'true',
@@ -25,6 +25,7 @@ export const stateSprint: StateSprint = {
   points: 10,
   isEnded: false,
   currentStreak: 0,
+  muted: false,
 };
 
 export const stateAudioG: StateAudioG = {
@@ -35,6 +36,7 @@ export const stateAudioG: StateAudioG = {
   maxAnsw: 5,
   isEnded: false,
   currentStreak: 0,
+  muted: false,
 };
 
 export const pages: Page[] = [
@@ -51,12 +53,12 @@ export const pages: Page[] = [
   {
     title: 'Sprint',
     link: '/sprint',
-    type: 'games',
+    type: 'sprintgame',
   },
   {
     title: 'Audio Challenge',
     link: '/audioChallenge',
-    type: 'games',
+    type: 'audiogame',
   },
   {
     title: 'Statistics',

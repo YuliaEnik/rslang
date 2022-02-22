@@ -37,6 +37,11 @@ body {
   @include font($size: 2.4rem, $height: 3.3rem, $weight: $weight-extrabold);
 }
 
+.greeting__description {
+  color: $color-light;
+  @include font($size: 2.4rem, $height: 1, $weight: $weight-bold);
+}
+
 .section__title {
   color: $color-dark;
   @include font($size: 2.4rem, $height: 3.3rem, $weight: $weight-extrabold);
@@ -235,7 +240,42 @@ body {
 }
 
 .signup__title {
-  color: $color-grey;
+  color: $color-primary;
   text-transform: uppercase;
-  @include font($size: 1.4rem, $height: 2.4rem, $weight: $weight-bold);
+  @include font($size: 2.4rem, $height: 3rem, $weight: $weight-extrabold);
+}
+
+.next-answ-btn {
+  @extend %font;
+  color: $color-light;
+  @include font($size: 1.6rem, $height: 5rem, $weight: $weight-extrabold);
+}
+
+.audio-answ-btn {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 1.8rem, $weight: $weight-bold);
+}
+
+.correct-word {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 3.2rem, $height: 3.2rem, $weight: $weight-bold);
+}
+
+.audio-corgi_message {
+  @extend %font;
+  color: $color-dark;
+  @include font($size: 1.6rem, $height: 2.2rem, $weight: $weight-bold);
+}
+
+.key-description__title {
+  color: $color-dark;
+  text-transform: uppercase;
+  @include font($size: 1.4rem, $height: 2rem, $weight: $weight-extrabold);
+}
+
+.key-description__item {
+  color: $color-dark;
+  @include font($size: 1.4rem, $height: 2.2rem, $weight: $weight-semibold);
 }

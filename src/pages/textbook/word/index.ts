@@ -167,10 +167,14 @@ export async function renderWord(
       await addWordToLearned,
       await removeWordFromLearned,
     );
-    // getUserWords(appState.user).then(async (wordsData) => {
-    //   const result = await wordsData.json();
-    //   console.log(result);
-    // });
+    diffBtn.setAttribute('title', 'add to difficult words');
+    if (diffBtn.classList.contains('active')) {
+      diffBtn.setAttribute('title', 'remove from difficult words');
+    }
+    learnedBtn.setAttribute('title', 'mark as learned');
+    if (learnedBtn.classList.contains('active')) {
+      learnedBtn.setAttribute('title', 'remove from learned');
+    }
   }
 
   // update game statistic elements
@@ -200,12 +204,12 @@ export async function renderWord(
   function getAndSetRandomImg() {
     const randomNumber = Math.floor(Math.random() * (8));
     wordSpeakerImg.style.backgroundImage = `url('img/smile/${randomNumber}.jpeg')`;
-    wordSpeakerImg.style.borderRadius = '50%';
-    wordSpeakerImg.style.width = '9rem';
-    wordSpeakerImg.style.height = '4rem';
-    wordSpeakerImg.style.backgroundPosition = 'center';
-    wordSpeakerImg.style.backgroundSize = 'cover';
-    wordSpeakerImg.style.backgroundRepeat = 'no-repeat';
+    // wordSpeakerImg.style.borderRadius = '50%';
+    // wordSpeakerImg.style.width = '9rem';
+    // wordSpeakerImg.style.height = '4rem';
+    // wordSpeakerImg.style.backgroundPosition = 'center';
+    // wordSpeakerImg.style.backgroundSize = 'cover';
+    // wordSpeakerImg.style.backgroundRepeat = 'no-repeat';
   }
 
   getAndSetRandomImg();

@@ -23,7 +23,7 @@ export const sprint = async (
   }
 
   if (data.words.length === 1) {
-    alert('You cannot play with only 1 word');
+    alert('You cannot play with only 1 word :(');
     router.reload();
     return null;
   }
@@ -54,6 +54,7 @@ export const sprint = async (
   const btnFalse = createHTMLelement('button',
     { class: 'button button_false', 'data-answ': String(stateSprint.falseAnsw) },
     btnContainer, stateTextContentEn.btnFalse);
+
   arrayBtnEl.push(btnFalse);
   arrayBtnEl.forEach((el) => {
     el.addEventListener(('click'), () => {

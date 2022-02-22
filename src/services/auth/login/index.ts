@@ -3,7 +3,10 @@ import { API_ENDPOINT } from '../../../utils/constants';
 import { router } from '../../../utils/router';
 import {
   ApiErrorDetails,
-  AuthInfo, ResponseStatus, UserLogIn, UserState,
+  AuthInfo,
+  ResponseStatus,
+  UserLogIn,
+  UserState,
 } from '../../../utils/types';
 
 function updateAppStateUser(userState: UserState): void {
@@ -37,7 +40,7 @@ export async function logInUser(user: UserLogIn): Promise<void> {
   });
 
   if (response.status === 403) {
-    const errorMessage = 'Please check email and password and retry. Or go to sign up :)';
+    const errorMessage = 'Please check the email and the password you entered. Or welcome to sign up :)';
     appStateUi.logInErrors = [errorMessage];
     router.reload();
     return;
@@ -74,7 +77,6 @@ export async function logInUser(user: UserLogIn): Promise<void> {
     };
     updateAppStateUser(userState);
     saveUserToLocalStorage(userState);
-    alert(`${user.email}, you logged in`);
     // show pop up about success
     setTimeout(() => router.navigate('/'), 1000);
   }

@@ -102,6 +102,7 @@ export interface StateSprint {
   points: number;
   isEnded: boolean;
   currentStreak: number;
+  muted: boolean;
 }
 
 export interface StateAudioG {
@@ -112,6 +113,7 @@ export interface StateAudioG {
   maxAnsw: number;
   isEnded: boolean;
   currentStreak: number;
+  muted: boolean;
 }
 export interface UserCalculatedStat {
   newWords: string;
@@ -166,7 +168,9 @@ export interface ApiErrorDetails {
 }
 
 export interface AppStateUi {
-  [key: string]: string[];
+  signUpErrors: string[];
+  logInErrors: string[];
+  settings: AppStateUISettings;
 }
 
 export interface User {
@@ -201,6 +205,14 @@ export interface UserState {
 export interface AppState {
   user: UserState | null;
   groupState: GroupState;
+}
+
+export interface AppStateUI {
+  settings: AppStateUISettings;
+}
+
+export interface AppStateUISettings {
+  [key:string]: string;
 }
 
 export interface GroupState {

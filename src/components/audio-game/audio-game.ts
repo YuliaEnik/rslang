@@ -54,6 +54,7 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
   const answWrap = createHTMLelement('div', { class: 'audio-answ-wrap' }, gameContent);
   const nextBTN = createHTMLelement('button', { class: 'next-answ-btn next-btn hidden' }, gameContent, 'Next');
   const unKnowBTN = createHTMLelement('button', { class: 'next-answ-btn unKnow-btn' }, gameContent, 'Answer');
+
   for (let i = 0; i < stateAudioG.maxAnsw; i++) {
     const answ = createHTMLelement('button', { class: 'audio-answ-btn' }, answWrap) as HTMLButtonElement;
     BTNS.push(answ);

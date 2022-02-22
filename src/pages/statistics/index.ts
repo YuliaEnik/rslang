@@ -80,11 +80,7 @@ export const buildStatisticsPage = (stat: UserCalculatedStat): HTMLElement => {
 
   const statSwitchList = createElement('ul', { class: 'periods__list' });
   const statDailyButton = createElement('li', { class: 'period__item active' }, 'Daily');
-  statDailyButton.addEventListener('click', () => console.log('click'));
-  const statEntireButton = createElement('li', { class: 'period__item' }, 'Entire');
-  statEntireButton.addEventListener('click', () => console.log('click'));
   renderElement(statDailyButton, statSwitchList);
-  renderElement(statEntireButton, statSwitchList);
   renderElement(statSwitchList, result);
 
   const statOverallList = createElement('ul', { class: 'statistics__list statistics__list--overall' });
