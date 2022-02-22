@@ -23,7 +23,7 @@ export const sprint = async (
   }
 
   if (data.words.length === 1) {
-    alert('You cannot play with only 1 word');
+    alert('You cannot play with only 1 word :(');
     router.reload();
     return null;
   }
