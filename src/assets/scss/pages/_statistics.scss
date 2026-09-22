@@ -13,15 +13,15 @@
 .period__item {
   padding: 0 30px;
   background-color: $color-light;
-  border-radius: 10px 0 0 10px;
+  border-radius: 10px;
   cursor: pointer;
   &.active {
     color: $color-light;
     background-color: $color-primary;
   }
-  &:last-child{
-    border-radius: 0 10px 10px 0;
-  }
+  // &:last-child{
+  //   border-radius: 0 10px 10px 0;
+  // }
 }
 
 .statistics__list {

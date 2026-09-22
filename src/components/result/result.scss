@@ -43,7 +43,7 @@
 
 .result-title {
   width: 50%;
-  padding-bottom: 2rem;
+  padding: 1rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -144,8 +144,19 @@
 .res-words,
 .res-result,
 .res-sound {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
   cursor: pointer;
   transition: .5s;
+}
+
+.res-words,
+.res-result {
+  color: #605BFF;
+  opacity: 0.8;
+  background-color: rgba(96, 91, 255, 0.1);
 }
 
 .res-words,
@@ -154,6 +165,7 @@
     color: #605BFF;
     opacity: 0.8;
     border-bottom: solid 1px #605BFF;
+    background-color: rgba(96, 91, 255, 0.5);
   }
 }
 

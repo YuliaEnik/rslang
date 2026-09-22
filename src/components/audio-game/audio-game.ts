@@ -74,8 +74,8 @@ const audioChallenge = (parent:HTMLElement): HTMLElement | null => {
     updateCurIndex();
     unDisabledBTNS(BTNS);
     if (isEnd(data.words)) {
-      stateAudioG.isEnded = true;
       createResult(stateAudioG);
+      stateAudioG.isEnded = true;
     } setData(data.words, BTNS, volume);
   });
   unKnowBTN.addEventListener('click', (el) => {
