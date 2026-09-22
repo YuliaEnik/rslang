@@ -29,7 +29,7 @@ class CustomNavigo extends Navigo {
   }
 }
 
-export const router = new CustomNavigo('/');
+export const router = new CustomNavigo(process.env.PUBLIC_PATH || '/');
 
 router
   .on({

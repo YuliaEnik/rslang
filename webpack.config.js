@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -16,7 +17,10 @@ const devServer = (isDev) => !isDev ? {} : {
 
 const esLintPlugin = (isDev) => isDev ? [] : [new ESLintPlugin({ extensions: ['ts', 'js'] })];
 
-module.exports = ({ development }) => ({
+module.exports = ({ development }) => {
+  const publicPath = development ? '/' : (process.env.PUBLIC_PATH || '/');
+
+  return {
   mode: development ? 'development' : 'production',
   devtool: development ? 'inline-source-map' : false,
   entry: {
@@ -26,6 +30,7 @@ module.exports = ({ development }) => ({
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     assetModuleFilename: 'assets/[hash][ext]',
+    publicPath,
   },
   module: {
     rules: [
@@ -58,8 +63,11 @@ module.exports = ({ development }) => ({
   },
   plugins: [
     ...esLintPlugin(development),
+    new webpack.DefinePlugin({
+      'process.env.PUBLIC_PATH': JSON.stringify(publicPath),
+    }),
     new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
-    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new HtmlWebpackPlugin({ template: './src/index.html', base: publicPath }),
     new CopyPlugin({
       patterns: [
         {
@@ -77,4 +85,5 @@ module.exports = ({ development }) => ({
     topLevelAwait: true,
   },
   ...devServer(development)
-});
+  };
+};
